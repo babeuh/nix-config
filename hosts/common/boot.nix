@@ -8,8 +8,9 @@
     initrd.luks.devices.root.preLVM = true;
     # Fixes Hogwarts Legacy on steam (or used to)
     kernel.sysctl."vm.max_map_count" = 1000000;
+    # lanzboote uses systemd-boot consoleMode
+    loader.systemd-boot.consoleMode = "max";
 
-    /*
     # TODO: Enable this when stable
     # Quiet boot with plymouth - supports LUKS passphrase
     kernelParams = [
@@ -22,7 +23,6 @@
     consoleLogLevel = 0;
     initrd.verbose = false;
     plymouth.enable = true;
-    */
 
     # Bootspec and Secure Boot using lanzaboote
     #
