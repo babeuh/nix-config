@@ -53,13 +53,13 @@
   mount -o subvol=log,compress=zstd,noatime     /dev/lvm/NIXOS-ROOT /mnt/var/log
   mount /dev/"$DISK"p1 /mnt/boot
   ```
-- Generate the config
+- Generate the config (broken)
   - TODO: make a script to select host and other config options
-  - TODO: change this to refer to my repo
+  - TODO: fix this
   ```
   nixos-generate-config --root /mnt
   # By default the generated configuration.nix is practically empty so we can overwrite it - feel free to review it first or move it
-  curl -sSL https://raw.githubusercontent.com/kjhoerr/dotfiles/trunk/.config/nixos/systems/bootstrap.nix -o /mnt/etc/nixos/configuration.nix
+  curl -sSL https://raw.githubusercontent.com/babeuh/nix-config/main/hosts/bootstrap/default.nix -o /mnt/etc/nixos/configuration.nix
   # The hostname should be changed to "pick" the correct flake
     ```
 - Edit hardware-configuration.nix
