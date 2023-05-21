@@ -2,7 +2,6 @@
   boot = {
     loader.efi.canTouchEfiVariables = true;
     supportedFilesystems = [ "btrfs" ];
-    # FIXME: Might have to move to latest instead of zen
     kernelPackages = pkgs.linuxPackages_zen;
     # TODO: Set root.device in each system configuration
     initrd.luks.devices.root.preLVM = true;
