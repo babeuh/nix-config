@@ -21,14 +21,10 @@ in
   };
 
   nixpkgs.config.allowUnfree = true;
-  # TODO: Move to a common place between system and home
   nix = {
     package = pkgs.nix;
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
-      # Add Caches
-      substituters = ["https://hyprland.cachix.org" "https://cache.nixos.org/"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
     };
   };
   # TODO: Move overlays to flake.nix
