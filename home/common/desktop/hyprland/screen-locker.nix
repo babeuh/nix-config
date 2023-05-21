@@ -30,12 +30,11 @@ in {
       ring-wrong-color = colors.base08;
     };
   };
-  # FIXME: Pretty sure this does not work because swaylock is not found
   services.swayidle = {
     enable = true;
     systemdTarget = "hyprland-session.target";
     timeouts = [
-      { timeout = 300; command = "swaylock"; }
+      { timeout = 300; command = "${pkgs.swaylock-effects}/bin/swaylock -C ${config.xdg.configFile."swaylock/config".source}"; }
     ];
   };
 }
