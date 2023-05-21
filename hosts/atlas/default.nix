@@ -30,4 +30,22 @@
       passwordFile = config.age.secrets.babeuh-password.path;
     };
   };
+
+  services.syncthing.devices = {
+    "phone".id = "C2BBNTV-4Q4XUXE-M2RMD3N-PFIVCCB-MMFINAX-UP4S5MZ-BRODLAL-BVES5AG";
+  };
+  services.syncthing.folders = {
+    "KeePassXC" = {
+      id = "4wmxy-pdg0y";
+      label = "KeePassXC";
+      path = "${config.variables.user.directory}/KeePassXC";
+      devices = [ "phone" ];
+    };
+    "Obsidian Vault" = {
+      id = "wlwgj-bhqfx";
+      label = "Obsidian Vault";
+      path = "${config.variables.user.directory}/Obsidian Vault";
+      devices = [ "phone" ];
+    };
+  };
 }

@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   services.yubikey-agent.enable = true;
 
-  services.pcscd.enable = true; # TODO: this might need removing (because of boot-time secrets), come back to this
+  services.pcscd.enable = true;
 
   security.pam = {
     services = {

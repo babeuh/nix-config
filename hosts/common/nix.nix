@@ -30,7 +30,6 @@
       options = "--delete-older-than 14d";
     };
 
-    # TODO: Contemplate removing this
     extraOptions = ''
       keep-outputs = true
       keep-derivations = true
