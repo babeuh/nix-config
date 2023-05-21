@@ -23,10 +23,5 @@
     # Key autorepeat
     autoRepeatDelay = 500;
     autoRepeatInterval = 20;
-    
-    # TODO: Move this to specific system
-    screenSection = ''
-      Option        "metamodes" "2560x1440_144 +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}
-    '';
   };
 }
