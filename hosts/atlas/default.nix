@@ -31,10 +31,10 @@
     };
   };
 
-  services.syncthing.devices = {
+  services.syncthing.settings.devices = {
     "phone".id = "C2BBNTV-4Q4XUXE-M2RMD3N-PFIVCCB-MMFINAX-UP4S5MZ-BRODLAL-BVES5AG";
   };
-  services.syncthing.folders = {
+  services.syncthing.settings.folders = {
     "KeePassXC" = {
       id = "4wmxy-pdg0y";
       label = "KeePassXC";
