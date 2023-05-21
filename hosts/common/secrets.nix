@@ -24,12 +24,7 @@ in {
   services.pcscd.enable = lib.mkForce true;
   boot.initrd.systemd = {
     packages = [ (lib.getBin pcscdPkg)];
-    # probably not necessary
-    extraBin = {
-      pcscd = "${pcscdPkg}/bin/pcscd";
-    };
     storePaths = [
-      "${pkgs.ccid}" # maybe not necessary
       "${pcscdPkg}/bin/pcscd"
       "${pcscdCfg}"
       "${pcscdPluginEnv}"
