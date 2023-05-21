@@ -66,17 +66,6 @@ in
           cyan = "#${colors.base0C}";
           white = "#${colors.base07}";
         };
-        # FIXME: idk how to do this
-        /*
-        indexed_colors = [
-          {index = 16; color = "#${colors.base09}";}
-          {index = 17; color = "#${colors.base0F}";}
-          {index = 18; color = "#${colors.base01}";}
-          {index = 10; color = "#${colors.base02}";}
-          {index = 20; color = "#${colors.base04}";}
-          {index = 21; color = "#${colors.base06}";}
-        ];
-        */
       };
     };
   };
