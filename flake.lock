@@ -475,16 +475,12 @@
         "crane": "crane",
         "flake-compat": "flake-compat_3",
         "flake-parts": "flake-parts",
-        "flake-utils": [
-          "flake-utils"
-        ],
+        "flake-utils": "flake-utils_3",
         "nixpkgs": [
           "nixpkgs"
         ],
         "pre-commit-hooks-nix": "pre-commit-hooks-nix",
-        "rust-overlay": [
-          "rust-overlay"
-        ]
+        "rust-overlay": "rust-overlay"
       },
       "locked": {
         "lastModified": 1684616727,
@@ -821,7 +817,6 @@
       "inputs": {
         "agenix": "agenix",
         "arkenfox": "arkenfox",
-        "flake-utils": "flake-utils_3",
         "home-manager": "home-manager_2",
         "hyprland": "hyprland",
         "impermanence": "impermanence",
@@ -830,16 +825,17 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_4",
         "nixvim": "nixvim",
-        "nur": "nur",
-        "rust-overlay": "rust-overlay"
+        "nur": "nur"
       }
     },
     "rust-overlay": {
       "inputs": {
         "flake-utils": [
+          "lanzaboote",
           "flake-utils"
         ],
         "nixpkgs": [
+          "lanzaboote",
           "nixpkgs"
         ]
       },
