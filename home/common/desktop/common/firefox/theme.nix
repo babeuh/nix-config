@@ -5,8 +5,8 @@ let
   cascade = pkgs.fetchFromGitHub {
     owner = "andreasgrafen";
     repo = "cascade";
-    rev = "78ba95b83ef74b0080464540929bc5e724279ee4";
-    sha256 = "O3BqtbgqdrhOxunrZN7LaSrVUEcbdtqri7wltMcnqo4=";
+    rev = "a89173a67696a8bf43e8e2ac7ed93ba7903d7a70";
+    sha256 = "sha256-D4ZZPm/li1Eoo1TmDS/lI2MAlgosNGOOk4qODqIaCes=";
   };
   cascadeSrc = cascade + "/chrome/includes/cascade-";
 
