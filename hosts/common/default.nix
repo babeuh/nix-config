@@ -35,7 +35,8 @@
     XDG_BIN_HOME = "\${HOME}/.local/bin";
     XDG_DATA_HOME = "\${HOME}/.local/share";
     # NOTE: this doesn't replace PATH, it just adds to it
-    PATH = [ "\${XDG_BIN_HOME}" ];
+    # HACK: fix https://github.com/NixOS/nix/issues/7512
+    PATH = [ "\${XDG_BIN_HOME}:\${PATH}" ];
   };
 
   # Default packages
