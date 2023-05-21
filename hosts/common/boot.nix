@@ -43,11 +43,11 @@
     };
   };
   
-  # TODO: Check dock to make this 2fa and add to README.md
+  # TODO: Check doc to make this 2fa and add to README.md
   # related: https://github.com/systemd/systemd/pull/22563
   # related: https://gist.github.com/chrisx8/cda23e2d1fa3dcda0d739bc74f600175 ( THIS IS OLD )
   # related: https://www.reddit.com/r/NixOS/comments/xrgszw/nixos_full_disk_encryption_with_tpm_and_secure/
-  # TODO: Also make FIDO2 as 2fa
+  # TODO: Also use FIDO2 as 2fa
   # related: https://github.com/systemd/systemd/issues/21427
 
   # TPM for unlocking LUKS
