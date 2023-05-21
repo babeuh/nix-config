@@ -11,9 +11,8 @@ in {
     babeuh-password.file = ../../secrets/babeuh-password.age;
   };
 
-  # Do not add non-strings here unless they are not secret
-  # Yubikey identities are not, which is why I'm putting those here as paths instead of strings
-  age.identityPaths = [
+  age.yubikeySupport = true;
+  age.yubikeyIdentityPaths = [
     ../../secrets/identities/babeuh.txt
     ../../secrets/identities/babeuh-backup.txt
   ];
