@@ -36,6 +36,6 @@
     "6000".enable = true;
     "7000".enable = true;
     "8000".enable = true;
-    # FIXME: 9000 does not work
+    "9000".enable = true;
   };
 }
