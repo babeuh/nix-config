@@ -71,6 +71,7 @@
       "/var/lib/tailscale"
       "/var/lib/upower"
       "/var/lib/systemd/coredump"
+      "/etc/mullvad-vpn"
     ];
     files = [
       "/var/lib/power-profiles-daemon/state.ini"
