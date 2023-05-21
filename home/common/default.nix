@@ -27,7 +27,7 @@ in
       experimental-features = [ "nix-command" "flakes" ];
     };
   };
-  # TODO: Move overlays to flake.nix
+
   nixpkgs.overlays = [
     outputs.overlays.additions
     outputs.overlays.modifications
