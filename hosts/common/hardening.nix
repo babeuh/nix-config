@@ -23,7 +23,6 @@
     wifi.macAddress = "stable"; # Per-Network MAC
   };
 
-  # TODO: Consider limiting nix to root to mitigate people adding files to nix store
   nix.settings.allowed-users = [ "@wheel" ];
   security.sudo.execWheelOnly = true;
 
