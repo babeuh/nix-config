@@ -15,10 +15,22 @@
   ];
   boot.initrd.luks.devices.root.device = "/dev/nvme0n1p2";
 
+  age.secrets = {
+    babeuh-password.file = ../../secrets/babeuh-password.age;
+  };
+
+  age.yubikey = {
+    enable = true;
+    keys = [
+      "AGE-PLUGIN-YUBIKEY-16RW96QVZ93EDGKC0XP44A"
+      "AGE-PLUGIN-YUBIKEY-1CRW46QVZENMMENGVMDRGN"
+    ];
+  };
+
   variables.user.name = "babeuh";
   variables.user.passwordFile = config.age.secrets.babeuh-password.path;
   variables.hostname = "atlas";
-  
+
   services.xserver.screenSection = ''
     Option        "metamodes" "2560x1440_144 +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}
   '';
