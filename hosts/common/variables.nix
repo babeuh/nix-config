@@ -32,5 +32,17 @@ in
       default = "NixOS";
       description = "The hostname";
     };
+    sound = {
+      rate = mkOption {
+        type = types.int;
+        default = 48000;
+        description = "Pipewire clock rate";
+      };
+      quantum = mkOption {
+        type = types.int;
+        default = 32;
+        description = "Pipewire clock quantum";
+      };
+    };
   };
 }
