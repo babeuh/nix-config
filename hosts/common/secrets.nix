@@ -11,10 +11,10 @@ in {
     babeuh-password.file = ../../secrets/babeuh-password.age;
   };
 
-  age.yubikeySupport = true;
-  age.yubikeyIdentityPaths = [
-    ../../secrets/identities/babeuh.txt
-    ../../secrets/identities/babeuh-backup.txt
+  age.yubikey.enable = true;
+  age.yubikey.keys = [
+    "AGE-PLUGIN-YUBIKEY-16RW96QVZ93EDGKC0XP44A"
+    "AGE-PLUGIN-YUBIKEY-1CRW46QVZENMMENGVMDRGN"
   ];
 
   age.secretsDir = "/persist/agenix/secrets";
