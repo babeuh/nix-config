@@ -58,9 +58,10 @@
   # boot.initrd.kernelModules = [ "tpm_tis" ];
   #
   # Must be enabled by hand - e.g.
-  # sudo systemd-cryptenroll --wipe-slot=tpm2 /dev/nvme0n1p3 --tpm2-device=auto --tpm2-pcrs=0+2+7
+  # sudo systemd-cryptenroll --wipe-slot=tpm2 /dev/nvme0n1p2 --tpm2-with-pin=yes --tpm2-device=auto --tpm2-pcrs=0+2+7
   #
-  boot.initrd.kernelModules = [ "tpm_tis" ];
+  boot.initrd.availableKernelModules = [ "tpm_tis" "tpm_crb" ];
+  boot.initrd.luks.devices.root.crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-with-pin=yes" ];
   security.tpm2.enable = true;
   security.tpm2.tctiEnvironment.enable = true;
 }
