@@ -9,8 +9,8 @@
 - Partition the drive.
   - TODO: make a script to select disk and partition
   ```
-  # This script assumes $DISK is set to your prefered disk
-  DISK=/dev/nvme0n1
+  # This snippet assumes $DISK is set to your prefered disk
+  # Example: DISK=/dev/nvme0n1
 
   # Set up partition. I use a 512MB fat32 partition (EFI) and a main LUKS encrypted partition
   parted $DISK
@@ -53,25 +53,43 @@
   mount -o subvol=log,compress=zstd,noatime     /dev/lvm/NIXOS-ROOT /mnt/var/log
   mount /dev/"$DISK"p1 /mnt/boot
   ```
-- Generate the config (broken)
+- Generate the config (in progress)
   - TODO: make a script to select host and other config options
   - TODO: fix this
   ```
+  # This assumes you are in /mnt/persist and that $HOSTNAME is your desired hostname
+  git clone https://github.com/babeuh/nix-config
+  cd nix-config
+
+  # Assuming you want `atlas` config (you can make one yourself or modify atlas)
+  cp -r hosts/atlas hosts/$HOSTNAME
   nixos-generate-config --root /mnt
-  # By default the generated configuration.nix is practically empty so we can overwrite it - feel free to review it first or move it
-  curl -sSL https://raw.githubusercontent.com/babeuh/nix-config/main/hosts/bootstrap/default.nix -o /mnt/etc/nixos/configuration.nix
-  # The hostname should be changed to "pick" the correct flake
-    ```
-- Edit hardware-configuration.nix
+  cp -f /etc/nixos/hardware-configuration.nix ./hosts/$HOSTNAME/
+  ```
+- Edit hardware-configuration.nix in your host's folder
+  - TODO: make a script that does this
   - Add ```"compress=zstd" "noatime"``` on each of the btrfs subvolumes
   - Add ```neededForBoot = true``` for persist and log subvolumes
   - Set root LVM
   ```
-  boot.initrd.luks.devices.root = {
-    device = "/dev/disk/by-uuid/..."; # UUID can be found using: `blkid | grep /dev/nvme0n1p2`
-  }
+  # UUID can be found using: `blkid | grep /dev/"$DISk"p2`
+  boot.initrd.luks.devices.root.device ="/dev/disk/by-uuid/...";
   ```
+- Edit default.nix in your host's folder (in progress)
+  - If you do not use syncthing and copied a config with it remove that section
+  - Change the variables
+- Create secrets
+  - TODO: finish this
+  - yubikey-agent first
+  - age-plugin-yubikey second
+  - agenix
 - ```nixos-install``` and ```reboot```
+- If using tpm for decryption
+  ```
+  # This snippet assumes $DISK is set to your prefered disk and you are using root
+  systemd-cryptenroll --wipe-slot=tpm2 /dev/"$DISK"p2 --tpm2-with-pin=yes --tpm2-device=auto --tpm2-pcrs=0+2+7
+  # Optionally if you only want to rely on tpm: systemd-cryptenroll --wipe-slot=password
+  ```
 
 ## TODO
 - Yubikey instructions
