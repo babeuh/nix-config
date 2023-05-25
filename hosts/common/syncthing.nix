@@ -1,7 +1,6 @@
 { config, ... }: {
   services = {
     syncthing = {
-      enable = true;
       dataDir = "${config.variables.user.directory}/Documents";
       configDir = "${config.variables.user.directory}/.config/syncthing";
       guiAddress = "localhost:8384";

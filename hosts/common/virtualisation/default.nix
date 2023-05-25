@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }: {
   environment.systemPackages = with pkgs; [
     virt-manager
   ];
@@ -10,4 +10,5 @@
       defaultNetwork.settings.dns_enabled = true;
     };
   };
+  users.users.${config.variables.user.name}.extraGroups = [ "libvirtd" ];
 }

@@ -9,11 +9,13 @@ let
 in {
   age.secretsDir = "/persist/agenix/secrets";
   age.secretsMountPoint = "/persist/agenix/generations";
+  age.secrets = {
+    "${config.variables.user.name}-password".file = ../../secrets/${config.variables.user.name}-password.age;
+  };
 
-
-  services.pcscd.enable = lib.mkIf config.age.yubikey.enable (lib.mkForce true);
+  services.pcscd.enable = lib.mkForce true;
   # HACK: Start pcscd before decrypting secrets
-  boot.initrd.systemd = lib.mkIf config.age.yubikey.enable ({
+  boot.initrd.systemd = {
     packages = [ (lib.getBin pcscdPkg)];
     storePaths = [
       "${pcscdPkg}/bin/pcscd"
@@ -32,5 +34,5 @@ in {
         "${pcscdPkg}/bin/pcscd -f -c ${pcscdCfg}"
       ];
     };
-  });
+  };
 }

@@ -4,6 +4,7 @@ let
   json = pkgs.formats.json {};
 in
 {
+  users.users.${config.variables.user.name}.extraGroups = [ "audio" ];
 
   sound.enable = true;
   hardware.pulseaudio.support32Bit = true;

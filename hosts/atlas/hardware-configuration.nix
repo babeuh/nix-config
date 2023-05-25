@@ -1,10 +1,20 @@
-{ config, lib, pkgs, modulesPath, ... }: {
+{ config, lib, inputs, ... }: {
+  imports = [
+    inputs.nixos-hardware.nixosModules.common-cpu-amd
+    inputs.nixos-hardware.nixosModules.common-pc-ssd
+  ];
+
+  # Display Settings
+  services.xserver.screenSection = ''
+    Option        "metamodes" "2560x1440_144 +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}
+  '';
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
+  boot.initrd.luks.devices.root.device = "/dev/nvme0n1p2";
   fileSystems."/" = {
     device = "/dev/lvm/NIXOS-ROOT";
     fsType = "btrfs";
