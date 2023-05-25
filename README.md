@@ -1,4 +1,4 @@
-# Future NixOS Config
+# NixOS Config
 
 ## Warning!
 - This is an early concept
