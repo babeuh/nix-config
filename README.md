@@ -88,7 +88,7 @@
     - With `$USER` being your username 
     1. Run `mkdir -p /mnt/home/$USER/.config/Yubico`
     2. Run `pamu2fcfg > /mnt/home/$USER/.config/Yubico/u2f_keys`
-      - To add another Yubikey run `pamu2fcfg -n >> /mnt/home/$USER/.config/Yubico/u2f_keys`
+       - To add another Yubikey run `pamu2fcfg -n >> /mnt/home/$USER/.config/Yubico/u2f_keys`
   - Setup Agenix
     - WARNING: Assume that your encryption will be broken by quantum computers, don't put your secrets in a public git repo unless it is impossible to use it to break your security. This config needs a Yubikey for PAM so making the encrypted user password public should be fine afaik.
     - For each of your Yubikeys:
@@ -110,11 +110,11 @@
   2. Create secure boot keys by running `sbctl create-keys` with root permissions
   3. Rebuild your system by running `nixos-rebuild switch --flake .` with root permissions in `/persist/nix-config`
   4. Make sure your .efi files are signed by running `sbctl verify`. Files ending in `-bzImage.efi` are not supposed to be signed.
-    - If they aren't, delete the unsigned files and go back to step 3.
+      - If they aren't, delete the unsigned files and go back to step 3.
   5. Run `sbctl enroll-keys --microsoft` with root permissions.
-    - Microsoft keys are here for compatability. Do not remove them unless you know what you are doing
+      - Microsoft keys are here for compatability. Do not remove them unless you know what you are doing
   6. Reboot system and make sure Secure Boot is enabled by running `bootctl status`
-    - If the system does not boot after following these steps go to [Lanzaboote Troubleshooting](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md#disabling-secure-boot-and-lanzaboote)
+      - If the system does not boot after following these steps go to [Lanzaboote Troubleshooting](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md#disabling-secure-boot-and-lanzaboote)
 
 ## TODO
 - Scripted install
