@@ -1,13 +1,12 @@
 # NixOS Config
 
 ## Warning!
-- This is an early concept
-- Yubikey 5(C) required
+- This is a personal config, I do not promise that this works for you.
+- At least one Yubikey 5(C) required
 
 ## Setup
 - Boot from minimal iso
 - Partition the drive.
-  - TODO: make a script to select disk and partition
   ```
   # This snippet assumes $DISK is set to your prefered disk
   # Example: DISK=/dev/nvme0n1
@@ -53,21 +52,22 @@
   mount -o subvol=log,compress=zstd,noatime     /dev/lvm/NIXOS-ROOT /mnt/var/log
   mount /dev/"$DISK"p1 /mnt/boot
   ```
-- Generate the config (in progress)
-  - TODO: make a script to select host and other config options
-  - TODO: fix this
+- Enable Nix features
   ```
-  # This assumes you are in /mnt/persist and that $HOSTNAME is your desired hostname
+  export NIX_CONFIG="experimental-features = nix-command flakes"
+  ```
+- Generate the config
+  ```
+  # This assumes you are in /mnt/persist and that $HOST is your desired hostname
   git clone https://github.com/babeuh/nix-config
   cd nix-config
 
   # Assuming you want `atlas` config (you can make one yourself or modify atlas)
-  cp -r hosts/atlas hosts/$HOSTNAME
+  cp -r hosts/atlas hosts/$HOST
   nixos-generate-config --root /mnt
-  cp -f /etc/nixos/hardware-configuration.nix ./hosts/$HOSTNAME/
+  cp -f /etc/nixos/hardware-configuration.nix ./hosts/$HOST/
   ```
 - Edit hardware-configuration.nix in your host's folder
-  - TODO: make a script that does this
   - Add ```"compress=zstd" "noatime"``` on each of the btrfs subvolumes
   - Add ```neededForBoot = true``` for persist and log subvolumes
   - Set root LVM
@@ -75,35 +75,54 @@
   # UUID can be found using: `blkid | grep /dev/"$DISk"p2`
   boot.initrd.luks.devices.root.device ="/dev/disk/by-uuid/...";
   ```
-- Edit default.nix in your host's folder (in progress)
+- Edit default.nix in your host's folder
   - If you do not use syncthing and copied a config with it remove that section
   - Change the variables
-- Create secrets
-  - TODO: finish this
-  - yubikey-agent first
-  - age-plugin-yubikey second
-  - agenix
-- ```nixos-install``` and ```reboot```
-- If using tpm for decryption
+  - Temporarily disable lanzaboote with `boot.loader.systemd-boot.enable = lib.mkOverride 0 true`
+- Yubikey Configuration
+  - Setup environment with `nix develop`
+  - Setup Yubikeys for SSH, for each of your Yubikeys:
+    1. Run `yubikey-agent -setup`
+    2. Add the given ssh public key anywhere (ex: in GitHub for authentication and signing)
+  - Setup Yubikeys for PAM
+    - With `$USER` being your username 
+    1. Run `mkdir -p /mnt/home/$USER/.config/Yubico`
+    2. Run `pamu2fcfg > /mnt/home/$USER/.config/Yubico/u2f_keys`
+      - To add another Yubikey run `pamu2fcfg -n >> /mnt/home/$USER/.config/Yubico/u2f_keys`
+  - Setup Agenix
+    - WARNING: Assume that your encryption will be broken by quantum computers, don't put your secrets in a public git repo unless it is impossible to use it to break your security. This config needs a Yubikey for PAM so making the encrypted user password public should be fine afaik.
+    - For each of your Yubikeys:
+      1. Run `age-plugin-yubikey`
+      2. Add the given age public key to `secrets/secrets.nix`
+    - Run `agenix -e $USER-password.age` with `$USER` being your username and type your desired password
+- Run `nixos-install --flake .#$HOST` with `$HOST` being your desired host and `reboot`
+- Setup TPM LUKS disk encryption with PIN (can be any characters and any length)
   ```
   # This snippet assumes $DISK is set to your prefered disk and you are using root
   systemd-cryptenroll --wipe-slot=tpm2 /dev/"$DISK"p2 --tpm2-with-pin=yes --tpm2-device=auto --tpm2-pcrs=0+2+7
   # Optionally if you only want to rely on tpm: systemd-cryptenroll --wipe-slot=password
   ```
+- Setup Secure Boot
+  - Make sure Secure Boot is enabled and in Setup Mode
+  - Make sure to read this [Lanzaboote Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md)
+  - Steps 2, 4, 5 and 6 require the environment provided by `nix develop`
+  1. Edit your host's config and remove `boot.loader.systemd-boot.enable = lib.mkOverride 0 true`
+  2. Create secure boot keys by running `sbctl create-keys` with root permissions
+  3. Rebuild your system by running `nixos-rebuild switch --flake .` with root permissions in `/persist/nix-config`
+  4. Make sure your .efi files are signed by running `sbctl verify`. Files ending in `-bzImage.efi` are not supposed to be signed.
+    - If they aren't, delete the unsigned files and go back to step 3.
+  5. Run `sbctl enroll-keys --microsoft` with root permissions.
+    - Microsoft keys are here for compatability. Do not remove them unless you know what you are doing
+  6. Reboot system and make sure Secure Boot is enabled by running `bootctl status`
+    - If the system does not boot after following these steps go to [Lanzaboote Troubleshooting](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md#disabling-secure-boot-and-lanzaboote)
 
 ## TODO
-- Yubikey instructions
-- More install instructions (documentation)
-- Bootstrap script
-- Archive sources
+- Scripted install
 
 ## Related / Sources
-### Opt-in state
 - [kjhoerr's dotfiles](https://github.com/kjhoerr/dotfiles)
-- [guekka's blog](https://guekka.github.io/nixos-server-1/)
-- [mt-caret's blog](https://mt-caret.github.io/blog/posts/2020-06-29-optin-state.html)
-- [hadilq's gist](https://gist.github.com/hadilq/a491ca53076f38201a8aa48a0c6afef5)
-### Systemd initrd
-- [kjhoerr's dotfiles](https://github.com/kjhoerr/dotfiles)
-### LUKS and TPM2
-- [kjhoerr's dotfiles](https://github.com/kjhoerr/dotfiles)
+- [guekka's blog](https://guekka.github.io/nixos-server-1/)<sup>[[archived](http://web.archive.org/web/20230526133048/https://guekka.github.io/nixos-server-1/)]</sup>
+- [mt-caret's blog](https://mt-caret.github.io/blog/posts/2020-06-29-optin-state.html)<sup>[[archived](http://web.archive.org/web/20230526133332/https://mt-caret.github.io/blog/posts/2020-06-29-optin-state.html)]</sup>
+- [hadilq's gist](https://gist.github.com/hadilq/a491ca53076f38201a8aa48a0c6afef5)<sup>[[archived](http://web.archive.org/web/20230526133617/https://gist.github.com/hadilq/a491ca53076f38201a8aa48a0c6afef5)]</sup>
+- [YubiKey](https://nixos.wiki/wiki/Yubikey)<sup>[[archived](http://web.archive.org/web/20230526133734/https://nixos.wiki/wiki/Yubikey)]</sup>
+- [Lanzaboote's Quickstart Guide](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md)

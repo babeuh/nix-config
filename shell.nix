@@ -12,7 +12,8 @@
 
       inputs.agenix.packages.x86_64-linux.default
       age-plugin-yubikey
-
+      yubikey-agent
+      pam_u2f
       sbctl
     ];
   };
