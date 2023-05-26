@@ -13,6 +13,9 @@ in {
     "${config.variables.user.name}-password".file = ../../secrets/${config.variables.user.name}-password.age;
   };
 
+  # Enable custom yubikey support
+  age.yubikey.enable = true;
+
   services.pcscd.enable = lib.mkForce true;
   # HACK: Start pcscd before decrypting secrets
   boot.initrd.systemd = {
