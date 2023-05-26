@@ -20,10 +20,10 @@
 
   # Syncthing
   services.syncthing.enable = true;
-  services.syncthing.settings.devices = {
+  services.syncthing.devices = {
     "phone".id = "C2BBNTV-4Q4XUXE-M2RMD3N-PFIVCCB-MMFINAX-UP4S5MZ-BRODLAL-BVES5AG";
   };
-  services.syncthing.settings.folders = {
+  services.syncthing.folders = {
     "KeePassXC" = {
       id = "4wmxy-pdg0y";
       label = "KeePassXC";
