@@ -39,7 +39,7 @@ let
   };
 
   src = fetchurl {
-    url = "https://releases.multiviewer.dev/download/${id}/${pname}_${version}_amd64.deb";
+    url = "https://releases.multiviewer.dev/download/${id}/multiviewer-for-f1_${version}_amd64.deb";
     sha256 = "sha256-jxMmfeeNjcZXVgM/iZP2BkatJWiNjLYAZLOe2bc3mFQ=";
   };
 
@@ -86,21 +86,21 @@ stdenv.mkDerivation {
     installPhase = ''
       runHook preInstall
 
-      mkdir -p $out/bin $out/share/${pname}
+      mkdir -p $out/bin $out/share/multiviewer-for-f1
 
       cp -a usr/share/* $out/share
-      cp -a usr/lib/${pname} $out/share/
-      mv $out/share/${pname}/"MultiViewer for F1" $out/share/${pname}/${pname}
+      cp -a usr/lib/multiviewer-for-f1 $out/share/
+      mv $out/share/multiviewer-for-f1/"MultiViewer for F1" $out/share/multiviewer-for-f1/multiviewer-for-f1
 
-      rpath="$out/share/${pname}"
+      rpath="$out/share/multiviewer-for-f1"
       patchelf \
         --interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-        --set-rpath $rpath $out/share/${pname}/${pname}
+        --set-rpath $rpath $out/share/multiviewer-for-f1/multiviewer-for-f1
 
-      makeWrapper $out/share/${pname}/${pname} $out/bin/${pname} \
-        --add-flags $out/share/${pname}/resources/app \
+      makeWrapper $out/share/multiviewer-for-f1/multiviewer-for-f1 $out/bin/multiviewer-for-f1 \
+        --add-flags $out/share/multiviewer-for-f1/resources/app \
         --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform=wayland --enable-features=WaylandWindowDecorations}}" \
-        --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath deps }:$out/share/${pname}"
+        --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath deps }:$out/share/multiviewer-for-f1"
 
       runHook postInstall
     '';
