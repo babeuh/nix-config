@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  environment.systemPackages = with pkgs; [
+  services.udev.packages = with pkgs; [
     numworks-udev-rules
   ];
 }
