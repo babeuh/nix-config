@@ -1,4 +1,4 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, lib, ... }: {
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
@@ -18,6 +18,19 @@
           file-decoration-style = "none";
         };
       };
+    };
+
+    hooks = {
+      pre-commit = pkgs.writeShellScript "pre-commit-hook" ''
+        declare -a arr=( ${lib.concatStrings [ "GIT-" "CANNOT-COMMIT" ]} ${lib.concatStrings [ "GIT-" "NO-COMMIT" ]})
+
+        for i in "''${arr[@]}"
+        do
+        git diff --cached --name-only | xargs grep --with-filename -n $i && echo "COMMIT REJECTED! Found '$i' references. Please remove them before commiting." && exit 1
+done
+
+        exit 0
+      '';
     };
 
     extraConfig = {
