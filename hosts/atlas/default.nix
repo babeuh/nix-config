@@ -4,6 +4,7 @@
     ../common/virtualisation
     ../common/flatpak
     ../common/openrgb
+    ../common/syncthing.nix
 
     ../common/hardware/nvidia.nix
     ../common/hardware/sweep.nix
