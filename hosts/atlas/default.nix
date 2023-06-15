@@ -9,6 +9,7 @@
     ../common/hardware/nvidia.nix
     ../common/hardware/sweep.nix
     ../common/hardware/numworks.nix
+    ../common/hardware/drawing.nix
 
     ./hardware-configuration.nix
   ];
