@@ -2,7 +2,7 @@
   boot = {
     loader.efi.canTouchEfiVariables = true;
     supportedFilesystems = [ "btrfs" ];
-    kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = pkgs.linuxPackages_latest;
     initrd.luks.devices.root.preLVM = true;
     # Fixes Hogwarts Legacy on steam (or used to)
     kernel.sysctl."vm.max_map_count" = 1000000;
