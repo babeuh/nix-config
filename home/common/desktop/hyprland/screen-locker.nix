@@ -31,7 +31,7 @@ in {
     };
   };
   services.swayidle = {
-    enable = true;
+    enable = false;
     systemdTarget = "hyprland-session.target";
     timeouts = [
       { timeout = 120; command = "${pkgs.swaylock-effects}/bin/swaylock -C ${config.xdg.configFile."swaylock/config".source}"; }
