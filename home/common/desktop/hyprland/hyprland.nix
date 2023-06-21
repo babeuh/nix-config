@@ -133,6 +133,7 @@ in {
       exec-once=spotifywm
       exec-once=firefox
       exec-once=yubikey-touch-detector -libnotify
+      exec-once=mullvad-vpn
     '';
   };
 }
