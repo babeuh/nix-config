@@ -94,7 +94,7 @@ in {
       windowrulev2=workspace 3, class:^(krita)$
       windowrulev2=workspace 4, class:^(Logseq)$
       windowrulev2=workspace 4, class:^(obsidian)$
-      windowrulev2=workspace 5, class:^(discord)$
+      windowrulev2=workspace 5, class:^(WebCord)$
       windowrulev2=workspace 9, class:^(steamwebhelper)$
       windowrulev2=workspace 9, class:^(heroic)$
       windowrulev2=workspace 10, class:^(steam_app_[0-9]+)$
@@ -129,7 +129,7 @@ in {
       exec-once=waybar
       exec-once=hyprpaper
 
-      exec-once=discord
+      exec-once=webcord
       exec-once=spotifywm
       exec-once=firefox
       exec-once=yubikey-touch-detector -libnotify
