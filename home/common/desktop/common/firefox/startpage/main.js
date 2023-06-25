@@ -78,12 +78,13 @@ function finderProcessResult() {
 
 function finderUpdateSelection(code) {
     if (finderResults.quantity == 0) return;
-    if (code == "ArrowDown") {
-        if (finderResults.selected !== finderResults.quantity) {
-            finderResults.selected += 1;
+    if (code == "ArrowDown" || code == "ArrowUp") {
+        if (finderResults.selected !== ((code == "ArrowDown") ? finderResults.quantity : 1)) {
+            finderResults.selected += (code == "ArrowDown") ? 1 : -1;
         } else {
-            finderResults.selected = 1;
+            finderResults.selected = (code == "ArrowDown") ? 1 : finderResults.quantity;
         }
+        return true;
     }
 }
 
@@ -133,7 +134,7 @@ function finderUpdateResults() {
     });
 
     finderResults.quantity = fuzzyMatched.length;
-    if (finderResults.selected > finderResults.length) finderResults.selected = finderResults.length;
+    if (finderResults.selected > finderResults.quantity) finderResults.selected = finderResults.quantity;
     finderResults.list = fuzzyMatched;
 
     const resultList = gebi("result-ul");
@@ -156,15 +157,24 @@ function finderInputUpdate(e) {
     finderUpdateResults();
 }
 
+function finderInputExclusions(e) {
+    if (e.code == "ArrowDown" || e.code == "ArrowUp") {
+        e.preventDefault();
+        return false;
+    }
+}
+
 function main() {
     time();
     date();
     navigator.geolocation.getCurrentPosition(startWeatherLoop);
     window.onfocus = () => {
         window.setTimeout(() => {
-            gebi("finder-input").focus()
+            gebi("finder-input").focus();
+            gebi("finder-input").value = "";
             gebi("result-ul").innerHTML = "<li>~/results</li>";
         }, 0);
     }
     gebi("finder-input").addEventListener("keyup", finderInputUpdate);
+    gebi("finder-input").addEventListener("keydown", finderInputExclusions);
 }
