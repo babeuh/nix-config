@@ -177,6 +177,7 @@ function main() {
             gebi("finder-input").focus();
             gebi("finder-input").value = "";
             gebi("result-ul").innerHTML = "<li>~/results</li>";
+            finderResults.selected = 1;
         }, 0);
     }
     gebi("finder-input").addEventListener("keyup", finderInputUpdate);
