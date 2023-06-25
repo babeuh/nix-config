@@ -79,6 +79,7 @@ function finderProcessResult() {
 function finderUpdateSelection(code) {
     if (finderResults.quantity == 0) return;
     if (code == "ArrowDown" || code == "ArrowUp") {
+        if (finderResults.selected > finderResults.quantity) finderResults.selected = finderResults.quantity;
         if (finderResults.selected !== ((code == "ArrowDown") ? finderResults.quantity : 1)) {
             finderResults.selected += (code == "ArrowDown") ? 1 : -1;
         } else {
@@ -134,14 +135,17 @@ function finderUpdateResults() {
     });
 
     finderResults.quantity = fuzzyMatched.length;
-    if (finderResults.selected > finderResults.quantity) finderResults.selected = finderResults.quantity;
+    let selected = finderResults.selected;
+    if (selected > finderResults.quantity) {
+      selected = finderResults.quantity;
+    }
     finderResults.list = fuzzyMatched;
 
     const resultList = gebi("result-ul");
     resultList.innerHTML = "<li>~/results</li>";
     for (i = 0; i < finderResults.list.length; i++) {
         const r = finderResults.list[i];
-        resultList.innerHTML += `<li><a class="${(finderResults.selected==i+1) ? "selected" : ""}" href="${r.url}" target="_blank">${r.name}</a></li>`
+        resultList.innerHTML += `<li><a class="${(selected==i+1) ? "selected" : ""}" href="${r.url}" target="_blank">${r.name}</a></li>`
     };
 }
 
