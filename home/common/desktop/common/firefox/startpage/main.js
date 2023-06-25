@@ -39,14 +39,121 @@ function randChoice(arr) {
     return arr[Math.floor(Math.random()*arr.length)];
 }
 
-function submitForm() {
-    searchQ = gebi("search-q");
-    if (searchQ.value.startsWith("https://") || searchQ.value.startsWith("http://")) {
-	window.open(searchQ.value, "_blank")
+const finderPossibleResults = [
+    {name: "invidious", url: "https://api.invidious.io"},
+    {name: "lemmy", url: "https://lemmy.world"},
+    {name: "github", url: "https://github.com"},
+    {name: "protondb", url: "https://protondb.com"},
+    {name: "lichess", url: "https://lichess.org"},
+    {name: "monkeytype", url: "https://monkeytype.com"},
+    {name: "nixos search", url: "https://search.nixos.org/packages?channel=unstable"},
+    {name: "home-manager search", url: "https://mipmip.github.io/home-manager-option-search"},
+    {name: "nix-config", url: "https://github.com/babeuh/nix-config"},
+];
+
+const finderResults = {
+    quantity: 0,
+    selected: 1,
+    list: []
+};
+
+function finderProcessResult() {
+    const finderInput = gebi("finder-input");
+    let url = "";
+
+    if (finderInput.value.startsWith("https://") || finderInput.value.startsWith("http://")) {
+	      url = finderInput.value;
+    } else if (finderInput.value.startsWith("/")) {
+        url = `https://duckduckgo.com/?q=${finderInput.value.substring(1)}`;
+    } else if (finderResults.quantity !== 0 ) {
+        url = finderResults.list[finderResults.selected-1].url;
     } else {
-        window.open(`https://duckduckgo.com/?q=${searchQ.value}`, "_blank")
+        return false;
     }
-    searchQ.value=""
+
+    window.open(url, "_blank");
+    finderInput.value = "";
+    return false;
+}
+
+function finderUpdateSelection(code) {
+    if (finderResults.quantity == 0) return;
+    if (code == "ArrowDown") {
+        if (finderResults.selected !== finderResults.quantity) {
+            finderResults.selected += 1;
+        } else {
+            finderResults.selected = 1;
+        }
+    }
+}
+
+function stringSimilarity(str1, str2, gramSize = 2) {
+    function getNGrams(s, len) {
+        s = ' '.repeat(len - 1) + s.toLowerCase() + ' '.repeat(len - 1);
+        let v = new Array(s.length - len + 1);
+        for (let i = 0; i < v.length; i++) {
+            v[i] = s.slice(i, i + len);
+        }
+        return v;
+    }
+    if (!(str1 === null || str1 === void 0 ? void 0 : str1.length) || !(str2 === null || str2 === void 0 ? void 0 : str2.length)) {
+        return 0.0;
+    }
+    let s1 = str1.length < str2.length ? str1 : str2;
+    let s2 = str1.length < str2.length ? str2 : str1;
+    let pairs1 = getNGrams(s1, gramSize);
+    let pairs2 = getNGrams(s2, gramSize);
+    let set = new Set(pairs1);
+    let total = pairs2.length;
+    let hits = 0;
+    for (let item of pairs2) {
+        if (set.delete(item)) {
+            hits++;
+        }
+    }
+    return hits / total;
+}
+function finderUpdateResults() {
+    const finderInput = gebi("finder-input");
+    let fuzzyMatched = [];
+    for (i = 0; i < finderPossibleResults.length; i++) {
+        const ngramSize = (finderInput.value.length < 2) ? 1 : 2;
+        const similarity = stringSimilarity(finderInput.value, finderPossibleResults[i].name, ngramSize);
+        if (similarity > 0) fuzzyMatched.push({name: finderPossibleResults[i].name, url: finderPossibleResults[i].url, similarity: similarity});
+    }
+
+    fuzzyMatched.sort((a, b) => {
+        if (a.similarity < b.similarity) {
+            return 1;
+        } else if (a.similarity > b.similarity) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
+
+    finderResults.quantity = fuzzyMatched.length;
+    if (finderResults.selected > finderResults.length) finderResults.selected = finderResults.length;
+    finderResults.list = fuzzyMatched;
+
+    const resultList = gebi("result-ul");
+    resultList.innerHTML = "<li>~/results</li>";
+    for (i = 0; i < finderResults.list.length; i++) {
+        const r = finderResults.list[i];
+        resultList.innerHTML += `<li><a class="${(finderResults.selected==i+1) ? "selected" : ""}" href="${r.url}" target="_blank">${r.name}</a></li>`
+    };
+}
+
+function finderInputUpdate(e) {
+    const finderInputValue = gebi("finder-input").value;
+    if (e.code == "Enter" || e.key == "Shift" || e.key == "Alt" || e.key == "Control" || e.key == "OS" || finderInputValue.startsWith("/")) {
+        return;
+    } else if (finderInputValue.startsWith("http://") || finderInputValue.startsWith("https://")) {
+        gebi("result-ul").innerHTML = "<li>~/results</li>";
+        return;
+    }
+    finderUpdateSelection(e.code);
+    finderUpdateResults();
 }
 
 function main() {
@@ -54,6 +161,10 @@ function main() {
     date();
     navigator.geolocation.getCurrentPosition(startWeatherLoop);
     window.onfocus = () => {
-        window.setTimeout(() => gebi("search-q").focus(), 0);
+        window.setTimeout(() => {
+            gebi("finder-input").focus()
+            gebi("result-ul").innerHTML = "<li>~/results</li>";
+        }, 0);
     }
+    gebi("finder-input").addEventListener("keyup", finderInputUpdate);
 }

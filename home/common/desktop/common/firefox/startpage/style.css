@@ -45,14 +45,14 @@ input {
 
 a {
     text-decoration: none;
-    color: var(--accent);
+    color: var(--fg);
     display: block;
     margin-right: 33%;
     display: inline-block;
     padding: 2px 0px;
 }
-a:hover {
-    color: var(--fg);
+a:hover, a.selected {
+    color: var(--accent);
 }
 
 a::before {
@@ -62,7 +62,7 @@ a::before {
 #links {
     margin-top: 25px;
     display: flex;
-    font-size: 14px;
+    font-size: 25px;
     flex-wrap: wrap;
 }
 
@@ -76,7 +76,6 @@ a::before {
 ul {
     list-style-type: none;
     font-weight: bold;
-    font-size: 20px;
     padding: 0 30px;
     white-space: nowrap;
 }
