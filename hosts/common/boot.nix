@@ -21,9 +21,8 @@
     initrd.verbose = false;
     plymouth.enable = true;
 
-    # Bootspec and Secure Boot using lanzaboote
+    # Secure Boot using lanzaboote
     #
-    # This throws a bootspec RFC warning - proceed with caution. May need to clear existing /boot entries first:
     # sudo rm -rf /boot/*aaaa
     #
     # Commands for reference:
@@ -35,7 +34,6 @@
     # Most importantly, review this document:
     # https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md
     #
-    bootspec.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
     lanzaboote = {
       enable = true;
