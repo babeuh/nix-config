@@ -95,9 +95,9 @@ in {
       windowrulev2=workspace 4, class:^(Logseq)$
       windowrulev2=workspace 4, class:^(obsidian)$
       windowrulev2=workspace 5, class:^(WebCord)$
-      windowrulev2=workspace 9, class:^(steam)$
+      windowrulev2=workspace 9 silent, class:^(steam)$
       windowrulev2=workspace 9, class:^(heroic)$
-      windowrulev2=workspace 10 silent, class:^(steam_app_[0-9]+)$
+      windowrulev2=workspace 10, class:^(steam_app_[0-9]+)$
 
       # Focus
       bind=SUPER, left, movefocus, l
