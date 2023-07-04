@@ -38,4 +38,11 @@ in
   colorscheme = lib.mkDefault colorSchemes.gruvbox-dark-hard;
   wallpaper = lib.mkDefault ../backgrounds/vettel-years-pixel-gruvboxish.png;
   home.file.".colorscheme".text = config.colorscheme.slug;
+
+  # EQ
+  services.easyeffects = {
+    enable = true;
+    # You need to create a preset with this name
+    preset = "Default";
+  };
 }
