@@ -25,13 +25,14 @@
   services.syncthing.enable = true;
   services.syncthing.devices = {
     "phone".id = "C2BBNTV-4Q4XUXE-M2RMD3N-PFIVCCB-MMFINAX-UP4S5MZ-BRODLAL-BVES5AG";
+    "phone-2".id = "4TBQQ3J-JDGERWN-YPYDYSU-H6RXN56-7CEFV2N-6N54WEG-3G2M2XB-FP222AA";
   };
   services.syncthing.folders = {
     "KeePassXC" = {
       id = "4wmxy-pdg0y";
       label = "KeePassXC";
       path = "${config.variables.user.directory}/KeePassXC";
-      devices = [ "phone" ];
+      devices = [ "phone" "phone-2" ];
     };
     "Obsidian Vault" = {
       id = "wlwgj-bhqfx";
