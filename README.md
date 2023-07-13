@@ -21,8 +21,8 @@
   # Initialize volumegroup `lvm`
   pvcreate /dev/mapper/enc
   vgcreate lvm /dev/mapper/enc
-  lvcreate -n NIXOS-SWAP --size 32G pool
-  lvcreate -n NIXOS-ROOT --extents 100%FREE pool
+  lvcreate -n NIXOS-SWAP --size 32G lvm
+  lvcreate -n NIXOS-ROOT --extents 100%FREE lvm
   mkswap /dev/lvm/NIXOS-SWAP
   mkfs.btrfs /dev/lvm/NIXOS-ROOT
   
@@ -45,7 +45,7 @@
 
   # Mount the subvolumes
   mount -o subvol=root,compress=zstd,noatime    /dev/lvm/NIXOS-ROOT /mnt/
-  mkdir /mnt/{boot,home,nix,persist,var/log}
+  mkdir -p /mnt/{boot,home,nix,persist,var/log}
   mount -o subvol=home,compress=zstd,noatime    /dev/lvm/NIXOS-ROOT /mnt/home
   mount -o subvol=nix,compress=zstd,noatime     /dev/lvm/NIXOS-ROOT /mnt/nix
   mount -o subvol=persist,compress=zstd,noatime /dev/lvm/NIXOS-ROOT /mnt/persist
@@ -65,7 +65,7 @@
   # Assuming you want `atlas` config (you can make one yourself or modify atlas)
   cp -r hosts/atlas hosts/$HOST
   nixos-generate-config --root /mnt
-  cp -f /etc/nixos/hardware-configuration.nix ./hosts/$HOST/
+  cp -f /mnt/etc/nixos/hardware-configuration.nix ./hosts/$HOST/
   ```
 - Edit hardware-configuration.nix in your host's folder
   - Add ```"compress=zstd" "noatime"``` on each of the btrfs subvolumes
@@ -73,7 +73,7 @@
   - Set root LVM
   ```
   # UUID can be found using: `blkid | grep /dev/"$DISk"p2`
-  boot.initrd.luks.devices.root.device ="/dev/disk/by-uuid/...";
+  boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/...";
   ```
 - Edit default.nix in your host's folder
   - If you do not use syncthing and copied a config with it remove that section
