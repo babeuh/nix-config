@@ -1,5 +1,5 @@
 { stdenv
-, fetchzip
+, fetchurl
 , lib
 , makeWrapper
 , autoPatchelfHook
@@ -25,16 +25,16 @@
 
 let
   version = "1.24.0";
-  id = "116221066";
+  id = "116221064";
 
 in
 stdenv.mkDerivation {
   pname = "multiviewer-for-f1";
   inherit version;
 
-  src = fetchzip {
-    url = "https://releases.multiviewer.dev/download/${id}/MultiViewer.for.F1-linux-x64-${version}.zip";
-    sha256 = "sha256-fnGVn469wpUQk77q8/px7X8xoTUvOiR/nwYppsDF+PQ=";
+  src = fetchurl {
+    url = "https://releases.multiviewer.dev/download/${id}/multiviewer-for-f1_${version}_amd64.deb";
+    sha256 = "sha256-eCtCw0b8XnQ7EUBZAw6tloY5EIUnHNB3GuWQV61jAIo=";
   };
 
   nativeBuildInputs = [
@@ -67,13 +67,24 @@ stdenv.mkDerivation {
     xorg.libXrandr
   ];
 
+  dontBuild = true;
+  dontConfigure = true;
+
+  unpackPhase = ''
+    runHook preUnpack
+
+    ${dpkg}/bin/dpkg-deb -x $src . || true
+
+    runHook postUnpack
+  '';
+
   installPhase = ''
     runHook preInstall
 
     mkdir -p $out/bin $out/share
-    mv ./* $out/share
+    mv -t $out/share usr/share/* usr/lib/multiviewer-for-f1
 
-    makeWrapper $out/share/"MultiViewer for F1" $out/bin/multiviewer-for-f1 \
+    makeWrapper $out/share/multiviewer-for-f1/"MultiViewer for F1" $out/bin/multiviewer-for-f1 \
       --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform=wayland --enable-features=WaylandWindowDecorations}}" \
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ libudev0-shim ] }:$out/share/\"Multiviewer for F1\""
 
