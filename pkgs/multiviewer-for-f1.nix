@@ -71,11 +71,9 @@ stdenv.mkDerivation {
     runHook preInstall
 
     mkdir -p $out/bin $out/share
-
     mv ./* $out/share
 
     makeWrapper $out/share/"MultiViewer for F1" $out/bin/multiviewer-for-f1 \
-      --add-flags $out/share/resources/app \
       --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform=wayland --enable-features=WaylandWindowDecorations}}" \
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ libudev0-shim ] }:$out/share/\"Multiviewer for F1\""
 
