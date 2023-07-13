@@ -133,7 +133,8 @@ in {
       exec-once=spotifywm
       exec-once=firefox
       exec-once=yubikey-touch-detector -libnotify
-      exec-once=mullvad-vpn
+      exec-once=mullvad connect -w
+      exec-once=${pkgs.libnotify}/bin/notify-send -u critical -a Mullvad "Mullvad" ''$(mullvad status)
     '';
   };
 }
