@@ -4,7 +4,7 @@
     useDHCP = lib.mkDefault true;
 
     firewall.enable = true;
-    networkmanager.enable = false;
+    networkmanager.enable = lib.mkDefault false;
     wireguard.enable = true;
   };
 

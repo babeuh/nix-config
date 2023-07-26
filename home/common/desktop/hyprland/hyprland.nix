@@ -1,10 +1,22 @@
 { inputs, pkgs, config, ... }:
 let
   inherit (config.colorscheme) colors;
+  ocr = pkgs.writeShellScriptBin "ocr" ''
+    #!/usr/bin/env bash
+    set -e
+
+    ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -w 0)" /tmp/ocr.png
+    ${pkgs.tesseract}/bin/tesseract /tmp/ocr.png /tmp/ocr-output
+    wl-copy < /tmp/ocr-output.txt
+    ${pkgs.libnotify}/bin/notify-send "OCR" "Copied Text: $(wl-paste -n)"
+    rm -f /tmp/ocr-output.txt /tmp/ocr.png
+  '';
 in {
   imports = [
     inputs.hyprland.homeManagerModules.default
   ];
+
+  home.packages = with pkgs; [ libnotify ];
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -15,7 +27,7 @@ in {
     recommendedEnvironment = true;
 
     extraConfig = ''
-      monitor=DP-1, 2560x1440@144, 0x0, 1
+      ${if config.variables.isLaptop then "" else "monitor=DP-1, 2560x1440@144, 0x0, 1"}
 
       env=__GLX_VENDOR_LIBRARY_NAME,nvidia
       env=_JAVA_AWT_WM_NONREPARENTING,1
@@ -25,7 +37,7 @@ in {
       env=LIBVA_DRIVER_NAME,nvidia
       env=XDG_SESSION_TYPE,wayland
       env=GDK_BACKEND,wayland
-      env=GBM_BACKEND,nvidia-drm
+      ${if config.variables.isLaptop then "" else "env=GBM_BACKEND,nvidia-drm"}
       env=WLR_NO_HARDWARE_CURSORS,1
       env=WLR_BACKEND,vulkan
       env=WLR_RENDERER,vulkan
@@ -35,6 +47,9 @@ in {
         kb_layout=us
         repeat_delay=500
         repeat_rate=20
+        touchpad {
+          natural_scroll=true
+        }
       }
 
       general {
@@ -42,8 +57,8 @@ in {
         col.inactive_border=rgb(${colors.base03})
         col.active_border=rgb(${colors.base05})
 
-        gaps_in=6
-        gaps_out=12
+        gaps_in=${if config.variables.isLaptop then "3" else "6"}
+        gaps_out=${if config.variables.isLaptop then "6" else "12"}
 
         layout=dwindle
 
@@ -63,9 +78,15 @@ in {
       bindl=, XF86AudioPrev, exec, playerctl --ignore-player=firefox previous
       bindl=, XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
+      # Backlight
+      bindle=, XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 1%- -q
+      bindle=, XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl set +1% -q
+
+      bind=SUPER_SHIFT, O, exec, ${ocr}/bin/ocr
+
       bind=SUPER_SHIFT, S, exec, ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" ~/Pictures/screenshots/$(date +'%s_grim.png')
       bind=SUPER_SHIFT, P, exec, hyprpicker -a
-      bind=SUPER, SPACE, exec, pkill rofi || rofi -display-drun "App" -show drun -font "monospace;2" -matching glob
+      bind=SUPER, SPACE, exec, pkill rofi || rofi -display-drun "App" -show drun -font "monospace" -matching glob
 
       bind=SUPER, W, killactive
       bind=SUPER_SHIFT, W, killactive
@@ -125,16 +146,15 @@ in {
       bind=, escape, submap, reset 
       submap=reset
 
+      exec-once=bash -c "mullvad connect -w && notify-send -u critical -a Mullvad \"Mullvad\" $(mullvad status)"
       exec-once=udiskie &
+      exec-once=yubikey-touch-detector -libnotify
       exec-once=waybar
       exec-once=hyprpaper
-
       exec-once=webcord
       exec-once=spotifywm
       exec-once=firefox
-      exec-once=yubikey-touch-detector -libnotify
-      exec-once=mullvad connect -w
-      exec-once=${pkgs.libnotify}/bin/notify-send -u critical -a Mullvad "Mullvad" ''$(mullvad status)
+      exec-once=keepassxc
     '';
   };
 }

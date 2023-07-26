@@ -5,7 +5,7 @@ in {
   programs.rofi = {
     enable = true;
     package = pkgs.rofi-wayland;
-    font = "monospace;2";
+    font = "monospace"; # FIXME
     location = "center";
     terminal = "alacritty";
     theme = "base16-theme";

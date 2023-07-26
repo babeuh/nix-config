@@ -16,7 +16,6 @@ in
       support32Bit = true;
     };
     pulse.enable = true;
-
   };
 
   # Low Latency audio

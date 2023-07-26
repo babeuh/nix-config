@@ -49,12 +49,23 @@
         ./hosts/common
       ] ++ (builtins.attrValues (import ./modules/nixos));
 
-      defaultHomeModules = [
-        inputs.arkenfox.hmModules.default
-        inputs.nixvim.homeManagerModules.nixvim
-        inputs.nix-colors.homeManagerModule
-        inputs.nur.hmModules.nur
-      ] ++ (builtins.attrValues (import ./modules/home-manager));
+      mkHome = username: hostname: (
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
+          extraSpecialArgs = { inherit inputs outputs hostname; };
+          modules = [
+            inputs.arkenfox.hmModules.default
+            inputs.nixvim.homeManagerModules.nixvim
+            inputs.nix-colors.homeManagerModule
+            inputs.nur.hmModules.nur
+            ./home/common
+            ./home/${username}
+          ] ++ (builtins.attrValues (import ./modules/home-manager));
+        }
+      );
     in {
       # Devshell for bootstrapping
       # Acessible through 'nix develop' or 'nix-shell' (legacy)
@@ -74,20 +85,18 @@
             ./hosts/atlas
           ];
         };
+        iapetus = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = defaultHostModules ++ [
+            ./hosts/common/hardware/nvidia.nix
+            ./hosts/iapetus
+          ];
+        };
       };
 
       homeConfigurations = {
-        babeuh = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-          };
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = defaultHomeModules ++ [
-            ./home/common
-            ./home/babeuh
-          ];
-        };
+        "babeuh@atlas"   = mkHome "babeuh" "atlas";
+        "babeuh@iapetus" = mkHome "babeuh" "atlas";
       };
     };
 }

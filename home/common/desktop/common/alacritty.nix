@@ -17,7 +17,7 @@ in
         bold_italic.family = config.fontProfiles.monospace.family;
         bold_italic.style = "Bold Italic";
 
-        size = 15;
+        size = if config.variables.isLaptop then 12 else 15;
       };
 
       window = {

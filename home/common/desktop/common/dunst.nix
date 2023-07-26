@@ -6,15 +6,15 @@ in {
     enable = true;
     settings = {
       global = {
-        width = 400;
-        height = 300;
-        offset = "30x50";
+        width = if config.variables.isLaptop then 200 else 400;
+        height = if config.variables.isLaptop then 150 else 300;
+        offset = if config.variables.isLaptop then "15x25" else "30x50";
         origin = "top-right";
         transparency = 0;
         foreground = "#${colors.base05}";
         background = "#${colors.base00}";
         frame_color = "#${colors.base07}";
-        font = "monospace;2";
+        font = "monospace";
         fullscreen = "pushback";
         separator_color = "#${colors.base03}";
       };

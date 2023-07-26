@@ -12,5 +12,9 @@ with lib;
         description = "The main user's home directory";
       };
     };
+    isLaptop = mkOption {
+      type = types.bool;
+      description = "Is the configuration running on a laptop";
+    };
   };
 }

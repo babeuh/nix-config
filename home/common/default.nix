@@ -1,4 +1,4 @@
-{ outputs, inputs, lib, config, pkgs, ... }:
+{ outputs, inputs, lib, config, pkgs, hostname, ... }:
 let
   inherit (inputs.nix-colors) colorSchemes;
 in
@@ -34,6 +34,9 @@ in
     inputs.arkenfox.overlays.default
   ];
 
+  # Set host-specific configuration
+  variables.isLaptop = if (hostname == "atlas") then false else true;
+
   # Default Theme
   colorscheme = lib.mkDefault colorSchemes.gruvbox-dark-hard;
   wallpaper = lib.mkDefault ../backgrounds/vettel-years-pixel-gruvboxish.png;
@@ -45,4 +48,7 @@ in
     # You need to create a preset with this name
     preset = "Default";
   };
+
+  # Bluetooth control forwarder
+  services.mpris-proxy.enable = true;
 }

@@ -13,6 +13,6 @@
 
   variables.git = {
     name = "Babeuh";
-    email = "60193302+babeuh@users.noreply.github.com";
+    email = "babeuh@rlglr.fr";
   };
 }
