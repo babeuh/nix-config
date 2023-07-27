@@ -14,7 +14,7 @@ in {
         foreground = "#${colors.base05}";
         background = "#${colors.base00}";
         frame_color = "#${colors.base07}";
-        font = "monospace";
+        font = "monospace " + (if config.variables.isLaptop then "8" else "14");
         fullscreen = "pushback";
         separator_color = "#${colors.base03}";
       };
