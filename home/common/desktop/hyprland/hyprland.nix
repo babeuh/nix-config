@@ -146,11 +146,12 @@ in {
       bind=, escape, submap, reset 
       submap=reset
 
-      exec-once=bash -c "mullvad connect -w && notify-send -u critical -a Mullvad \"Mullvad\" $(mullvad status)"
+      exec-once=bash -c "mullvad connect -w &> /dev/null && notify-send -a Mullvad \"Mullvad\" \"Connected\" || notify-send -u critical -a Mullvad \"Mullvad\" \"Failed to connect\""
       exec-once=udiskie &
       exec-once=yubikey-touch-detector -libnotify
       exec-once=waybar
       exec-once=hyprpaper
+
       exec-once=webcord
       exec-once=spotifywm
       exec-once=firefox
