@@ -23,22 +23,23 @@
 
   # Syncthing
   services.syncthing.enable = true;
-  services.syncthing.devices = {
+  services.syncthing.settings.devices = {
+    "iapetus".id = "BD53N23-HAKXFK3-UBWGRBQ-FRRBBLZ-66PTMGJ-HKFBOEL-KUJ4LNY-KTTNGQX";
     "phone".id = "C2BBNTV-4Q4XUXE-M2RMD3N-PFIVCCB-MMFINAX-UP4S5MZ-BRODLAL-BVES5AG";
     "phone-2".id = "4TBQQ3J-JDGERWN-YPYDYSU-H6RXN56-7CEFV2N-6N54WEG-3G2M2XB-FP222AA";
   };
-  services.syncthing.folders = {
+  services.syncthing.settings.folders = {
     "KeePassXC" = {
       id = "4wmxy-pdg0y";
       label = "KeePassXC";
       path = "${config.variables.user.directory}/KeePassXC";
-      devices = [ "phone" "phone-2" ];
+      devices = [ "iapetus" "phone" "phone-2" ];
     };
     "Obsidian Vault" = {
       id = "wlwgj-bhqfx";
       label = "Obsidian Vault";
       path = "${config.variables.user.directory}/Obsidian Vault";
-      devices = [ "phone" ];
+      devices = [ "iapetus" "phone" ];
     };
   };
 }
