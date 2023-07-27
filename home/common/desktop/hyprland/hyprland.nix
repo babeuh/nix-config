@@ -86,7 +86,7 @@ in {
 
       bind=SUPER_SHIFT, S, exec, ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" ~/Pictures/screenshots/$(date +'%s_grim.png')
       bind=SUPER_SHIFT, P, exec, hyprpicker -a
-      bind=SUPER, SPACE, exec, pkill rofi || rofi -display-drun "App" -show drun -font "monospace" -matching glob
+      bind=SUPER, SPACE, exec, pkill rofi || rofi -display-drun "App" -show drun -matching glob
 
       bind=SUPER, W, killactive
       bind=SUPER_SHIFT, W, killactive

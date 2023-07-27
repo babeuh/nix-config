@@ -5,7 +5,7 @@ in {
   programs.rofi = {
     enable = true;
     package = pkgs.rofi-wayland;
-    font = "monospace"; # FIXME
+    font = "monospace " + (if config.variables.isLaptop then "12" else "16");
     location = "center";
     terminal = "alacritty";
     theme = "base16-theme";
