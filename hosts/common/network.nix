@@ -1,4 +1,4 @@
-{ lib, config, ... }: {
+{ lib, config, pkgs, ... }: {
   networking = {
     hostName = config.variables.hostname;
     useDHCP = lib.mkDefault true;
@@ -8,5 +8,8 @@
     wireguard.enable = true;
   };
 
-  services.mullvad-vpn.enable = true;
+  services.mullvad-vpn = {
+    package = pkgs.mullvad-vpn;
+    enable = true;
+  };
 }

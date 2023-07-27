@@ -18,7 +18,6 @@
     pulseaudio
     gimp
     krita
-    mullvad-vpn
     yubioath-flutter
     yubikey-touch-detector
     multiviewer-for-f1
