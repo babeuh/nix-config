@@ -12,7 +12,7 @@ in {
       datestr = "%Y-%m-%d";
       timestr = "%H:%M:%S";
       grace = "1";
-      effect-pixelate = "30";
+      effect-pixelate = "100";
 
       bs-hl-color = colors.base08;
       caps-lock-bs-hl-color = colors.base09;
