@@ -81,7 +81,7 @@ in
       * {
         border: none;
         border-radius: 0;
-        font-family: CozetteVector;
+        font-family: monospace;
         font-size: ${if config.variables.isLaptop then "10" else "20"};
         min-height: 0;
         color: #${colors.base05};

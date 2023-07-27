@@ -17,7 +17,7 @@ in {
       bs-hl-color = colors.base08;
       caps-lock-bs-hl-color = colors.base09;
       caps-lock-key-hl-color = colors.base0E;
-      font = "CozetteVector";
+      font = "monospace";
       inside-color = "00000088";
       inside-clear-color = colors.base0A;
       inside-caps-lock-color = "00000088";

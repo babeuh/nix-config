@@ -36,7 +36,7 @@ in
         module-margin = 1;
         separator = "|";
         separator-foreground = "\${colors.background-alt}";
-        font = [ "CozetteVector:size=15" ];
+        font = [ "monospace:size=15" ];
         modules = {
           left = "xworkspaces xwindow";
           right = "filesystem pulseaudio xkeyboard memory cpu eth date";
