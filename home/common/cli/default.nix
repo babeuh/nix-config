@@ -7,6 +7,7 @@
     ./gpg.nix
     ./starship.nix
     ./vim.nix
+    ./github.nix
   ];
   home.packages = with pkgs; [
     bc # Calculator
