@@ -10,13 +10,13 @@ in
       bar = {
         layer = "top";
         position = "top";
-        height = if config.variables.isLaptop then 16 else 32;
+        height = if config.variables.isLaptop then 25 else 32;
         spacing = if config.variables.isLaptop then 6 else 12;
 
         modules-left = [ "wlr/workspaces" "hyprland/window" ];
         modules-center = [ "clock" ];
         modules-right = [ "hyprland/submap" ] ++
-                        (if config.variables.isLaptop then [ "battery "] else []) ++
+                        (if config.variables.isLaptop then [ "battery"] else []) ++
                         [ "disk" "memory" "cpu" "network" "tray" ];
 
         "wlr/workspaces" = {
@@ -71,8 +71,8 @@ in
         };
 
         "tray" = {
-          icon-size = if config.variables.isLaptop then 11 else 21;
-          spacing = if config.variables.isLaptop then 2 else 4;
+          icon-size = 21;
+          spacing = 4;
         };
       };
     };
@@ -82,7 +82,7 @@ in
         border: none;
         border-radius: 0;
         font-family: monospace;
-        font-size: ${if config.variables.isLaptop then "10" else "20"};
+        font-size: ${if config.variables.isLaptop then "16" else "20"}px;
         min-height: 0;
         color: #${colors.base05};
         text-shadow: rgba(0,0,0,0);
