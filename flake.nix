@@ -96,7 +96,7 @@
 
       homeConfigurations = {
         "babeuh@atlas"   = mkHome "babeuh" "atlas";
-        "babeuh@iapetus" = mkHome "babeuh" "atlas";
+        "babeuh@iapetus" = mkHome "babeuh" "iapetus";
       };
     };
 }
