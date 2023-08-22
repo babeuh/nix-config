@@ -70,7 +70,7 @@ let
 in {
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox-esr.override {
+    package = pkgs.firefox.override {
       extraPolicies = {
         DontCheckDefaultBrowser = true;
         DisablePocket = true;
