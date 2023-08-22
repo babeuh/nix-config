@@ -22,6 +22,7 @@
     yubikey-touch-detector
     multiviewer-for-f1
     kicad
+    qbittorrent
   ];
   xdg.mimeApps.enable = true;
 }
