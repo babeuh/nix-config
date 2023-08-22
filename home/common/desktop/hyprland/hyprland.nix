@@ -23,7 +23,7 @@ in {
     xwayland = {
       enable = true;
     };
-    nvidiaPatches = true;
+    enableNvidiaPatches = true;
     recommendedEnvironment = true;
 
     extraConfig = ''

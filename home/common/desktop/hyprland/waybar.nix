@@ -1,11 +1,11 @@
-{ inputs, outputs, config, ... }:
+{ pkgs, outputs, config, ... }:
 let
   inherit (config.colorscheme) colors;
 in
 {
   programs.waybar = {
     enable = true;
-    package = inputs.hyprland.packages.x86_64-linux.waybar-hyprland;
+    package = pkgs.waybar-hyprland;
     settings = {
       bar = {
         layer = "top";

@@ -28,5 +28,5 @@
     videoDrivers = [ "nvidia" ];
   };
   
-  programs.hyprland.nvidiaPatches = true;
+  programs.hyprland.enableNvidiaPatches = true;
 }
