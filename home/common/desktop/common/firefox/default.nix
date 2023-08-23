@@ -89,7 +89,7 @@ in {
       };
     };
 
-    arkenfox.version = "102.0";
+    arkenfox.version = "115.0";
 
     profiles = foldOverAttrs 0 buildProfile profiles;
   };
