@@ -31,8 +31,15 @@
     };
 
     nix-colors.url = "github:misterio77/nix-colors";
-    arkenfox.url = "github:dwarfmaster/arkenfox-nixos";
-    nixvim.url = "github:pta2002/nixvim";
+    arkenfox = {
+      url = "github:dwarfmaster/arkenfox-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixvim = {
+      url = "github:pta2002/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
