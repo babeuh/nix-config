@@ -47,16 +47,15 @@
   # Syncthing
   services.syncthing.enable = true;
   services.syncthing.devices = {
-    "atlas".id = "SZ6GVNW-GPEGDFY-D4FNAVD-LWWWA5L-MLERO3J-AQ3D5PV-QH5IDM3-Z530PAM";
+    "atlas".id = "4DUAJNX-H6WNYUF-DE6U5KL-FFFG6MK-XIEMIYK-Y27KC4G-JDSTGD7-75UDTQO";
     "phone".id = "C2BBNTV-4Q4XUXE-M2RMD3N-PFIVCCB-MMFINAX-UP4S5MZ-BRODLAL-BVES5AG";
-    "phone-2".id = "4TBQQ3J-JDGERWN-YPYDYSU-H6RXN56-7CEFV2N-6N54WEG-3G2M2XB-FP222AA";
   };
   services.syncthing.folders = {
     "KeePassXC" = {
       id = "4wmxy-pdg0y";
       label = "KeePassXC";
       path = "${config.variables.user.directory}/KeePassXC";
-      devices = [ "atlas" "phone" "phone-2" ];
+      devices = [ "atlas" "phone" ];
     };
     "Obsidian Vault" = {
       id = "wlwgj-bhqfx";
