@@ -15,8 +15,8 @@
   parted $DISK
 
   # LUKS
-  cryptsetup --verify-passphrase -v luksFormat /dev/"$DISK"p2
-  cryptsetup open /dev/"$DISK"p2 enc
+  cryptsetup --verify-passphrase -v luksFormat "$DISK"p2
+  cryptsetup open "$DISK"p2 enc
 
   # Initialize volumegroup `lvm`
   pvcreate /dev/mapper/enc
@@ -50,7 +50,7 @@
   mount -o subvol=nix,compress=zstd,noatime     /dev/lvm/NIXOS-ROOT /mnt/nix
   mount -o subvol=persist,compress=zstd,noatime /dev/lvm/NIXOS-ROOT /mnt/persist
   mount -o subvol=log,compress=zstd,noatime     /dev/lvm/NIXOS-ROOT /mnt/var/log
-  mount /dev/"$DISK"p1 /mnt/boot
+  mount "$DISK"p1 /mnt/boot
   ```
 - Enable Nix features
   ```
@@ -72,7 +72,7 @@
   - Add ```neededForBoot = true``` for persist and log subvolumes
   - Set root LVM
   ```
-  # UUID can be found using: `blkid | grep /dev/"$DISk"p2`
+  # UUID can be found using: `blkid | grep "$DISk"p2`
   boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/...";
   ```
 - Edit default.nix in your host's folder
@@ -99,7 +99,7 @@
 - Setup TPM LUKS disk encryption with PIN (can be any characters and any length)
   ```
   # This snippet assumes $DISK is set to your prefered disk and you are using root
-  systemd-cryptenroll --wipe-slot=tpm2 /dev/"$DISK"p2 --tpm2-with-pin=yes --tpm2-device=auto --tpm2-pcrs=0+2+7
+  systemd-cryptenroll --wipe-slot=tpm2 "$DISK"p2 --tpm2-with-pin=yes --tpm2-device=auto --tpm2-pcrs=0+2+7
   # Optionally if you only want to rely on tpm: systemd-cryptenroll --wipe-slot=password
   ```
 - Setup Secure Boot
