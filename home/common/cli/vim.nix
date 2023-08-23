@@ -153,6 +153,13 @@
           { name = "treesitter"; }
         ];
       };
+      lsp = {
+        enable = true;
+
+        servers = {
+          nixd.enable = true;
+        };
+      };
     };
     extraConfigLuaPre = ''
       local luasnip = require('luasnip')
