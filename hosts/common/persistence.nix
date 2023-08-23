@@ -8,7 +8,7 @@
     ];
     after = [
       # LUKS/TPM process
-      "systemd-cryptsetup@enc.service"
+      "systemd-cryptsetup@root.service"
     ];
     before = [
       "sysroot.mount"
@@ -77,4 +77,9 @@
       "/var/lib/power-profiles-daemon/state.ini"
     ];
   };
+
+  security.sudo.extraConfig = ''
+    # rollback results in sudo lectures after each reboot
+    Defaults lecture = never
+  '';
 }
