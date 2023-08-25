@@ -51,13 +51,13 @@
     "KeePassXC" = {
       id = "4wmxy-pdg0y";
       label = "KeePassXC";
-      path = "${config.variables.user.directory}/KeePassXC";
+      path = "${config.variables.user.home}/KeePassXC";
       devices = [ "atlas" "phone" ];
     };
     "Obsidian Vault" = {
       id = "wlwgj-bhqfx";
       label = "Obsidian Vault";
-      path = "${config.variables.user.directory}/Obsidian Vault";
+      path = "${config.variables.user.home}/Obsidian Vault";
       devices = [ "atlas" "phone" ];
     };
   };
