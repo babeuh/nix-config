@@ -1,11 +1,11 @@
-{ config, ... }: {
+{ config, username, ... }: {
   services = {
     syncthing = {
-      dataDir = "${config.variables.user.directory}/Documents";
-      configDir = "${config.variables.user.directory}/.config/syncthing";
+      dataDir = "${config.variables.user.home}/Documents";
+      configDir = "${config.variables.user.home}/.config/syncthing";
       guiAddress = "localhost:8384";
       openDefaultPorts = true;
-      user = config.variables.user.name;
+      user = username;
       group = "users";
       overrideDevices = true; # overrides any devices added or deleted through the WebUI
       overrideFolders = true; # overrides any folders added or deleted through the WebUI

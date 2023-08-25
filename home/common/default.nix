@@ -1,4 +1,4 @@
-{ outputs, inputs, lib, config, pkgs, hostname, ... }:
+{ outputs, inputs, lib, config, pkgs, ... }:
 let
   inherit (inputs.nix-colors) colorSchemes;
 in
@@ -9,6 +9,7 @@ in
     ./desktop/hyprland
     ./variables.nix
     ./fonts.nix
+    ./persistence.nix
   ];
   programs.home-manager.enable = true;
 
@@ -21,21 +22,9 @@ in
   };
 
   nixpkgs.config.allowUnfree = true;
-  nix = {
-    package = pkgs.nix;
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-    };
-  };
-
-  nixpkgs.overlays = [
-    outputs.overlays.additions
-    outputs.overlays.modifications
-    inputs.arkenfox.overlays.default
-  ];
 
   # Set host-specific configuration
-  variables.isLaptop = if (hostname == "atlas") then false else true;
+  variables.isLaptop = lib.mkDefault false;
 
   # Default Theme
   colorscheme = lib.mkDefault colorSchemes.gruvbox-dark-hard;
@@ -44,9 +33,21 @@ in
 
   # EQ
   services.easyeffects = {
-    enable = true;
-    # You need to create a preset with this name
-    preset = "Default";
+    enable = lib.mkDefault true;
+    preset = lib.mkDefault "Default";
+  };
+
+  systemd.user.services.easyeffects-preset = lib.mkIf config.services.easyeffects.enable {
+    Unit = {
+      Description = "Easyeffects preset setter";
+      Requires = [ "dbus.service"  "easyeffects.service" ];
+      After = [ "graphical-session-pre.target" "easyeffects.service" ];
+      PartOf = [ "graphical-session.target" "pipewire.service" ];
+    };
+
+    Install.WantedBy = [ "graphical-session.target" ];
+
+    Service.ExecStart = "${config.services.easyeffects.package}/bin/easyeffects --load-preset ${config.services.easyeffects.preset}";
   };
 
   # Bluetooth control forwarder

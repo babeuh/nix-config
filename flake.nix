@@ -49,28 +49,35 @@
       supportedSystems = [ "x86_64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
-      defaultHostModules = [
-        inputs.lanzaboote.nixosModules.lanzaboote
-        inputs.impermanence.nixosModules.impermanence
-        inputs.agenix.nixosModules.default
-        ./hosts/common
-      ] ++ (builtins.attrValues (import ./modules/nixos));
-
-      mkHome = username: hostname: (
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-          };
-          extraSpecialArgs = { inherit inputs outputs hostname; };
+      mkHost = hostname: username: (
+        nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs hostname username; };
           modules = [
-            inputs.arkenfox.hmModules.default
-            inputs.nixvim.homeManagerModules.nixvim
-            inputs.nix-colors.homeManagerModule
-            inputs.nur.hmModules.nur
-            ./home/common
-            ./home/${username}
-          ] ++ (builtins.attrValues (import ./modules/home-manager));
+            inputs.lanzaboote.nixosModules.lanzaboote
+            inputs.impermanence.nixosModules.impermanence
+            inputs.agenix.nixosModules.default
+            ./hosts/common
+            ./hosts/${hostname}
+
+            home-manager.nixosModules.home-manager
+
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs outputs hostname;
+              };
+              home-manager.users.${username} = import ./home/${username};
+              home-manager.sharedModules = [
+                inputs.arkenfox.hmModules.default
+                inputs.nixvim.homeManagerModules.nixvim
+                inputs.nix-colors.homeManagerModule
+                inputs.nur.hmModules.nur
+                inputs.impermanence.nixosModules.home-manager.impermanence
+                ./home/common
+              ] ++ (builtins.attrValues (import ./modules/home-manager));
+            }
+          ];
         }
       );
     in {
@@ -85,25 +92,8 @@
       overlays = import ./overlay { inherit inputs; };  
 
       nixosConfigurations = {
-        atlas = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = defaultHostModules ++ [
-            ./hosts/common/hardware/nvidia.nix
-            ./hosts/atlas
-          ];
-        };
-        iapetus = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = defaultHostModules ++ [
-            ./hosts/common/hardware/nvidia.nix
-            ./hosts/iapetus
-          ];
-        };
-      };
-
-      homeConfigurations = {
-        "babeuh@atlas"   = mkHome "babeuh" "atlas";
-        "babeuh@iapetus" = mkHome "babeuh" "iapetus";
+        atlas   = mkHost "atlas"   "babeuh";
+        iapetus = mkHost "iapetus" "babeuh";
       };
     };
 }

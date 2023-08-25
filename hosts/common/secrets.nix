@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, username, ... }:
 let
   pcscdCfg = pkgs.writeText "reader.conf" "";
   pcscdPkg = pkgs.pcsclite;
@@ -10,7 +10,7 @@ in {
   age.secretsDir = "/persist/agenix/secrets";
   age.secretsMountPoint = "/persist/agenix/generations";
   age.secrets = {
-    "${config.variables.user.name}-password".file = ../../secrets/${config.variables.user.name}-password.age;
+    "${username}-password".file = ../../secrets/${username}-password.age;
   };
 
   # Enable custom yubikey support

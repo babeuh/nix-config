@@ -14,7 +14,7 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  boot.initrd.luks.devices.root.device = "6a54ffbf-9d0a-4bc9-98b8-b05015d3fa97";
+  boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/6a54ffbf-9d0a-4bc9-98b8-b05015d3fa97";
   fileSystems."/" = {
     device = "/dev/lvm/NIXOS-ROOT";
     fsType = "btrfs";

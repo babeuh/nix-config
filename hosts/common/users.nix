@@ -1,7 +1,7 @@
-{ config, ... }: {
-  users.users.${config.variables.user.name} = {
+{ config, username, ... }: {
+  users.users.${username} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
-    passwordFile = config.age.secrets."${config.variables.user.name}-password".path;
+    passwordFile = config.age.secrets."${username}-password".path;
   };
 }

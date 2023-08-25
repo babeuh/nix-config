@@ -14,13 +14,10 @@
     ./hardware-configuration.nix
   ];
 
-  age.yubikey.keys = [
+  age.yubikey.identities = [
     "AGE-PLUGIN-YUBIKEY-16RW96QVZ93EDGKC0XP44A"
     "AGE-PLUGIN-YUBIKEY-1CRW46QVZENMMENGVMDRGN"
   ];
-
-  variables.user.name = "babeuh";
-  variables.hostname = "iapetus";
 
   # WiFi
   networking.networkmanager.enable = true;

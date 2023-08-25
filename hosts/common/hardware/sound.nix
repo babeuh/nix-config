@@ -1,10 +1,10 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, ... }:
 let
   quantum-rate = "${toString config.variables.sound.quantum}/${toString config.variables.sound.rate}";
   json = pkgs.formats.json {};
 in
 {
-  users.users.${config.variables.user.name}.extraGroups = [ "audio" ];
+  users.users.${username}.extraGroups = [ "audio" ];
 
   sound.enable = true;
   hardware.pulseaudio.support32Bit = true;
@@ -55,16 +55,16 @@ in
     };
 
     "wireplumber/main.lua.d/99-alsa-lowlatency.lua".text = ''
-      alsa_monitor.rules = {
-        {
-          matches = {{{ "node.name", "matches", "alsa_output.*" }}};
-          apply_properties = {
-            ["audio.format"] = "S32LE",
-            ["audio.rate"] = ${toString (config.variables.sound.rate * 2)},
-            ["api.alsa.period-size"] = 2,
-          },
+      low_latency = {
+        matches = {{{ "node.name", "matches", "alsa_output.*" }}};
+        apply_properties = {
+          ["audio.format"] = "S32LE",
+          ["audio.rate"] = ${toString (config.variables.sound.rate * 2)},
+          ["api.alsa.period-size"] = 2,
         },
       }
+
+      table.insert(alsa_monitor.rules,low_latency)
     '';
   };
 }

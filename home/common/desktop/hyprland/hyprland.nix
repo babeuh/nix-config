@@ -66,6 +66,10 @@ in {
         no_cursor_warps=true
       }
 
+      misc {
+        disable_hyprland_logo = true;
+      }
+
       dwindle {
         pseudotile=true
       }

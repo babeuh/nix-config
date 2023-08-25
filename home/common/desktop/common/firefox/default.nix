@@ -26,7 +26,7 @@ let
       } (mapAttrsToList nameValuePair attrs)).value;
 
   addons = config.nur.repos.rycee.firefox-addons;
-  arkenfox = import ./arkenfox.nix { inherit lib; };
+  arkenfoxConfig = import ./arkenfox.nix { inherit lib; };
 
   profiles = {
     "Secure" = {
@@ -36,7 +36,7 @@ let
         default = "DuckDuckGo";
         force = true;
       };
-      arkenfox = [ arkenfox.main ];
+      arkenfox = [ arkenfoxConfig.main ];
       theme = true;
       extensions = with addons; [ ublock-origin darkreader ];
     };
@@ -60,6 +60,11 @@ let
         "browser.startup.homepage" = if profile ? startpage then "${config.home.homeDirectory}/.mozilla/firefox/Secure/chrome/startpage/index.html" else if profile ? homepage then profile.homepage else "about:blank";
         "browser.rememberSignons" = false; # Disable password manager
         "ui.systemUsesDarkTheme" = true;
+        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+        "app.normandy.first_run" = false;
+        "app.normandy.api_url" = "";
+        "app.normandy.enabled" = false;
+        "media.eme.enabled" = true;
       } // (if profile ? settings then profile.settings else { });
       isDefault = if profile ? default then profile.default else false;
       search = if profile ? search then profile.search else { };

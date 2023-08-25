@@ -1,6 +1,6 @@
-{ lib, config, pkgs, ... }: {
+{ lib, config, pkgs, hostname, ... }: {
   networking = {
-    hostName = config.variables.hostname;
+    hostName = hostname;
     useDHCP = lib.mkDefault true;
 
     firewall.enable = true;

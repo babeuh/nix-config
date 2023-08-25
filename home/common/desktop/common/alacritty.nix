@@ -1,4 +1,4 @@
-{ config,  ... }:
+{ config, pkgs, ... }:
 let
   inherit (config.colorscheme) colors;
 in
@@ -35,7 +35,7 @@ in
       };
 
       shell = {
-        program = "${config.home.homeDirectory}/.nix-profile/bin/fish";
+        program = "${pkgs.fish}/bin/fish";
       };
       colors = {
         primary = {

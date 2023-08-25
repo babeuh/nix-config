@@ -22,6 +22,16 @@
       vgscan
       vgchange -ay
 
+      # Do weird shit
+      mount -t btrfs /dev/lvm/NIXOS-ROOT /mnt
+
+      echo "deleting /home subvolume..."
+      btrfs subvolume delete /mnt/home
+
+      echo "restoring blank /home subvolume..."
+      btrfs subvolume snapshot /mnt/home-blank /mnt/home
+      umount /mnt
+
       # We first mount the btrfs root to /mnt
       # so we can manipulate btrfs subvolumes.
       # If LVM exists, mount that.
@@ -54,13 +64,14 @@
       echo "restoring blank /root subvolume..."
       btrfs subvolume snapshot /mnt/root-blank /mnt/root
 
-      # Once we're done rolling back to a blank snapshot,
-      # we can unmount /mnt and continue on the boot process.
+      # Once we're done rolling back we can unmount and
+      # continue on the boot process.
       umount /mnt
     '';
   };
 
-  # symlinks to enable "erase your darlings"
+  programs.fuse.userAllowOther = true;
+
   environment.persistence."/persist" = {
     directories = [
       "/etc/secureboot"
@@ -71,6 +82,7 @@
       "/var/lib/tailscale"
       "/var/lib/upower"
       "/var/lib/systemd/coredump"
+      "/var/lib/flatpak"
       "/etc/mullvad-vpn"
     ];
     files = [

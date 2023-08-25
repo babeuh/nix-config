@@ -3,6 +3,7 @@
     overlays = [
       outputs.overlays.modifications
       outputs.overlays.additions
+      inputs.arkenfox.overlays.default
     ];
     config.allowUnfree = true;
   };

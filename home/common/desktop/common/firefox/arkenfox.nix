@@ -14,7 +14,7 @@
     "0400".enable = true;
     "0600".enable = true;
     "0700".enable = true;
-    "0800"enable = true;
+    "0800".enable = true;
     "0900".enable = true;
     "1000".enable = true;
     "1200".enable = true;

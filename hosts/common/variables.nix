@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, username, ... }:
 with lib;
 
 let
@@ -7,13 +7,9 @@ in
 {
   options.variables = {
     user = {
-      name = mkOption {
+      home = mkOption {
         type = types.str;
-        description = "The main user's username";
-      };
-      directory = mkOption {
-        type = types.str;
-        default = "/home/${cfg.user.name}";
+        default = "/home/${username}";
         description = "The main user's home directory";
       };
     };
