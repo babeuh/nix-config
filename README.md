@@ -113,7 +113,7 @@
       - If they aren't, delete the unsigned files and go back to step 3.
   5. Run `sbctl enroll-keys --microsoft` with root permissions.
       - Microsoft keys are here for compatability. Do not remove them unless you know what you are doing
-  6. Reboot system and make sure Secure Boot is enabled by running `bootctl status`
+  6. Reboot system and make sure Secure Boot is enabled by running `bootctl status` and `sbctl status`
       - If the system does not boot after following these steps go to [Lanzaboote Troubleshooting](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md#disabling-secure-boot-and-lanzaboote)
 
 ## TODO
