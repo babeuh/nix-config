@@ -41,10 +41,6 @@
     };
   };
   
-  # TODO: Check doc to make this 2fa and add to README.md
-  # related: https://github.com/systemd/systemd/pull/22563
-  # related: https://gist.github.com/chrisx8/cda23e2d1fa3dcda0d739bc74f600175 ( THIS IS OLD )
-  # related: https://www.reddit.com/r/NixOS/comments/xrgszw/nixos_full_disk_encryption_with_tpm_and_secure/
   # TODO: Also use FIDO2 as 2fa
   # related: https://github.com/systemd/systemd/issues/21427
 
@@ -52,12 +48,6 @@
   #
   # TPM kernel module must be enabled for initrd. Device driver is viewable via the command:
   # sudo systemd-cryptenroll --tpm2-device=list
-  # And added to a device's configuration:
-  # example: boot.initrd.kernelModules = [ "tpm_tis" ];
-  #
-  # Must be enabled by hand - e.g.
-  # sudo systemd-cryptenroll --wipe-slot=tpm2 /dev/nvme0n1p2 --tpm2-with-pin=yes --tpm2-device=auto --tpm2-pcrs=0+2+7
-  #
   boot.initrd.availableKernelModules = [ "tpm_tis" "tpm_crb" ];
   boot.initrd.luks.devices.root.crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-with-pin=yes" ];
   security.tpm2.enable = true;
