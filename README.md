@@ -90,7 +90,7 @@
     2. Run `pamu2fcfg > /mnt/persist/$USER/Yubico/.config/Yubico/u2f_keys`
        - To add another Yubikey run `pamu2fcfg -n >> /mnt/persist/home/$USER/Yubico/.config/Yubico/u2f_keys`
   - Setup Agenix
-    - WARNING: Assume that your encryption will be broken by quantum computers, don't put your secrets in a public git repo unless it is impossible to use it to break your security. This config needs a Yubikey for PAM so making the encrypted user password public should be fine afaik.
+    - WARNING: Do not assume your encryption is perfectly secure, don't put your secrets in a public git repo unless you are certain it will not break security. This config needs a Yubikey for PAM so making the encrypted user password public should be fine afaik.
     - For each of your Yubikeys:
       1. Run `age-plugin-yubikey`
       2. Add the given age public key to `secrets/secrets.nix`
