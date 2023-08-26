@@ -86,9 +86,9 @@
     2. Add the given ssh public key anywhere (ex: in GitHub for authentication and signing)
   - Setup Yubikeys for PAM
     - With `$USER` being your username 
-    1. Run `mkdir -p /mnt/home/$USER/.config/Yubico`
-    2. Run `pamu2fcfg > /mnt/home/$USER/.config/Yubico/u2f_keys`
-       - To add another Yubikey run `pamu2fcfg -n >> /mnt/home/$USER/.config/Yubico/u2f_keys`
+    1. Run `mkdir -p /mnt/persist/home/$USER/Yubico/.config/Yubico`
+    2. Run `pamu2fcfg > /mnt/persist/$USER/Yubico/.config/Yubico/u2f_keys`
+       - To add another Yubikey run `pamu2fcfg -n >> /mnt/persist/home/$USER/Yubico/.config/Yubico/u2f_keys`
   - Setup Agenix
     - WARNING: Assume that your encryption will be broken by quantum computers, don't put your secrets in a public git repo unless it is impossible to use it to break your security. This config needs a Yubikey for PAM so making the encrypted user password public should be fine afaik.
     - For each of your Yubikeys:

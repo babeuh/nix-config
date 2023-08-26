@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: {
+{ lib, config, pkgs, username, ... }: {
 
   boot.initrd.systemd.enable = lib.mkDefault true;
   boot.initrd.systemd.services.rollback = {
@@ -71,6 +71,8 @@
   };
 
   programs.fuse.userAllowOther = true;
+
+  environment.persistence."/persist".users.${username}.removePrefixDirectory = true;
 
   environment.persistence."/persist" = {
     directories = [

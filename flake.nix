@@ -18,7 +18,7 @@
     };
 
     # Links persistent folders into system
-    impermanence.url = "github:nix-community/impermanence";
+    impermanence.url = "github:babeuh/impermanence";
 
     # Provides module support for specific vendor hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware";

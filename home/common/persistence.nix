@@ -1,11 +1,11 @@
 { lib, config, ... }:
 let
-  cacheHome = lib.strings.removePrefix "/home/babeuh/" config.xdg.cacheHome; # Default: .cache
-  configHome = lib.strings.removePrefix "/home/babeuh/" config.xdg.configHome; # Default: .config
-  dataHome = lib.strings.removePrefix "/home/babeuh/" config.xdg.dataHome; # Default: .local/share
-  stateHome = lib.strings.removePrefix "/home/babeuh/" config.xdg.stateHome; # Default: .local/state
+  cacheHome = lib.strings.removePrefix "${config.home.homeDirectory}/" config.xdg.cacheHome; # Default: .cache
+  configHome = lib.strings.removePrefix "${config.home.homeDirectory}/" config.xdg.configHome; # Default: .config
+  dataHome = lib.strings.removePrefix "${config.home.homeDirectory}/" config.xdg.dataHome; # Default: .local/share
+  stateHome = lib.strings.removePrefix "${config.home.homeDirectory}/" config.xdg.stateHome; # Default: .local/state
 in {
-  home.persistence."/persist/home/babeuh" = {
+  home.persistence."/persist/${config.home.homeDirectory}" = {
     removePrefixDirectory = true;
     allowOther = true;
     directories = [
@@ -21,8 +21,6 @@ in {
       "Multiviewer-for-f1/${configHome}/Multiviewer for F1"
       "Spotify/${configHome}/spotify"
       "Spotify/${cacheHome}/spotify"
-      "Steam/${dataHome}/Steam"
-      "Steam/${dataHome}/vulkan"
       "Syncthing/${configHome}/syncthing"
       "WebCord/${configHome}/WebCord"
       "Wireplumber/${stateHome}/wireplumber/default-profile"

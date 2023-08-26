@@ -15,10 +15,7 @@
       cue = true;
     };
   };
-
-  environment.persistence."/persist" = {
-    directories = [
-      { directory = "${config.variables.user.home}/.config/Yubico"; user = username; }
-    ];
-  };
+  environment.persistence."/persist".users.${username}.directories = [
+    "Yubico/.config/Yubico"
+  ];
 }
