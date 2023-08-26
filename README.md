@@ -2,7 +2,7 @@
 
 ## Warning!
 - This is a personal config, I do not promise that this works for you.
-- At least one Yubikey 5(C) required
+- At least one Yubikey 5 "required"
 
 ## Setup
 - Boot from minimal iso
