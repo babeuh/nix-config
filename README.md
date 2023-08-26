@@ -2,6 +2,7 @@
 
 ## Warning!
 - This is a personal config, I do not promise that this works for you.
+- This documentation is currently not great as some things are broken in the Yubikey Configuration part, I am working on improving this
 - At least one Yubikey 5 "required"
 
 ## Setup
@@ -62,7 +63,7 @@
   git clone https://github.com/babeuh/nix-config
   cd nix-config
 
-  # Assuming you want `atlas` config (you can make one yourself or modify atlas)
+  # Assuming you want `atlas` config (you can make one yourself or modify an existing one)
   cp -r hosts/atlas hosts/$HOST
   nixos-generate-config --root /mnt
   cp -f /mnt/etc/nixos/hardware-configuration.nix ./hosts/$HOST/
