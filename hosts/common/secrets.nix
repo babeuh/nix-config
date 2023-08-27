@@ -7,6 +7,9 @@ let
     paths = map (p: "${p}/pcsc/drivers") [ pkgs.ccid ];
   };
 in {
+  imports = [
+    ./users/${username}.nix
+  ];
   age.secretsDir = "/persist/agenix/secrets";
   age.secretsMountPoint = "/persist/agenix/generations";
   age.secrets = {

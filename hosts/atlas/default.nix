@@ -1,4 +1,4 @@
-{ inputs, lib, config, ... }: {
+{ config, ... }: {
   imports = [
     ../common/gaming
     ../common/virtualisation
@@ -13,11 +13,6 @@
 
     ./hardware-configuration.nix
   ];
-  age.yubikey.identities = [
-    "AGE-PLUGIN-YUBIKEY-16RW96QVZ93EDGKC0XP44A"
-    "AGE-PLUGIN-YUBIKEY-1CRW46QVZENMMENGVMDRGN"
-  ];
-
   # Syncthing
   services.syncthing.enable = true;
   services.syncthing.settings.devices = {

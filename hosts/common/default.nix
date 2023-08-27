@@ -14,7 +14,7 @@
     ./network.nix
     ./updates.nix
     ./variables.nix
-    ./users.nix
+    ./users
 
     # NTHs
     ./locale.nix
