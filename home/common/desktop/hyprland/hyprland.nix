@@ -1,4 +1,4 @@
-{ inputs, pkgs, config, ... }:
+{ inputs, pkgs, config, nixosConfig, ... }:
 let
   inherit (config.colorscheme) colors;
   ocr = pkgs.writeShellScriptBin "ocr" ''
@@ -23,7 +23,7 @@ in {
     xwayland = {
       enable = true;
     };
-    enableNvidiaPatches = true;
+    enableNvidiaPatches = nixosConfig.programs.hyprland.enableNvidiaPatches;
     recommendedEnvironment = true;
 
     extraConfig = ''
