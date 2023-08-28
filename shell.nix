@@ -7,7 +7,6 @@
     NIX_CONFIG = "experimental-features = nix-command flakes";
     nativeBuildInputs = with pkgs; [
       nix
-      home-manager
       git
 
       inputs.agenix.packages.x86_64-linux.default
