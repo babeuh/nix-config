@@ -31,19 +31,31 @@
     };
 
     nix-colors.url = "github:misterio77/nix-colors";
+
     arkenfox = {
       url = "github:dwarfmaster/arkenfox-nixos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     nixvim = {
       url = "github:pta2002/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
+
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nixos-generators, ... }@inputs:
     let
       inherit (self) outputs;
       supportedSystems = [ "x86_64-linux" ];
@@ -94,6 +106,18 @@
       nixosConfigurations = {
         atlas   = mkHost "atlas"   "babeuh";
         iapetus = mkHost "iapetus" "babeuh";
+      };
+
+      installer = nixos-generators.nixosGenerate {
+        system = "x86_64-linux";
+        format = "install-iso";
+        specialArgs = { inherit inputs; };
+
+        modules = [
+          inputs.disko.nixosModules.default
+
+          ./hosts/installer
+        ];
       };
     };
 }
