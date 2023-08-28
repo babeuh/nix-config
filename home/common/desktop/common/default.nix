@@ -36,11 +36,4 @@
     browsedForSplitTunnelingApplications = [];
     changelogDisplayedForVersion = pkgs.mullvad-vpn.version;
   };
-
-  xdg.configFile."MultiViewer for F1/config.json".source = (pkgs.formats.json { }).generate "config.json" {
-    accountSetupCompleted = true;
-    analyticsConsent = "denied";
-    onboardingTutorialCompleted = true;
-    onboardingPrecheckCompleted = true;
-  };
 }
