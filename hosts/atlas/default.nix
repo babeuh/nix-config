@@ -10,7 +10,7 @@
     ../common/hardware/sweep.nix
     ../common/hardware/numworks.nix
     ../common/hardware/drawing.nix
-
+    ../common/filesystem.nix
     ./hardware-configuration.nix
   ];
   # Syncthing

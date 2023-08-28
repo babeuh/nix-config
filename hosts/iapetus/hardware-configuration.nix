@@ -17,52 +17,10 @@
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/e9f65e95-7cf2-4f75-b244-fed39cd3d476";
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/0caa66bb-483a-4ced-aefd-7fb95cf23f50";
-      fsType = "btrfs";
-      options = [ "subvol=root" "compress=zstd" "noatime" ];
-      neededForBoot = true;
-    };
-
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/0caa66bb-483a-4ced-aefd-7fb95cf23f50";
-      fsType = "btrfs";
-      options = [ "subvol=home" "compress=zstd" "noatime" ];
-      neededForBoot = true;
-    };
-
-  fileSystems."/persist" =
-    { device = "/dev/disk/by-uuid/0caa66bb-483a-4ced-aefd-7fb95cf23f50";
-      fsType = "btrfs";
-      options = [ "subvol=persist" "compress=zstd" "noatime" ];
-      neededForBoot = true;
-    };
-
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/0caa66bb-483a-4ced-aefd-7fb95cf23f50";
-      fsType = "btrfs";
-      options = [ "subvol=nix" "compress=zstd" "noatime" ];
-    };
-
-  fileSystems."/var/log" =
-    { device = "/dev/disk/by-uuid/0caa66bb-483a-4ced-aefd-7fb95cf23f50";
-      fsType = "btrfs";
-      options = [ "subvol=log" "compress=zstd" "noatime" ];
-      neededForBoot = true;
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/F84E-DB64";
-      fsType = "vfat";
-    };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/3f7a61b2-6a4d-4955-b66e-81cfdc89c0ab"; }
-    ];
+  boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/e9f65e95-7cf2-4f75-b244-fed39cd3d476";
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
