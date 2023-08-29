@@ -15,13 +15,11 @@
   ];
 
   home.packages = with pkgs; [
-    pulseaudio
     gimp
     krita
     yubioath-flutter
     yubikey-touch-detector
     multiviewer-for-f1
-    kicad
     qbittorrent
   ];
   xdg.mimeApps.enable = true;
