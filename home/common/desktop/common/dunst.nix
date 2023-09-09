@@ -1,6 +1,6 @@
 { config, ... }: 
 let
-  inherit (config.colorscheme) colors;
+  colors = config.colors;
 in {
   services.dunst = {
     enable = true;
@@ -10,13 +10,14 @@ in {
         height = if config.variables.isLaptop then 150 else 300;
         offset = if config.variables.isLaptop then "15x25" else "30x50";
         origin = "top-right";
-        transparency = 0;
-        foreground = "#${colors.base05}";
-        background = "#${colors.base00}";
-        frame_color = "#${colors.base07}";
         font = "monospace " + (if config.variables.isLaptop then "8" else "14");
         fullscreen = "pushback";
-        separator_color = "#${colors.base03}";
+        transparency = 0;
+
+        background      = "#${colors.background}";
+        foreground      = "#${colors.foreground}";
+        frame_color     = "#${colors.foreground-most}";
+        separator_color = "#${colors.background-least}";
       };
 
       urgency_low = {
@@ -24,13 +25,13 @@ in {
       };
 
       urgency_normal = {
-        highlight = "#${colors.base0A}";
+        highlight = "#${colors.accent}";
         timeout = 5;
       };
 
       urgency_critical = {
-        frame_color = "#${colors.base08}";
-        highlight = "#${colors.base08}";
+        frame_color = "#${colors.red}";
+        highlight = "#${colors.red}";
         timeout = 10;
         fullscreen = "show";
       };

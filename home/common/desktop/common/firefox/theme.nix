@@ -1,6 +1,6 @@
 { profile, config, pkgs, ... }:
 let
-  inherit (config.colorscheme) colors;
+  colors = config.colors;
   # Cascade
   cascade = pkgs.fetchFromGitHub {
     owner = "andreasgrafen";
@@ -17,21 +17,21 @@ let
     :root {
       /* These colours are (mainly) used by the
       Container Tabs Plugin */
-      --uc-identity-colour-blue:      #${colors.base0D} !important;
-      --uc-identity-colour-turquoise: #${colors.base0C} !important;
-      --uc-identity-colour-green:     #${colors.base0B} !important;
-      --uc-identity-colour-yellow:    #${colors.base0A} !important;
-      --uc-identity-colour-orange:    #${colors.base09} !important;
-      --uc-identity-colour-red:       #${colors.base08} !important;
-      --uc-identity-colour-pink:      #${colors.base0F} !important;
-      --uc-identity-colour-purple:    #${colors.base0E} !important;
+      --uc-identity-colour-blue:      #${colors.blue}          !important;
+      --uc-identity-colour-turquoise: #${colors.cyan}          !important;
+      --uc-identity-colour-green:     #${colors.green}         !important;
+      --uc-identity-colour-yellow:    #${colors.yellow}        !important;
+      --uc-identity-colour-orange:    #${colors.yellow-bright} !important;
+      --uc-identity-colour-red:       #${colors.red}           !important;
+      --uc-identity-colour-pink:      #${colors.purple}        !important;
+      --uc-identity-colour-purple:    #${colors.purple-bright} !important;
 
       /*  Cascades main Colour Scheme */
-      --uc-base-colour:               #${colors.base00} !important;
-      --uc-highlight-colour:          #${colors.base01} !important;
-      --uc-inverted-colour:           #${colors.base05} !important;
-      --uc-muted-colour:              #${colors.base05} !important;
-      --uc-accent-colour:             var(--uc-identity-colour-yellow) !important;
+      --uc-base-colour:               #${colors.background}     !important;
+      --uc-highlight-colour:          #${colors.background-alt} !important;
+      --uc-inverted-colour:           #${colors.foreground}     !important;
+      --uc-muted-colour:              #${colors.foreground-alt} !important;
+      --uc-accent-colour:             #${colors.accent}         !important;
     }
   '' + builtins.readFile ./cascade-colors.css;
   cascade-custom = ''
@@ -46,15 +46,15 @@ let
   about-pages = ''
     @-moz-document url-prefix("about:") {
       :root {
-        --t-bg:      #${colors.base00} !important;
-        --t-lbg:     #${colors.base01} !important;
-        --t-fg:      #${colors.base05} !important;
-        --t-muted:   #${colors.base04} !important;
-        --t-accent:  #${colors.base0A} !important;
+        --t-bg:      #${colors.background}     !important;
+        --t-lbg:     #${colors.background-alt} !important;
+        --t-fg:      #${colors.foreground}     !important;
+        --t-muted:   #${colors.foreground-alt} !important;
+        --t-accent:  #${colors.accent}         !important;
         --t-daccent: color-mix(in srgb, var(--t-accent) 41%, transparent) !important;
-        --t-danger:  #${colors.base08} !important;
-        --t-warning: #${colors.base0E} !important;
-        --t-error:   #${colors.base0F} !important;
+        --t-danger:  #${colors.red-bright}     !important;
+        --t-warning: #${colors.purple}         !important;
+        --t-error:   #${colors.red}            !important;
         --t-darken:  rgba(249,249,250,0.05)  !important; 
 
         --in-content-page-color:          var(--t-fg) !important;

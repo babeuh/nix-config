@@ -1,6 +1,6 @@
 { inputs, pkgs, config, nixosConfig, ... }:
 let
-  inherit (config.colorscheme) colors;
+  colors = config.colors;
   ocr = pkgs.writeShellScriptBin "ocr" ''
     #!/usr/bin/env bash
     set -e
@@ -54,8 +54,8 @@ in {
 
       general {
         border_size=2
-        col.inactive_border=rgb(${colors.base03})
-        col.active_border=rgb(${colors.base05})
+        col.inactive_border=rgb(${colors.background-least})
+        col.active_border=rgb(${colors.foreground})
 
         gaps_in=${if config.variables.isLaptop then "3" else "6"}
         gaps_out=${if config.variables.isLaptop then "6" else "12"}

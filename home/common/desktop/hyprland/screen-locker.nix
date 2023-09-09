@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let 
-  inherit (config.colorscheme) colors;
+  colors = config.colors;
 in {
   programs.swaylock = {
     enable = true;
@@ -14,20 +14,20 @@ in {
       grace = "1";
       effect-pixelate = "100";
 
-      bs-hl-color = colors.base08;
-      caps-lock-bs-hl-color = colors.base09;
-      caps-lock-key-hl-color = colors.base0E;
+      bs-hl-color = colors.red-bright;
+      caps-lock-bs-hl-color = colors.red;
+      caps-lock-key-hl-color = colors.purple-bright;
       font = "monospace";
       inside-color = "00000088";
-      inside-clear-color = colors.base0A;
+      inside-clear-color = colors.accent;
       inside-caps-lock-color = "00000088";
-      inside-ver-color = colors.base0B;
-      inside-wrong-color = colors.base08;
-      key-hl-color = colors.base0C;
-      text-color = colors.base05;
-      ring-color = colors.base07;
-      ring-ver-color = colors.base0B;
-      ring-wrong-color = colors.base08;
+      inside-ver-color = colors.green;
+      inside-wrong-color = colors.red;
+      key-hl-color = colors.blue-bright;
+      text-color = colors.foreground;
+      ring-color = colors.foreground-most;
+      ring-ver-color = colors.green;
+      ring-wrong-color = colors.red;
     };
   };
   services.swayidle = {

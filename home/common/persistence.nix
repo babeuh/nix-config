@@ -19,6 +19,7 @@ in {
       "Firefox/.mozilla/firefox/"
       "Flatpak/${dataHome}/flatpak"
       "Multiviewer-for-f1/${configHome}/Multiviewer for F1"
+      "Obsidian/${configHome}/obsidian"
       "Spotify/${configHome}/spotify"
       "Spotify/${cacheHome}/spotify"
       "Syncthing/${configHome}/syncthing"

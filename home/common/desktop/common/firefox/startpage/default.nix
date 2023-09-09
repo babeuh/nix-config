@@ -1,14 +1,14 @@
 { profile, config, ... }: 
 let
-  inherit (config.colorscheme) colors;
+  colors = config.colors;
   # Config
   startpagePath = ".mozilla/firefox/${profile}/chrome/startpage";
   startpage-theme = ''
     :root {
-      --bg:        #${colors.base00};
-      --fg:        #${colors.base05};
-      --second-bg: #${colors.base01};
-      --accent:    #${colors.base0A};
+      --bg:        #${colors.background};
+      --fg:        #${colors.foreground};
+      --second-bg: #${colors.background-alt};
+      --accent:    #${colors.accent};
     }
   '';
   startpage-imports = ''

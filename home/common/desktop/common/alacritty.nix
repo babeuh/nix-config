@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  inherit (config.colorscheme) colors;
+  colors = config.colors;
 in
 {
   programs.alacritty = {
@@ -39,32 +39,32 @@ in
       };
       colors = {
         primary = {
-          background = "#${colors.base00}";
-          foreground = "#${colors.base05}";
+          background        = "#${colors.background}";
+          foreground        = "#${colors.foreground}";
         };
         cursor = {
-          text = "#${colors.base00}";
-          cursor = "#${colors.base05}";
+          text   = "#${colors.background-selection}";
+          cursor = "#${colors.foreground}";
         };
         normal = {
-          black = "#${colors.base00}";
-          red = "#${colors.base08}";
-          green = "#${colors.base0B}";
-          yellow = "#${colors.base0A}";
-          blue = "#${colors.base0D}";
-          magenta = "#${colors.base0E}";
-          cyan = "#${colors.base0C}";
-          white = "#${colors.base05}";
+          black   = "#${colors.black}";
+          white   = "#${colors.white}";
+          red     = "#${colors.red}";
+          yellow  = "#${colors.yellow}";
+          green   = "#${colors.green}";
+          cyan    = "#${colors.cyan}";
+          blue    = "#${colors.blue}";
+          magenta = "#${colors.purple}";
         };
         bright = {
-          black = "#${colors.base03}";
-          red = "#${colors.base08}";
-          green = "#${colors.base0B}";
-          yellow = "#${colors.base0A}";
-          blue = "#${colors.base0D}";
-          magenta = "#${colors.base0E}";
-          cyan = "#${colors.base0C}";
-          white = "#${colors.base07}";
+          black   = "#${colors.black-bright}";
+          white   = "#${colors.white-bright}";
+          red     = "#${colors.red-bright}";
+          yellow  = "#${colors.yellow-bright}";
+          green   = "#${colors.green-bright}";
+          cyan    = "#${colors.cyan-bright}";
+          blue    = "#${colors.blue-bright}";
+          magenta = "#${colors.purple-bright}";
         };
       };
     };

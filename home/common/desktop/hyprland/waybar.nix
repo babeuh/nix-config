@@ -1,7 +1,8 @@
 { pkgs, outputs, config, ... }:
 let
-  inherit (config.colorscheme) colors;
+  colors = config.colors;
   waybar-mullvad = pkgs.writeShellScriptBin "waybar-mullvad" ''
+    #!/usr/bin/env bash
     ## [Set VPN commands]. Setup for Mullvad is done below.
     # The first three commands should have direct equivalents for most VPNs.
     # The relay_set command assumes <country_code> <city_code> will follow as arguments. See below.
@@ -18,13 +19,6 @@ let
     CONNECTED="connected"
     CONNECTING="connecting"
 
-    # Icons glyphs should be given by most Nerd Fonts (https://www.nerdfonts.com/cheat-sheet)
-    ICON_CONNECTED=""
-    ICON_CONNECTING=""
-    ICON_DISCONNECTED=""
-    COLOR_CONNECTED="#${colors.base0B}"
-    COLOR_CONNECTING="#${colors.base0A}"
-    COLOR_DISCONNECTED="#${colors.base08}"
 
     ## @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     ## Main Script
@@ -50,15 +44,34 @@ let
       mullvad status listen | while read -r line; do
         VPN_STATUS="$(echo $line | ${pkgs.gnugrep}/bin/grep -Eio 'connected|connecting|disconnect' | ${pkgs.coreutils}/bin/tr '[:upper:]' '[:lower:]')"
         if [ "$VPN_STATUS" = "$CONNECTED"  ]; then
-          report="$(echo $line | ${pkgs.gnused}/bin/sed -n 's/.*in //p')"
-          printf '{"text": "%s", "tooltip": "Connected to %s", "class": "connected"}\n' "$ICON_CONNECTED" "$report"
+          if [ "$1" == "1" ]; then
+            text="$(echo $line | grep -o "..-...-..\?.-[0-9][0-9][0-9]" | head -n 1)"
+            tooltip="Connected to $(echo $line | ${pkgs.gnused}/bin/sed -n 's/.*in //p')"
+          else
+            text=""
+            tooltip=""
+            class="connected"
+          fi
         elif [ "$VPN_STATUS" = "$CONNECTING" ]; then
-          report="$(echo $line | ${pkgs.gnused}/bin/sed -n 's/.*in //p')"
-          printf '{"text": "%s", "tooltip": "Connecting to %s", "class": "connecting"}\n' "$ICON_CONNECTING" "$report"
+          if [ "$1" == "1" ]; then
+            text="$(echo $line | grep -o "..-...-..\?.-[0-9][0-9][0-9]" | head -n 1)"
+            tooltip="Connecting to $(echo $line | ${pkgs.gnused}/bin/sed -n 's/.*in //p')"
+          else
+            text=""
+            tooltip=""
+            class="connecting"
+          fi
         else
-          printf '{"text": "%s", "tooltip": "Disconnected", "class": "disconnected"}\n' "$ICON_DISCONNECTED"
+          if [ "$1" == "1" ]; then
+            text="Disconnected"
+            tooltip="Disconnected"
+          else
+            text=""
+            tooltip=""
+            class="disconnected"
+          fi
         fi
-        sleep 2
+        printf '{"text": "%s", "tooltip": "%s", "class": "%s"}\n' "$text" "$tooltip" "$class"
       done
     }
 
@@ -75,8 +88,8 @@ let
 
     vpn_location_menu() {
     # TODO: size with laptop
-      ENTRY="$(${pkgs.rofi-wayland}/bin/rofi -location 3 -theme-str "window { height: 250px; width: 250px; x-offset: -272px; y-offset: 10px; }" -sep "\n" -dmenu -i -p "Mullvad VPN Entry" -input "$DIRNAME"/locations)"
-      EXIT="$(${pkgs.rofi-wayland}/bin/rofi -location 3 -theme-str "window { height: 250px; width: 250px; x-offset: -272px; y-offset: 10px; }" -sep "\n" -dmenu -i -p "Mullvad VPN Exit" -input "$DIRNAME"/locations)"
+      ENTRY="$(${pkgs.rofi-wayland}/bin/rofi -location 3 -theme-str "window { height: 250px; width: 250px; x-offset: -312px; y-offset: 10px; }" -sep "\n" -dmenu -i -p "Mullvad VPN Entry" -input "$DIRNAME"/locations)"
+      EXIT="$(${pkgs.rofi-wayland}/bin/rofi -location 3 -theme-str "window { height: 250px; width: 250px; x-offset: -312px; y-offset: 10px; }" -sep "\n" -dmenu -i -p "Mullvad VPN Exit" -input "$DIRNAME"/locations)"
 
       if [ "$ENTRY" != "" ]; then
         for i in "''${!VPN_LOCATIONS[@]}"; do
@@ -115,7 +128,7 @@ let
       toggle|--toggle-connection) vpn_toggle_connection ;;
       menu|--location-menu) vpn_location_menu ;;
       ip-clip|--ip-address) ip_address_to_clipboard ;;
-      status) vpn_report ;;
+      status) vpn_report $2 ;;
     esac
   '';
 
@@ -148,7 +161,11 @@ let
             if [ "''${#touch_reasons[@]}" -eq 0 ]; then
                 printf '{"text": ""}\n'
             else
-                printf '{"text": "", "tooltip": "%s"}\n' "''${touch_reasons[@]}"
+                if [ "$1" == "0" ]; then
+                  printf '{"text": ""}\n'
+                else
+                  printf '{"text":"%s"}\n' "''${touch_reasons[@]}"
+                fi
             fi
         done
 
@@ -169,14 +186,13 @@ in
         #spacing = if config.variables.isLaptop then 6 else 12;
         spacing = 0;
 
-        modules-left = [ "wlr/workspaces" "hyprland/window" ];
-        modules-center = [ "clock" ];
-        modules-right = [ "hyprland/submap" "custom/yubikey" "custom/mullvad" ] ++
-                        (if config.variables.isLaptop then [ "battery"] else []) ++
-                        [ "disk" "memory" "cpu" "network" "tray" ];
+        modules-left = [ "wlr/workspaces" ];
+        modules-center = [ "hyprland/window" ];
+        modules-right = [ "hyprland/submap" "custom/yubikey#icon" "custom/yubikey#data" "custom/mullvad#icon" "custom/mullvad#data" ] ++
+                        (if config.variables.isLaptop then [ "battery" ] else []) ++
+                        [ "disk#icon" "disk#data" "memory#icon" "memory#data" "cpu#icon" "cpu#data" "clock#icon" "clock#data" "tray" ];
 
         "wlr/workspaces" = {
-          sort-by-name = false;
           sort-by-number = true;
           format = "{name}";
           on-scroll-up = "hyprctl dispatch workspace e+1";
@@ -189,28 +205,29 @@ in
           seperate-outputs = true;
         };
 
-        "clock" = {
-          interval = 1;
-          format = "{:%H:%M:%S}";
-          format-us = "us";
-          tooltip = true;
-          tooltip-format = "{:%Y-%m-%d}";
-        };
-
-        "custom/yubikey" = {
-          exec = "${waybar-yubikey}/bin/waybar-yubikey";
+        "custom/yubikey#icon" = {
+          exec = "${waybar-yubikey}/bin/waybar-yubikey 0";
           return-type = "json";
         };
 
-        "custom/mullvad" = {
-          exec = "${waybar-mullvad}/bin/waybar-mullvad status";
+        "custom/yubikey#data" = {
+          exec = "${waybar-yubikey}/bin/waybar-yubikey 1";
+          return-type = "json";
+        };
+
+        "custom/mullvad#icon" = {
+          exec = "${waybar-mullvad}/bin/waybar-mullvad status 0";
           on-click = "${waybar-mullvad}/bin/waybar-mullvad toggle &";
           on-click-right = "${waybar-mullvad}/bin/waybar-mullvad menu &";
           on-click-middle = "${waybar-mullvad}/bin/waybar-mullvad ip-clip &";
           return-type = "json";
         };
+        "custom/mullvad#data" = {
+          exec = "${waybar-mullvad}/bin/waybar-mullvad status 1";
+          return-type = "json";
+        };
 
-        "disk" = {
+        "disk#icon" = {
           interval = 30;
           states = {
             okay = 0;
@@ -219,10 +236,17 @@ in
             critical = 90;
           };
           format = "";
+          tooltip-format = "";
+          path = "/";
+        };
+        "disk#data" = {
+          interval = 30;
+          format = "{percentage_used}%";
+          tooltip-format = "{used}/{total}";
           path = "/";
         };
 
-        "memory" = {
+        "memory#icon" = {
           interval = 2;
           states = {
             okay = 0;
@@ -231,9 +255,15 @@ in
             critical = 90;
           };
           format = "";
+          tooltip-format = "";
+        };
+        "memory#data" = {
+          interval = 2;
+          format = "{percentage}%";
+          tooltip-format = "{used}GiB/{total}GiB";
         };
 
-        "cpu" = {
+        "cpu#icon" = {
           inverval = 2;
           states = {
             okay = 0;
@@ -242,21 +272,23 @@ in
             critical = 90;
           };
           format = "";
+          tooltip-format = "";
+        };
+        "cpu#data" = {
+          inverval = 2;
+          format = "{usage}%";
+          tooltip-format = "{avg_frequency}";
         };
 
-        "network" = {
-          format = "";
-          format-ethernet = " ";
-          format-wifi = "";
-          format-disconnected = "";
-          format-disabled = "";
+        "clock#icon" = {
+          format = "";
+          tooltip-format = "";
+        };
+        "clock#data" = {
+          interval = 1;
+          format = "{:%H:%M:%S}";
           tooltip = true;
-          tooltip-format = "{ipaddr} on {ifname} via {gwaddr}";
-          tooltip-format-ethernet = "{ipaddr} on {ifname} via {gwaddr}";
-          tooltip-format-wifi = "{ipaddr} on {ifname} via {gwaddr} on {essid} ({signalStrength}%)";
-          tooltip-format-disconnected = "Disconnected";
-          tooltip-format-disabled = "Disabled";
-          max-length = 50;
+          tooltip-format = "{:%A the %Y-%m-%d}";
         };
 
         "tray" = {
@@ -271,88 +303,89 @@ in
         border: none;
         border-radius: 0;
         font-family: monospace;
-        font-size: ${if config.variables.isLaptop then "16" else "20"}px;
+        font-size: ${if config.variables.isLaptop then "14" else "18"}px;
         min-height: 0;
-        color: #${colors.base05};
+        color: #${colors.foreground};
         text-shadow: rgba(0,0,0,0);
       }
 
       window#waybar {
-        background: #${colors.base00};
-        color: #${colors.base05};
+        background: #${colors.background};
+        color: #${colors.foreground-alt};
       }
 
       tooltip {
-        background: #${colors.base01}
+        background: #${colors.background-selection}
       }
-
       tooltip label {
-        color: #${colors.base04};
+        color: #${colors.foreground-alt};
       }
-
-      #workspaces,
-      #window,
-      #clock,
-      #submap,
-      #custom-yubikey,
-      #custom-mullvad,
-      #battery,
-      #disk,
-      #memory,
-      #cpu {
-        padding: 0 0;
-        margin: 0 2px;
+      #workspaces {
+        margin-left: 10px;
       }
-      #network {
-        padding: 0 0;
-        margin: 0 10px 0 2px;
-      }
-      #tray {
-        margin-right: 10px;
-      }
-
-
-      #custom-yubikey,
-      #custom-mullvad,
-      #disk,
-      #memory,
-      #cpu,
-      #network {
-        color: #${colors.base00};
-        font-size: 30px;
+      #workspaces button {
+        background: #${colors.foreground};
+        padding: 2px 8px 0 8px;
+        margin: 4px 0;
         min-width: 32px;
       }
+      #workspaces button:hover {
+        background: #${colors.foreground-alt};
+        text-shadow: none;
+        box-shadow: none;
+      }
+      #workspaces button label {
+        color: #${colors.background};
+      }
+      #workspaces button.active {
+        background: #${colors.orange-brown};
+      }
+
+      .data {
+        color: #${colors.background};
+        background: #${colors.foreground};
+        padding: 2px 8px 0 8px;
+        margin: 4px 2px 4px 0;
+        min-width: 32px;
+      }
+      #custom-mullvad.data {
+        min-width: 112px
+      }
+      #clock.data {
+        margin-right: 10px;
+      }
+      .icon {
+        color: #${colors.background};
+        margin: 4px 0 4px 2px;
+        font-size: 20px;
+        min-width: 32px;
+      }
+      #tray {
+        margin: 0 10px;
+      }
+
 
       .connected,
-      .okay,
-      .linked,
-      .ethernet {
-        background-color: #${colors.base0B};
+      .okay {
+        background: #${colors.green};
       }
       .high,
       .connecting {
-        background-color: #${colors.base0A};
+        background: #${colors.yellow-bright};
       }
       .warning {
-        background-color: #${colors.base09};
+        background: #${colors.yellow};
       }
       .critical,
       .disconnected {
-        background-color: #${colors.base08};
+        background: #${colors.red};
       }
 
-      #custom-yubikey {
-        background-color: #${colors.base0A};
+      #clock.icon {
+        background: #${colors.blue};
       }
-
-      #network.disabled {
-        background-color: #${colors.base0A};
-      }
-      #network.disconnected {
-        background-color: #${colors.base08};
-      }
-      #network.wifi {
-        background-color: #${colors.base0C};
+      #custom-yubikey.icon {
+        background: #${colors.yellow-bright};
       }
     ''; # TODO: custom modules sizing for laptop
   };

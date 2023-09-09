@@ -1,6 +1,6 @@
 { config, pkgs, ... }: 
 let
-  inherit (config.colorscheme) colors;
+  colors = config.colors;
 in {
   programs.rofi = {
     enable = true;
@@ -14,16 +14,16 @@ in {
   xdg.configFile."rofi/base16-theme.rasi".text = ''
       * {
         /* Theme colors */
-        theme-foreground:              #${colors.base05};
-        theme-foreground-alt:          #${colors.base06};
-        theme-background:              #${colors.base00};
-        theme-background-alt:          #${colors.base01};
-        theme-background-sel:          #${colors.base02};
-        theme-background-urg:          #${colors.base08};
-        theme-background-urg-sel:      #${colors.base08};
-        theme-background-act:          #${colors.base03};
-        theme-background-act-sel:      #${colors.base07};
-        theme-border:                  #${colors.base0A};
+        theme-foreground:              #${colors.foreground};
+        theme-foreground-alt:          #${colors.foreground-alt};
+        theme-background:              #${colors.background};
+        theme-background-alt:          #${colors.background};
+        theme-background-sel:          #${colors.background-selection};
+        theme-background-urg:          #${colors.red};
+        theme-background-urg-sel:      #${colors.red};
+        theme-background-act:          #${colors.foreground};
+        theme-background-act-sel:      #${colors.white};
+        theme-border:                  #${colors.accent};
       }
     '' + builtins.readFile ./theme.rasi;
 }

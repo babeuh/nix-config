@@ -1,8 +1,4 @@
-{ outputs, inputs, lib, config, pkgs, ... }:
-let
-  inherit (inputs.nix-colors) colorSchemes;
-in
-{
+{ outputs, inputs, lib, config, pkgs, ... }: {
   imports = [
     ./cli
     ./desktop/common
@@ -10,6 +6,8 @@ in
     ./variables.nix
     ./fonts.nix
     ./persistence.nix
+    ./themes/gruvbox-dark-hard.nix # Default theme
+    ./themes
   ];
   programs.home-manager.enable = true;
 
@@ -26,10 +24,7 @@ in
   # Set host-specific configuration
   variables.isLaptop = lib.mkDefault false;
 
-  # Default Theme
-  colorscheme = lib.mkDefault colorSchemes.gruvbox-dark-hard;
-  wallpaper = lib.mkDefault ../backgrounds/vettel-years-pixel-gruvboxish.png;
-  home.file.".colorscheme".text = config.colorscheme.slug;
+  home.file.".colorscheme".text = config.colorScheme.slug;
 
   # EQ
   services.easyeffects = {

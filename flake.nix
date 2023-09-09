@@ -83,7 +83,7 @@
               home-manager.sharedModules = [
                 inputs.arkenfox.hmModules.default
                 inputs.nixvim.homeManagerModules.nixvim
-                inputs.nix-colors.homeManagerModule
+                inputs.nix-colors.homeManagerModules.default
                 inputs.nur.hmModules.nur
                 inputs.impermanence.nixosModules.home-manager.impermanence
                 ./home/common

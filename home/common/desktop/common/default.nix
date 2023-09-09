@@ -10,7 +10,6 @@
     ./spotify.nix
     ./keepassxc.nix
     ./dunst.nix
-    ./helix.nix
     ./obsidian.nix
   ];
 

@@ -19,7 +19,6 @@
     fd # Better find
 
     nixfmt # Nix formatter
-    rustup # Rust
 
     yubikey-manager # Yubikey
   ];
