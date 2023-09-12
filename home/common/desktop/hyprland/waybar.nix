@@ -186,14 +186,14 @@ in
         #spacing = if config.variables.isLaptop then 6 else 12;
         spacing = 0;
 
-        modules-left = [ "wlr/workspaces" ];
+        modules-left = [ "hyprland/workspaces" ];
         modules-center = [ "hyprland/window" ];
         modules-right = [ "hyprland/submap" "custom/yubikey#icon" "custom/yubikey#data" "custom/mullvad#icon" "custom/mullvad#data" ] ++
                         (if config.variables.isLaptop then [ "battery" ] else []) ++
                         [ "disk#icon" "disk#data" "memory#icon" "memory#data" "cpu#icon" "cpu#data" "clock#icon" "clock#data" "tray" ];
 
-        "wlr/workspaces" = {
-          sort-by-number = true;
+        "hyprland/workspaces" = {
+          sort-by = "number";
           format = "{name}";
           on-scroll-up = "hyprctl dispatch workspace e+1";
           on-scroll-down = "hyprctl dispatch workspace e-1";
