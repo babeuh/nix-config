@@ -14,7 +14,7 @@
     btop # System viewer
     ncdu # TUI disk usage
 
-    exa # Better ls
+    eza # Better ls
     ripgrep # Better grep
     fd # Better find
 
