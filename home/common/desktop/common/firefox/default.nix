@@ -38,7 +38,7 @@ let
       };
       arkenfox = [ arkenfoxConfig.main ];
       theme = true;
-      extensions = with addons; [ ublock-origin darkreader ];
+      extensions = with addons; [ ublock-origin darkreader multi-account-containers ];
     };
     "Insecure" = { };
   };
