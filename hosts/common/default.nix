@@ -15,6 +15,7 @@
     ./updates.nix
     ./variables.nix
     ./users
+    ./phone.nix
 
     # NTHs
     ./locale.nix
