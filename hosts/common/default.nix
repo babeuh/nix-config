@@ -51,5 +51,7 @@
   services.xserver.excludePackages = with pkgs; [
     xterm
   ];
+
+  services.gnome.gnome-keyring.enable = true;
 }
 
