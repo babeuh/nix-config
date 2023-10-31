@@ -9,6 +9,7 @@
     ./vim.nix
     ./github.nix
     ./mail.nix
+    ./browser.nix
   ];
   home.packages = with pkgs; [
     bc # Calculator
