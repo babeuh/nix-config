@@ -22,33 +22,44 @@
       autoindent = true;
       smarttab = true;
     };
-    
-    maps = {
-     normal."<leader>t" = {
-        silent = true;
-        action = ":Neotree toggle<cr>";
-      };
-      normal."<leader>g" = {
-        silent = true;
-        action = ":Neotree toggle float git_status<cr>";
-      };
-      normal."<leader>n" = {
-        silent = true;
+    keymaps = [
+      {
+        mode = "n";
+        key = "<leader>t";
+        options.silent = true;
+        action = ":Neotree toggle<CR>";
+      }
+      {
+        mode = "n";
+        key = "<leader>g";
+        options.silent = true;
+        action = ":Neotree toggle float git_status<CR>";
+      }
+      {
+        mode = "n";
+        key = "<leader>n";
+        options.silent = true;
         action = ":wincmd h<CR>";
-      };
-      normal."<leader>e" = {
-        silent = true;
+      }
+      {
+        mode = "n";
+        key = "<leader>e";
+        options.silent = true;
         action = ":wincmd j<CR>";
-      };
-      normal."<leader>i" = {
-        silent = true;
+      }
+      {
+        mode = "n";
+        key = "<leader>i";
+        options.silent = true;
         action = ":wincmd k<CR>";
-      };
-      normal."<leader>o" = {
-        silent = true;
+      }
+      {
+        mode = "n";
+        key = "<leader>o";
+        options.silent = true;
         action = ":wincmd l<CR>";
-      };
-    };
+      }
+    ];
 
     globals = {
       mapleader = " ";
