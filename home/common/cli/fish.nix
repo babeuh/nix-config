@@ -19,10 +19,9 @@
       snrs = "sudo nixos-rebuild --flake . switch";
     };
     shellAliases = {
-      # Get ip
-      getip = "curl ifconfig.me";
       # Clear screen and scrollback
       clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
+      mail = "TERM=xterm-direct neomutt";
     };
     functions = { fish_greeting = ""; };
     interactiveShellInit =
