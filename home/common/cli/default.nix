@@ -23,6 +23,7 @@
     nixfmt # Nix formatter
 
     yubikey-manager # Yubikey
+    texlive.combined.scheme-full 
   ];
 
   programs.direnv.enable = true;
