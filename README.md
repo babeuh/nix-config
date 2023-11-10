@@ -1,5 +1,10 @@
 # NixOS Config
 
+## Screenshots
+![Screenshot of desktop with the Firefox startpage showing](/screenshots/screenshot-startpage.png?raw=true)
+![Screenshot of desktop with multiple terminals open](/screenshots/screenshot-terminals.png?raw=true)
+![Screenshot of desktop without anything open](/screenshots/screenshot-background.png?raw=true)
+
 ## Warning!
 - This is a personal config, I do not promise that this works for you.
 - This documentation is currently not great as some things are broken in the Yubikey Configuration part, I am working on improving this
