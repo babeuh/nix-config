@@ -11,7 +11,6 @@
       leapsectz right/UTC
       makestep 0.1 3
 
-      rtcsync
       cmdport 0
     '';
   };

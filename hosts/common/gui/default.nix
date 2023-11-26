@@ -7,6 +7,7 @@
   ];
 
   xdg.portal.enable = true;
+  xdg.portal.config.common.default = "*";
 
   # Hyprland
   programs.hyprland = {

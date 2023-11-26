@@ -9,7 +9,7 @@ let
     VPN_CONNECT="${pkgs.mullvad-vpn}/bin/mullvad connect"
     VPN_DISCONNECT="${pkgs.mullvad-vpn}/bin/mullvad disconnect"
     VPN_GET_STATUS="${pkgs.mullvad-vpn}/bin/mullvad status"
-    VPN_ENTRY_SET_LOCATION="${pkgs.mullvad-vpn}/bin/mullvad relay set tunnel wireguard --entry-location"
+    VPN_ENTRY_SET_LOCATION="${pkgs.mullvad-vpn}/bin/mullvad relay set tunnel wireguard entry-location"
     VPN_RELAY_SET_LOCATION="${pkgs.mullvad-vpn}/bin/mullvad relay set location"
 
     ## [Set VPN status parsing]
