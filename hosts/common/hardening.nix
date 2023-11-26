@@ -29,7 +29,7 @@
 
   security.virtualisation.flushL1DataCache = "always";
 
-  security.apparmor.enable = true;
+  security.apparmor.enable = false; # FIXME
   security.apparmor.killUnconfinedConfinables = true;
 
   boot.blacklistedKernelModules = [
