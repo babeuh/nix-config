@@ -14,7 +14,6 @@ in {
       "Data/Mail"
       "Data/Music"
       "Data/Obsidian Vault"
-      "Data/Projects"
       "Data/Pictures"
       "Data/Videos"
       "Firefox/.mozilla/firefox/"

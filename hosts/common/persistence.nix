@@ -25,10 +25,10 @@
       # Do weird shit
       mount -t btrfs /dev/lvm/NIXOS-ROOT /mnt
 
-      echo "deleting /home subvolume..."
+      #echo "deleting /home subvolume..."
       btrfs subvolume delete /mnt/home
 
-      echo "restoring blank /home subvolume..."
+      #echo "restoring blank /home subvolume..."
       btrfs subvolume snapshot /mnt/home-blank /mnt/home
       umount /mnt
 
@@ -72,7 +72,12 @@
 
   programs.fuse.userAllowOther = true;
 
-  environment.persistence."/persist".users.${username}.removePrefixDirectory = true;
+  environment.persistence."/persist".users.${username} = {
+    removePrefixDirectory = true;
+    directories = [
+      "Data/Projects"
+    ];
+  };
 
   environment.persistence."/persist" = {
     directories = [
