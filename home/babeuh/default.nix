@@ -18,9 +18,5 @@
 
   variables.isLaptop = if (hostname == "atlas") then false else true;
 
-  services.easyeffects = {
-    preset = if (hostname == "atlas") then "HD560S" else "Default";
-  };
-
   xdg.configFile."easyeffects/output/HD560S.json".source = lib.mkIf (hostname == "atlas") ./audio/equalizer/HD560S.json;
 }

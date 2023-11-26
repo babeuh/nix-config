@@ -37,7 +37,7 @@ disable_microphone_sink = {
   },
 }
 
-disable_headphones_source = {
+disable_system_input_source = {
   matches = {
     {
       { "node.name", "equals", "alsa_input.pci-0000_0b_00.3.analog-stereo" },
@@ -48,18 +48,18 @@ disable_headphones_source = {
   },
 }
 
-rename_headphones = {
+rename_system_output = {
   matches = {
     {
       { "node.name", "equals", "alsa_output.pci-0000_0b_00.3.analog-stereo" },
     },
   },
   apply_properties = {
-    ["node.description"] = "Headphones",
+    ["node.description"] = "System Output",
   },
 }
 
 table.insert(alsa_monitor.rules,disable_nvidia)
 table.insert(alsa_monitor.rules,disable_webcam_source)
-table.insert(alsa_monitor.rules,disable_microphone_sink)
-table.insert(alsa_monitor.rules,rename_headphones)
+table.insert(alsa_monitor.rules,disable_system_input_source)
+table.insert(alsa_monitor.rules,rename_system_output)
