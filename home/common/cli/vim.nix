@@ -81,20 +81,47 @@
 
           # languages
           "nix"
+          "markdown"
+          "markdown_inline"
+          "javascript"
+          "typescript"
+          "tsx"
+          "css"
+          "json5"
+          "bash"
+          "latex"
 
           # git
           "diff"
           "git_rebase"
           "gitcommit"
+          "gitignore"
         ];
         indent = true;
         incrementalSelection.enable = true;
       };
+      vimtex.enable = true;
 
       # Utility
       nvim-autopairs = {
         enable = true;
         checkTs = true;
+      };
+      ts-autotag.enable = true;
+      nvim-colorizer = {
+        enable = true;
+        fileTypes = [
+          "css"
+        ];
+        userDefaultOptions = {
+          sass.enable = true;
+          tailwind = "both";
+        };
+      };
+      which-key.enable = true;
+      comment-nvim = {
+        enable = true;
+        padding = true;
       };
 
       # UI
@@ -107,76 +134,54 @@
         enable = true;
         closeIfLastWindow = true;
       };
+      dashboard = {
+        enable = true;
+        hideStatusline = true;
+        hideTabline = true;
+      };
+
 
       # Autocomplete
-      luasnip.enable = true;
-      cmp-nvim-lsp.enable = true;
-      cmp_luasnip.enable = true;
-      cmp-git.enable = true;
-      cmp-buffer.enable = true;
-      cmp-path.enable = true;
-      cmp-cmdline.enable = true;
-      cmp-treesitter.enable = true;
-      nvim-cmp = {
+      coq-nvim = {
         enable = true;
-        snippet.expand = "luasnip";
-        preselect = "None";
-        completion.autocomplete = false; 
-        mapping = {
-          "<CR>" = "cmp.mapping.confirm({ select = false })";
-          "<Tab>" = {
-            modes = [ "i" "s" ];
-            action = ''
-              function(fallback)
-                if cmp.visible() then
-                  cmp.select_next_item()
-                elseif has_words_before() then
-                  cmp.complete()
-                elseif luasnip.expandable() then
-                  luasnip.expand()
-                elseif luasnip.expand_or_jumpable() then
-                  luasnip.expand_or_jump()
-                else
-                  fallback()
-                end
-              end
-            '';
-          };
-          "<Esc>" = {
-            action = ''{i = cmp.mapping.abort(),
-              c = function()
-                if cmp.visible() then
-                  cmp.close()
-                else
-                  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-c>', true, true, true), 'n', true)
-                end
-              end
-            }'';
-          };
-        };
+        autoStart = true;
+        installArtifacts = true;
+        recommendedKeymaps = true;
+      };
+      coq-thirdparty = {
+        enable = true;
         sources = [
-          { name = "luasnip"; }
-          { name = "nvim_lsp"; }
-          { name = "git"; }
-          { name = "buffer"; }
-          { name = "path"; }
-          { name = "cmdline"; }
-          { name = "treesitter"; }
+          { shortName = "vTex"; src = "vimtex"; }
         ];
       };
+      # LSP
       lsp = {
         enable = true;
+        keymaps = {
+          lspBuf = {
+            K = "hover";
+            gD = "references";
+            gd = "definition";
+            gi = "implementation";
+            gt = "type_definition";
+          };
+          silent = true;
+        };
 
         servers = {
           nixd.enable = true;
+          tailwindcss.enable = true;
+          rust-analyzer = {
+            enable = true;
+            installCargo = false;
+            installRustc = false;
+          };
+          tsserver.enable = true;
+          eslint.enable = true;
         };
       };
+      lsp-lines.enable = true;
+      lspsaga.enable = true;
     };
-    extraConfigLuaPre = ''
-      local luasnip = require('luasnip')
-      local has_words_before = function()
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-      end'';
   };
 }
