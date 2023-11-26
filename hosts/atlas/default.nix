@@ -36,4 +36,9 @@
 
   # Sound config
   environment.etc."wireplumber/main.lua.d/51-host-config.lua".source = ./51-host-config.lua;
+  variables.sound = {
+    quantum = 256;
+    rate = 92000;
+    allowed-rates = [ 44100 48000 88200 96000 ];
+  };
 }

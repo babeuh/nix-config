@@ -24,10 +24,25 @@ in
         default = 48000;
         description = "Pipewire clock rate";
       };
+      allowed-rates = mkOption {
+        type = types.listOf types.int;
+        default = [ 48000 ];
+        description = "Pipewire clock allowed rates";
+      };
       quantum = mkOption {
         type = types.int;
-        default = 32;
+        default = 64;
         description = "Pipewire clock quantum";
+      };
+      min-quantum = mkOption {
+        type = types.int;
+        default = 32;
+        description = "Pipewire min clock quantum";
+      };
+      max-quantum = mkOption {
+        type = types.int;
+        default = 8192;
+        description = "Pipewire max clock quantum";
       };
     };
   };

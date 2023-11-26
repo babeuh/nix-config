@@ -47,8 +47,7 @@ disable_system_input_source = {
     ["node.disabled"] = true,
   },
 }
-
-rename_system_output = {
+system_output = {
   matches = {
     {
       { "node.name", "equals", "alsa_output.pci-0000_0b_00.3.analog-stereo" },
@@ -62,4 +61,4 @@ rename_system_output = {
 table.insert(alsa_monitor.rules,disable_nvidia)
 table.insert(alsa_monitor.rules,disable_webcam_source)
 table.insert(alsa_monitor.rules,disable_system_input_source)
-table.insert(alsa_monitor.rules,rename_system_output)
+table.insert(alsa_monitor.rules,system_output)

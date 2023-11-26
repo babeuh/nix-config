@@ -1,12 +1,15 @@
-{ config, pkgs, username, ... }:
+{ config, pkgs, username, lib, ... }:
 let
   quantum-rate = "${toString config.variables.sound.quantum}/${toString config.variables.sound.rate}";
+  min-quantum-rate = "${toString config.variables.sound.min-quantum}/${toString config.variables.sound.rate}";
+  max-quantum-rate = "${toString config.variables.sound.max-quantum}/${toString config.variables.sound.rate}";
   json = pkgs.formats.json {};
 in
 {
   users.users.${username}.extraGroups = [ "audio" ];
 
   sound.enable = true;
+  security.rtkit.enable = true;
   hardware.pulseaudio.support32Bit = true;
 
   services.pipewire = {
@@ -19,13 +22,20 @@ in
   };
 
   # Low Latency audio
-  environment.etc = {
-    "pipewire/pipewire.d/99-lowlatency.conf".source = json.generate "99-lowlatency.conf" {
-      context.properties.default.clock.min-quantum = config.variables.sound.quantum;
-    };
-
+  home-manager.users.${username}.xdg.configFile = {
     # pulse clients config
-    "pipewire/pipewire-pulse.d/99-lowlatency.conf".source = json.generate "99-lowlatency.conf" {
+    "pipewire/pipewire.conf.d/10-pipewire.conf".text = ''
+     context.properties = {
+        default.clock.quantum = ${toString config.variables.sound.quantum}
+        default.clock.min-quantum = ${toString config.variables.sound.min-quantum}
+        default.clock.max-quantum = ${toString config.variables.sound.max-quantum}
+        default.clock.quantum-limit = ${toString config.variables.sound.max-quantum}
+        default.clock.rate = ${toString config.variables.sound.rate}
+        default.clock.allowed-rates = [ ${toString config.variables.sound.allowed-rates} ]
+    }'';
+  };
+  environment.etc = {
+    "pipewire/pipewire-pulse.conf.d/10-lowlatency.conf".source = json.generate "10-lowlatency.conf" {
       context.modules = [
         {
           name = "libpipewire-module-rtkit";
@@ -40,9 +50,11 @@ in
         {
           name = "libpipewire-module-protocol-pulse";
           args = {
-            pulse.min.req = quantum-rate;
-            pulse.min.quantum = quantum-rate;
-            pulse.min.frag = quantum-rate;
+            pulse.min.req = min-quantum-rate;
+            pulse.default.req = quantum-rate;
+            pulse.max.req = max-quantum-rate;
+            pulse.min.quantum = min-quantum-rate;
+            pulse.max.quantum = max-quantum-rate;
             server.address = ["unix:native"];
           };
         }
@@ -50,7 +62,6 @@ in
 
       stream.properties = {
         node.latency = quantum-rate;
-        resample.quality = 1;
       };
     };
 
@@ -59,7 +70,6 @@ in
         matches = {{{ "node.name", "matches", "alsa_output.*" }}};
         apply_properties = {
           ["audio.format"] = "S32LE",
-          ["audio.rate"] = ${toString (config.variables.sound.rate * 2)},
           ["api.alsa.period-size"] = 2,
         },
       }

@@ -27,24 +27,6 @@
   home.file.".colorscheme".text = config.colorScheme.slug;
 
   # EQ
-  services.easyeffects = {
-    enable = lib.mkDefault true;
-    preset = lib.mkDefault "Default";
-  };
-
-  systemd.user.services.easyeffects-preset = lib.mkIf config.services.easyeffects.enable {
-    Unit = {
-      Description = "Easyeffects preset setter";
-      Requires = [ "dbus.service"  "easyeffects.service" ];
-      After = [ "graphical-session-pre.target" "easyeffects.service" ];
-      PartOf = [ "graphical-session.target" "pipewire.service" ];
-    };
-
-    Install.WantedBy = [ "graphical-session.target" ];
-
-    Service.ExecStart = "${config.services.easyeffects.package}/bin/easyeffects --load-preset ${config.services.easyeffects.preset}";
-  };
-
   # Bluetooth control forwarder
   services.mpris-proxy.enable = true;
 }
