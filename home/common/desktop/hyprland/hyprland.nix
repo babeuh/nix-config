@@ -23,8 +23,6 @@ in {
     xwayland = {
       enable = true;
     };
-    enableNvidiaPatches = nixosConfig.programs.hyprland.enableNvidiaPatches;
-    recommendedEnvironment = true;
 
     extraConfig = ''
       ${if config.variables.isLaptop then "" else "monitor=DP-1, 2560x1440@144, 0x0, 1"}

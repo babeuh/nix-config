@@ -10,6 +10,8 @@
     ./github.nix
     ./mail.nix
     ./browser.nix
+    ./cd.nix
+    ./music.nix
   ];
   home.packages = with pkgs; [
     bc # Calculator

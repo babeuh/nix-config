@@ -27,6 +27,4 @@
   services.xserver = {
     videoDrivers = [ "nvidia" ];
   };
-  
-  programs.hyprland.enableNvidiaPatches = true;
 }

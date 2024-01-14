@@ -20,6 +20,11 @@ in {
   age.yubikey.enable = true;
 
   services.pcscd.enable = lib.mkForce true;
+  systemd.services.pcscd.serviceConfig.ExecStart = lib.mkForce [
+    ""
+    "${pcscdPkg}/bin/pcscd -f -c ${pcscdCfg}"
+  ];
+
   # HACK: Start pcscd before decrypting secrets
   boot.initrd.systemd = {
     packages = [ (lib.getBin pcscdPkg)];

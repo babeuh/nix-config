@@ -190,7 +190,7 @@ in
         modules-center = [ "hyprland/window" ];
         modules-right = [ "hyprland/submap" "custom/yubikey#icon" "custom/yubikey#data" "custom/mullvad#icon" "custom/mullvad#data" ] ++
                         (if config.variables.isLaptop then [ "battery" ] else []) ++
-                        [ "disk#icon" "disk#data" "memory#icon" "memory#data" "cpu#icon" "cpu#data" "clock#icon" "clock#data" "tray" ];
+                        [ "disk#icon" "disk#data" "memory#icon" "memory#data" "cpu#icon" "cpu#data" "mpd#icon" "mpd#data" "clock#icon" "clock#data" "tray" ];
 
         "hyprland/workspaces" = {
           sort-by = "number";
@@ -278,6 +278,25 @@ in
           inverval = 2;
           format = "{usage}%";
           tooltip-format = "{avg_frequency}";
+        };
+
+        "mpd#icon" = {
+          format = "";
+          format-stopped = "";
+          on-click = "${pkgs.mpc-cli}/bin/mpc toggle";
+          on-click-right = "${pkgs.mpc-cli}/bin/mpc shuffle";
+          on-click-middle = "${pkgs.mpc-cli}/bin/mpc clear";
+          on-scroll-up = "${pkgs.mpc-cli}/bin/mpc prev";
+          on-scroll-down = "${pkgs.mpc-cli}/bin/mpc next";
+          tooltip = false;
+        };
+        "mpd#data" = {
+          interval = 1;
+          format = "{artist} - {album} - {title}";
+          format-paused = "{artist} - {album} - {title} (paused)";
+          tooltip-format = "{elapsedTime:%M:%S}/{totalTime:%M:%S} - {songPosition}/{queueLength}";
+          tooltip-format-disconnected = "disconnected";
+          max-length = 50;
         };
 
         "clock#icon" = {
@@ -378,6 +397,9 @@ in
         background: #${colors.red};
       }
 
+      #mpd.icon {
+        background: #${colors.purple};
+      }
       #clock.icon {
         background: #${colors.blue};
       }
