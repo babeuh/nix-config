@@ -44,6 +44,11 @@ in
         default = 8192;
         description = "Pipewire max clock quantum";
       };
+      wireplumberExtraConfig = mkOption {
+        type = types.path;
+        default = null;
+        description = "Host config file";
+      };
     };
   };
 }

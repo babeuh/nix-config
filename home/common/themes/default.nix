@@ -1,7 +1,7 @@
 { config, lib, ... }:
 with lib;
 let
-  base-colors = config.colorScheme.colors;
+  base-colors = config.colorScheme.palette;
     hexColorType = mkOptionType {
     name = "hex-color";
     descriptionClass = "noun";

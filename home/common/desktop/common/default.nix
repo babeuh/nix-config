@@ -20,6 +20,11 @@
     yubikey-touch-detector
     multiviewer-for-f1
     qbittorrent
+    android-studio
+    zettlr
+    zotero
+    beeper
+    appflowy
   ];
   xdg.mimeApps.enable = true;
 

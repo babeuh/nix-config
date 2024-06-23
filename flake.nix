@@ -42,7 +42,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
@@ -51,6 +51,11 @@
 
     disko = {
       url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-ld = {
+      url = "github:Mic92/nix-ld";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -68,6 +73,7 @@
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.impermanence.nixosModules.impermanence
             inputs.agenix.nixosModules.default
+            inputs.nix-ld.nixosModules.nix-ld
             ./hosts/common
             ./hosts/${hostname}
 

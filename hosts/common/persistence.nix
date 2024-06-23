@@ -76,6 +76,8 @@
     removePrefixDirectory = true;
     directories = [
       "Data/Projects"
+      "Android/Android"
+      "PrismLauncher/.local/share/PrismLauncher"
     ];
   };
 
@@ -91,6 +93,7 @@
       "/var/lib/systemd/coredump"
       "/var/lib/flatpak"
       "/etc/mullvad-vpn"
+      "/etc/ssh/"
     ];
     files = [
       "/var/lib/power-profiles-daemon/state.ini"

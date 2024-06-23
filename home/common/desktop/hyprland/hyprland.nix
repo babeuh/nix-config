@@ -1,4 +1,4 @@
-{ inputs, pkgs, config, nixosConfig, ... }:
+{ pkgs, config, ... }:
 let
   colors = config.colors;
   ocr = pkgs.writeShellScriptBin "ocr" ''
@@ -12,10 +12,6 @@ let
     rm -f /tmp/ocr-output.txt /tmp/ocr.png
   '';
 in {
-  imports = [
-    inputs.hyprland.homeManagerModules.default
-  ];
-
   home.packages = with pkgs; [ libnotify ];
 
   wayland.windowManager.hyprland = {
@@ -155,7 +151,7 @@ in {
       exec-once=hyprpaper
 
       exec-once=webcord
-      exec-once=spotifywm
+      exec-once=spotify
       exec-once=firefox
       exec-once=keepassxc
     '';

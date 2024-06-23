@@ -1,8 +1,5 @@
-{ inputs, pkgs, ... }: {
-
+{ inputs, pkgs, ...}: {
   imports = [
-    inputs.hyprland.nixosModules.default
-
     ./nix.nix
   ];
 
@@ -12,14 +9,20 @@
   # Hyprland
   programs.hyprland = {
     enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     xwayland = {
       enable = true;
     };
   };
 
+  services.displayManager.sddm.enable = true;
+  #services.displayManager.gnome.enable = true;
+  hardware.pulseaudio.enable = false;
+
   services.xserver = {
     enable = true;
-    displayManager.gdm.enable = true;
+    #displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
 
     # Key autorepeat
     autoRepeatDelay = 500;

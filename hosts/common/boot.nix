@@ -6,6 +6,7 @@
     initrd.luks.devices.root.preLVM = true;
     # Fixes Hogwarts Legacy on steam (or used to)
     kernel.sysctl."vm.max_map_count" = 1000000;
+    kernel.sysctl."fs.file-max" = 65535;
     # lanzboote uses systemd-boot consoleMode
     loader.systemd-boot.consoleMode = "max";
 

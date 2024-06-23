@@ -4,7 +4,7 @@
   colorScheme = {
     slug = "gruvbox-dark-hard";
     name = "Gruvbox24 Dark Hard";
-    colors = {
+    palette = {
       base00 = "#1d2021"; # ----
       base01 = "#3c3836"; # ---
       base02 = "#504945"; # --

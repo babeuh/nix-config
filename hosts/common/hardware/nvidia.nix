@@ -1,9 +1,8 @@
 { config, pkgs, lib, ... }: {
   hardware = {
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
 
       extraPackages = with pkgs; [
         vaapiVdpau
@@ -13,7 +12,7 @@
       ];
     };
     nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
 
       # This sets nvidia-drm.modeset=1
       modesetting.enable = true;

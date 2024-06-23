@@ -22,7 +22,7 @@
     ripgrep # Better grep
     fd # Better find
 
-    nixfmt # Nix formatter
+    nixfmt-rfc-style # Nix formatter
 
     yubikey-manager # Yubikey
     texlive.combined.scheme-full 

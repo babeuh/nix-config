@@ -52,5 +52,7 @@
   ];
 
   services.gnome.gnome-keyring.enable = true;
+
+  programs.nix-ld.enable = true;
 }
 

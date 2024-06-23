@@ -1,4 +1,4 @@
-{ pkgs, lib, config, username, ... }: {
+{ lib, username, ... }: {
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "steam"
     "steam-original"
@@ -18,4 +18,18 @@
     "Steam/.local/share/Steam"
     "Steam/.local/share/vulkan"
   ];
+
+  services.sunshine = {
+    enable = true;
+    capSysAdmin = true;
+    openFirewall = true;
+
+    settings = {
+      sunshine_name = "atlas";
+
+      resolutions = "[1280x720, 1920x1080, 2560x1440,]";
+
+      upnp = "off";
+    };
+  };
 }

@@ -8,11 +8,10 @@
     enable = true;
     colorschemes.base16 = {
       enable = true;
-      useTruecolor = true;
       colorscheme = config.colorscheme.slug;
     };
 
-    options = {
+    opts = {
       number = true;
 
       expandtab = true;
@@ -105,7 +104,7 @@
       # Utility
       nvim-autopairs = {
         enable = true;
-        checkTs = true;
+        settings.check_ts = true;
       };
       ts-autotag.enable = true;
       nvim-colorizer = {
@@ -119,16 +118,20 @@
         };
       };
       which-key.enable = true;
-      comment-nvim = {
+      comment = {
         enable = true;
-        padding = true;
+        settings = {
+          padding = true;
+        };
       };
 
       # UI
       gitsigns = {
         enable = true;
-        showDeleted = true;
-        currentLineBlame = true;
+        settings = {
+          show_deleted = true;
+          current_line_blame = true;
+        };
       };
       neo-tree = {
         enable = true;
@@ -136,17 +139,20 @@
       };
       dashboard = {
         enable = true;
-        hideStatusline = true;
-        hideTabline = true;
+        settings.hide = {
+          statusline = true;
+          tabline = true;
+        };
       };
 
 
       # Autocomplete
       coq-nvim = {
         enable = true;
-        autoStart = true;
         installArtifacts = true;
-        recommendedKeymaps = true;
+        settings = {
+          auto_start = true;
+        };
       };
       coq-thirdparty = {
         enable = true;

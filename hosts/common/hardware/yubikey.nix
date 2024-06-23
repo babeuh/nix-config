@@ -11,7 +11,7 @@
     };
     u2f = {
       enable = true;
-      control = "required";
+      control = "sufficient";
       cue = true;
     };
   };
