@@ -10,7 +10,6 @@
       # example = prev.example.overrideAttrs (oldAttrs: rec {
       # ...
       # });
-      discord = super.discord.override { withOpenASAR = true; };
       betterlockscreen = super.betterlockscreen.overrideAttrs (oldAttrs: rec {
         installPhase = ''
           runHook preInstall
