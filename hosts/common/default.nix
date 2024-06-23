@@ -10,7 +10,6 @@
     # Core
     ./hardware
     ./gui
-    ./nix.nix
     ./network.nix
     ./updates.nix
     ./variables.nix

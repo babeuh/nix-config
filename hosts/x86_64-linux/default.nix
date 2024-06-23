@@ -8,6 +8,9 @@
     ../common
   ];
 
+  # Nix configuration
+  nix.gc.dates = "weekly";
+
   system.stateVersion = stateVersion;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
