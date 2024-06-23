@@ -1,17 +1,17 @@
 { config, username, pkgs, ... }: {
   imports = [
-    ../common/gaming
-    ../common/virtualisation
-    ../common/flatpak
-    ../common/openrgb
-    ../common/syncthing.nix
+    ../../common/gaming
+    ../../common/virtualisation
+    ../../common/flatpak
+    ../../common/openrgb
+    ../../common/syncthing.nix
 
-    ../common/hardware/nvidia.nix
-    ../common/hardware/sweep.nix
-    ../common/hardware/numworks.nix
-    ../common/hardware/drawing.nix
-    ../common/hardware/android.nix
-    ../common/filesystem.nix
+    ../../common/hardware/nvidia.nix
+    ../../common/hardware/sweep.nix
+    ../../common/hardware/numworks.nix
+    ../../common/hardware/drawing.nix
+    ../../common/hardware/android.nix
+    ../../common/filesystem.nix
     ./hardware-configuration.nix
   ];
   # Syncthing

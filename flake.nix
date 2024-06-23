@@ -68,50 +68,26 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+
+    #
+    # Darwin-specific inputs
+    #
+
+    nix-darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-generators, ... }@inputs:
+  outputs = { self, nixpkgs, nixos-generators, ... }@inputs:
     let
       inherit (self) outputs;
-      supportedSystems = [ "x86_64-linux" ];
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-
-      mkHost = hostname: username: (
-        nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs hostname username; };
-          modules = [
-            inputs.lanzaboote.nixosModules.lanzaboote
-            inputs.impermanence.nixosModules.impermanence
-            inputs.agenix.nixosModules.default
-            inputs.nix-ld.nixosModules.nix-ld
-            ./hosts/common
-            ./hosts/${hostname}
-
-            home-manager.nixosModules.home-manager
-
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {
-                inherit inputs outputs hostname;
-              };
-              home-manager.users.${username} = import ./home/${username};
-              home-manager.sharedModules = [
-                inputs.arkenfox.hmModules.default
-                inputs.nixvim.homeManagerModules.nixvim
-                inputs.nix-colors.homeManagerModules.default
-                inputs.nur.hmModules.nur
-                inputs.impermanence.nixosModules.home-manager.impermanence
-                ./home/common
-              ] ++ (builtins.attrValues (import ./modules/home-manager));
-            }
-          ];
-        }
-      );
+      libx = import ./lib { inherit inputs outputs; };
     in {
       # Devshell for bootstrapping
       # Acessible through 'nix develop' or 'nix-shell' (legacy)
-      devShells = forAllSystems (system:
+      devShells = libx.forAllSystems (system:
         let pkgs = nixpkgs.legacyPackages.${system};
         in import ./shell.nix { inherit pkgs inputs; }
       );
@@ -120,10 +96,15 @@
       overlays = import ./overlay { inherit inputs; };
 
       nixosConfigurations = {
-        atlas   = mkHost "atlas"   "babeuh";
-        iapetus = mkHost "iapetus" "babeuh";
+        # FIXME: Hyprland is broken so temporarily using GNOME
+        atlas = libx.mkSystem { hostname = "atlas"; username = "babeuh"; platform = "x86_64-linux"; stateVersion = "23.05"; desktop = "gnome"; };
       };
 
+      darwinConfigurations = {
+        "Macbook-Air" = libx.mkSystem { hostname = "Macbook-Air"; username = "raphael"; platform = "aarch64-darwin"; stateVersion = "24.05"; desktop = "darwin"; };
+      };
+
+      /* TODO: THIS SHOULD BE REWORKED
       installer = nixos-generators.nixosGenerate {
         system = "x86_64-linux";
         format = "install-iso";
@@ -134,6 +115,6 @@
 
           ./hosts/installer
         ];
-      };
+      };*/
     };
 }
