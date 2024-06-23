@@ -6,7 +6,7 @@
     ./boot.nix
     ./persistence.nix
     ./secrets.nix
-    
+
     # Core
     ./hardware
     ./gui
@@ -28,7 +28,7 @@
   programs.dconf.enable = true;
 
   programs.command-not-found.enable = false;
-    
+
   environment.sessionVariables = rec {
     XDG_CACHE_HOME = "\${HOME}/.cache";
     XDG_CONFIG_HOME = "\${HOME}/.config";
@@ -45,14 +45,11 @@
     nano # Backup text editor
     git
   ];
-  
+
   # Remove unused packages
   services.xserver.excludePackages = with pkgs; [
     xterm
   ];
 
   services.gnome.gnome-keyring.enable = true;
-
-  programs.nix-ld.enable = true;
 }
-

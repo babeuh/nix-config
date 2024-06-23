@@ -2,18 +2,43 @@
   description = "nix-config";
 
   inputs = {
+    #
+    # Shared inputs
+    #
+
+    # Packages
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
 
-    # Secure Boot for NixOS
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.3.0";
+    # User profile manager
+    home-manager = {
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # User profile manager based on Nix
-    home-manager = {
-      url = "github:nix-community/home-manager";
+    # Declartive theming
+    nix-colors.url = "github:misterio77/nix-colors";
+
+    # Firefox hardening
+    arkenfox = {
+        url = "github:dwarfmaster/arkenfox-nixos";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Declartive vim config
+    nixvim = {
+        url = "github:pta2002/nixvim";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+
+    #
+    # NixOS-specific inputs
+    #
+
+    # Secure Boot
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.3.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -23,39 +48,24 @@
     # Provides module support for specific vendor hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
-    # Agenix (secrets)
+    # Secrets using age
     agenix = {
-      #url = "github:ryantm/agenix";
       url = "github:babeuh/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-colors.url = "github:misterio77/nix-colors";
-
-    arkenfox = {
-      url = "github:dwarfmaster/arkenfox-nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixvim = {
-      url = "github:pta2002/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
+    # Window manager
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
+    # NixOS image builder
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Declartive disk partitioning
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-ld = {
-      url = "github:Mic92/nix-ld";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -107,7 +117,7 @@
       );
 
       # Your custom packages and modifications, exported as overlays
-      overlays = import ./overlay { inherit inputs; };  
+      overlays = import ./overlay { inherit inputs; };
 
       nixosConfigurations = {
         atlas   = mkHost "atlas"   "babeuh";
