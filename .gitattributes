@@ -1,0 +1,7 @@
+# Text files
+* text eol=lf
+
+# Binaries
+*.jpg binary
+*.png binary
+*.age binary
