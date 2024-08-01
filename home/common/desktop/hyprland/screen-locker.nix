@@ -1,7 +1,8 @@
 { pkgs, config, ... }:
-let 
+let
   colors = config.colors;
-in {
+in
+{
   programs.swaylock = {
     enable = true;
     package = pkgs.swaylock-effects;
@@ -34,7 +35,12 @@ in {
     enable = false;
     systemdTarget = "hyprland-session.target";
     timeouts = [
-      { timeout = 120; command = "${pkgs.swaylock-effects}/bin/swaylock -C ${config.xdg.configFile."swaylock/config".source}"; }
+      {
+        timeout = 120;
+        command = "${pkgs.swaylock-effects}/bin/swaylock -C ${
+          config.xdg.configFile."swaylock/config".source
+        }";
+      }
     ];
   };
 }

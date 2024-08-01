@@ -1,4 +1,10 @@
-{ config, lib, pkgs, username, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  username,
+  ...
+}:
 let
   pcscdCfg = pkgs.writeText "reader.conf" "";
   pcscdPkg = pkgs.pcsclite;
@@ -6,10 +12,9 @@ let
     name = "pcscd-plugins";
     paths = map (p: "${p}/pcsc/drivers") [ pkgs.ccid ];
   };
-in {
-  imports = [
-    ./users/${username}.nix
-  ];
+in
+{
+  imports = [ ./users/${username}.nix ];
   age.secretsDir = "/persist/agenix/secrets";
   age.secretsMountPoint = "/persist/agenix/generations";
   age.secrets = {
@@ -27,7 +32,7 @@ in {
 
   # HACK: Start pcscd before decrypting secrets
   boot.initrd.systemd = {
-    packages = [ (lib.getBin pcscdPkg)];
+    packages = [ (lib.getBin pcscdPkg) ];
     storePaths = [
       "${pcscdPkg}/bin/pcscd"
       "${pcscdCfg}"
@@ -37,9 +42,7 @@ in {
     sockets.pcscd.wantedBy = [ "sockets.target" ];
     services.pcscd = {
       environment.PCSCLITE_HP_DROPDIR = pcscdPluginEnv;
-      after = [
-        "rollback.service"
-      ];
+      after = [ "rollback.service" ];
       serviceConfig.ExecStart = [
         ""
         "${pcscdPkg}/bin/pcscd -f -c ${pcscdCfg}"

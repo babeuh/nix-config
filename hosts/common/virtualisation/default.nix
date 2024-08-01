@@ -1,7 +1,11 @@
-{ pkgs, config, username, ... }: {
-  environment.systemPackages = with pkgs; [
-    virt-manager
-  ];
+{
+  pkgs,
+  config,
+  username,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs; [ virt-manager ];
   virtualisation = {
     libvirtd.enable = true;
     podman = {

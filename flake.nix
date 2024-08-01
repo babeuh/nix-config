@@ -21,16 +21,15 @@
 
     # Firefox hardening
     arkenfox = {
-        url = "github:dwarfmaster/arkenfox-nixos";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:dwarfmaster/arkenfox-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Declartive vim config
     nixvim = {
-        url = "github:pta2002/nixvim";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:pta2002/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-
 
     #
     # NixOS-specific inputs
@@ -69,7 +68,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-
     #
     # Darwin-specific inputs
     #
@@ -80,16 +78,26 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixos-generators, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixos-generators,
+      ...
+    }@inputs:
     let
       inherit (self) outputs;
       libx = import ./lib { inherit inputs outputs; };
-    in {
+    in
+    {
       # Devshell for bootstrapping
       # Acessible through 'nix develop' or 'nix-shell' (legacy)
-      devShells = libx.forAllSystems (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./shell.nix { inherit pkgs inputs; }
+      devShells = libx.forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        import ./shell.nix { inherit pkgs inputs; }
       );
 
       # Your custom packages and modifications, exported as overlays
@@ -97,24 +105,38 @@
 
       nixosConfigurations = {
         # FIXME: Hyprland is broken so temporarily using GNOME
-        atlas = libx.mkSystem { hostname = "atlas"; username = "babeuh"; platform = "x86_64-linux"; stateVersion = "23.05"; desktop = "gnome"; };
+        atlas = libx.mkSystem {
+          hostname = "atlas";
+          username = "babeuh";
+          platform = "x86_64-linux";
+          stateVersion = "23.05";
+          desktop = "gnome";
+        };
       };
 
       darwinConfigurations = {
-        "Macbook-Air" = libx.mkSystem { hostname = "Macbook-Air"; username = "raphael"; platform = "aarch64-darwin"; stateVersion = "24.05"; desktop = "darwin"; };
+        "Macbook-Air" = libx.mkSystem {
+          hostname = "Macbook-Air";
+          username = "raphael";
+          platform = "aarch64-darwin";
+          stateVersion = "24.05";
+          desktop = "darwin";
+        };
       };
 
-      /* TODO: THIS SHOULD BE REWORKED
-      installer = nixos-generators.nixosGenerate {
-        system = "x86_64-linux";
-        format = "install-iso";
-        specialArgs = { inherit inputs; };
+      /*
+        TODO: THIS SHOULD BE REWORKED
+        installer = nixos-generators.nixosGenerate {
+          system = "x86_64-linux";
+          format = "install-iso";
+          specialArgs = { inherit inputs; };
 
-        modules = [
-          inputs.disko.nixosModules.default
+          modules = [
+            inputs.disko.nixosModules.default
 
-          ./hosts/installer
-        ];
-      };*/
+            ./hosts/installer
+          ];
+        };
+      */
     };
 }

@@ -1,7 +1,13 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+{
   services.chrony = {
     enable = true;
-    servers = [ "time.cloudflare.com" "ntppool1.time.nl" "nts.netnod.se" "ptbtime1.ptb.de" ];
+    servers = [
+      "time.cloudflare.com"
+      "ntppool1.time.nl"
+      "nts.netnod.se"
+      "ptbtime1.ptb.de"
+    ];
     enableNTS = true;
 
     extraConfig = ''

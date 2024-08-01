@@ -1,7 +1,6 @@
-{ inputs, pkgs, ...}: {
-  imports = [
-    ./nix.nix
-  ];
+{ inputs, pkgs, ... }:
+{
+  imports = [ ./nix.nix ];
 
   xdg.portal.enable = true;
   xdg.portal.config.common.default = "*";

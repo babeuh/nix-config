@@ -1,4 +1,10 @@
-{ pkgs, config, username, ... }: {
+{
+  pkgs,
+  config,
+  username,
+  ...
+}:
+{
   services.yubikey-agent.enable = true;
 
   services.pcscd.enable = true;
@@ -15,7 +21,5 @@
       cue = true;
     };
   };
-  environment.persistence."/persist".users.${username}.directories = [
-    "Yubico/.config/Yubico"
-  ];
+  environment.persistence."/persist".users.${username}.directories = [ "Yubico/.config/Yubico" ];
 }

@@ -1,10 +1,15 @@
-{ disk ? null, ...  }:
+{
+  disk ? null,
+  ...
+}:
 {
   disko.devices = {
     disk = {
       vdb = {
         type = "disk";
-        device = assert disk != null; disk;
+        device =
+          assert disk != null;
+          disk;
         content = {
           type = "gpt";
           partitions = {
@@ -15,9 +20,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [
-                  "defaults"
-                ];
+                mountOptions = [ "defaults" ];
               };
             };
             luks = {

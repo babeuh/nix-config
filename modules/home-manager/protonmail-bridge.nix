@@ -1,10 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
   cfg = config.services.protonmail-bridge;
-  #Still need to integrate more closely with the email management capabilities of home-manager
 in
+#Still need to integrate more closely with the email management capabilities of home-manager
 {
   ##### interface
   options = {
@@ -21,7 +26,16 @@ in
       };
 
       logLevel = mkOption {
-        type = types.enum [ "panic" "fatal" "error" "warn" "info" "debug" "debug-client" "debug-server" ];
+        type = types.enum [
+          "panic"
+          "fatal"
+          "error"
+          "warn"
+          "info"
+          "debug"
+          "debug-client"
+          "debug-server"
+        ];
         default = "info";
         description = "The log level";
       };
@@ -32,11 +46,15 @@ in
   ##### implementation
   config = mkIf cfg.enable {
     home.packages = [ pkgs.protonmail-bridge ];
-    
+
     systemd.user.services.protonmail-bridge = {
       Unit = {
         Description = "Protonmail Bridge";
-        After = [ "multi-user.target" "network.target" "wait-for-secrets.service" ];
+        After = [
+          "multi-user.target"
+          "network.target"
+          "wait-for-secrets.service"
+        ];
       };
 
       Service = {

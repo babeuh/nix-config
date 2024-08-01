@@ -1,18 +1,21 @@
-{ lib, config, pkgs, username, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  username,
+  ...
+}:
+{
 
   boot.initrd.systemd.enable = lib.mkDefault true;
   boot.initrd.systemd.services.rollback = {
     description = "Rollback BTRFS root subvolume to a pristine state";
-    wantedBy = [
-      "initrd.target"
-    ];
+    wantedBy = [ "initrd.target" ];
     after = [
       # LUKS/TPM process
       "systemd-cryptsetup@root.service"
     ];
-    before = [
-      "sysroot.mount"
-    ];
+    before = [ "sysroot.mount" ];
     unitConfig.DefaultDependencies = "no";
     serviceConfig.Type = "oneshot";
     script = ''
@@ -95,9 +98,7 @@
       "/etc/mullvad-vpn"
       "/etc/ssh/"
     ];
-    files = [
-      "/var/lib/power-profiles-daemon/state.ini"
-    ];
+    files = [ "/var/lib/power-profiles-daemon/state.ini" ];
   };
 
   security.sudo.extraConfig = ''

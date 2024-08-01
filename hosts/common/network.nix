@@ -1,4 +1,11 @@
-{ lib, config, pkgs, hostname, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  hostname,
+  ...
+}:
+{
   networking = {
     hostName = hostname;
     useDHCP = lib.mkDefault true;

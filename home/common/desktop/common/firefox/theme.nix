@@ -1,4 +1,9 @@
-{ profile, config, pkgs, ... }:
+{
+  profile,
+  config,
+  pkgs,
+  ...
+}:
 let
   colors = config.colors;
   # Cascade
@@ -11,38 +16,42 @@ let
   cascadeSrc = cascade + "/chrome/includes/cascade-";
 
   # Config
-  chromePath  = ".mozilla/firefox/${profile}/chrome";
+  chromePath = ".mozilla/firefox/${profile}/chrome";
   cascadePath = "${chromePath}/includes/cascade-";
-  cascade-colors = ''
-    :root {
-      /* These colours are (mainly) used by the
-      Container Tabs Plugin */
-      --uc-identity-colour-blue:      #${colors.blue}          !important;
-      --uc-identity-colour-turquoise: #${colors.cyan}          !important;
-      --uc-identity-colour-green:     #${colors.green}         !important;
-      --uc-identity-colour-yellow:    #${colors.yellow}        !important;
-      --uc-identity-colour-orange:    #${colors.yellow-bright} !important;
-      --uc-identity-colour-red:       #${colors.red}           !important;
-      --uc-identity-colour-pink:      #${colors.purple}        !important;
-      --uc-identity-colour-purple:    #${colors.purple-bright} !important;
+  cascade-colors =
+    ''
+      :root {
+        /* These colours are (mainly) used by the
+        Container Tabs Plugin */
+        --uc-identity-colour-blue:      #${colors.blue}          !important;
+        --uc-identity-colour-turquoise: #${colors.cyan}          !important;
+        --uc-identity-colour-green:     #${colors.green}         !important;
+        --uc-identity-colour-yellow:    #${colors.yellow}        !important;
+        --uc-identity-colour-orange:    #${colors.yellow-bright} !important;
+        --uc-identity-colour-red:       #${colors.red}           !important;
+        --uc-identity-colour-pink:      #${colors.purple}        !important;
+        --uc-identity-colour-purple:    #${colors.purple-bright} !important;
 
-      /*  Cascades main Colour Scheme */
-      --uc-base-colour:               #${colors.background}     !important;
-      --uc-highlight-colour:          #${colors.background-alt} !important;
-      --uc-inverted-colour:           #${colors.foreground}     !important;
-      --uc-muted-colour:              #${colors.foreground-alt} !important;
-      --uc-accent-colour:             #${colors.accent}         !important;
-    }
-  '' + builtins.readFile ./cascade-colors.css;
+        /*  Cascades main Colour Scheme */
+        --uc-base-colour:               #${colors.background}     !important;
+        --uc-highlight-colour:          #${colors.background-alt} !important;
+        --uc-inverted-colour:           #${colors.foreground}     !important;
+        --uc-muted-colour:              #${colors.foreground-alt} !important;
+        --uc-accent-colour:             #${colors.accent}         !important;
+      }
+    ''
+    + builtins.readFile ./cascade-colors.css;
   cascade-custom = ''
     :root {
       /* Letterboxing fix */
       --tabpanel-background-color: var(--uc-base-colour) !important;
     }
   '';
-  cascade-chrome = builtins.readFile (cascade + "/chrome/userChrome.css") + ''
-    @import 'includes/custom.css';
-  '';
+  cascade-chrome =
+    builtins.readFile (cascade + "/chrome/userChrome.css")
+    + ''
+      @import 'includes/custom.css';
+    '';
   about-pages = ''
     @-moz-document url-prefix("about:") {
       :root {
@@ -103,18 +112,19 @@ let
       * { font-size: 15px !important; }
     }
   '';
-in {
+in
+{
   # Config
-  "${chromePath}/includes/custom.css".text          = cascade-custom;
-  "${chromePath}/userChrome.css".text               = cascade-chrome;
-  "${chromePath}/userContent.css".text              = about-pages;
-  "${cascadePath}colours.css".text                  = cascade-colors;
+  "${chromePath}/includes/custom.css".text = cascade-custom;
+  "${chromePath}/userChrome.css".text = cascade-chrome;
+  "${chromePath}/userContent.css".text = about-pages;
+  "${cascadePath}colours.css".text = cascade-colors;
   # Cascade
-  "${cascadePath}config.css".source                 = "${cascadeSrc}config.css";
-  "${cascadePath}floating-panel.css".source         = "${cascadeSrc}floating-panel.css";
-  "${cascadePath}layout.css".source                 = "${cascadeSrc}layout.css";
-  "${cascadePath}nav-bar.css".source                = "${cascadeSrc}nav-bar.css";
+  "${cascadePath}config.css".source = "${cascadeSrc}config.css";
+  "${cascadePath}floating-panel.css".source = "${cascadeSrc}floating-panel.css";
+  "${cascadePath}layout.css".source = "${cascadeSrc}layout.css";
+  "${cascadePath}nav-bar.css".source = "${cascadeSrc}nav-bar.css";
   "${cascadePath}responsive-windows-fix.css".source = "${cascadeSrc}responsive-windows-fix.css";
-  "${cascadePath}responsive.css".source             = "${cascadeSrc}responsive.css";
-  "${cascadePath}tabs.css".source                   = "${cascadeSrc}tabs.css";
+  "${cascadePath}responsive.css".source = "${cascadeSrc}responsive.css";
+  "${cascadePath}tabs.css".source = "${cascadeSrc}tabs.css";
 }

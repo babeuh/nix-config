@@ -39,31 +39,31 @@ in
       };
       colors = {
         primary = {
-          background        = "#${colors.background}";
-          foreground        = "#${colors.foreground}";
+          background = "#${colors.background}";
+          foreground = "#${colors.foreground}";
         };
         cursor = {
-          text   = "#${colors.background-selection}";
+          text = "#${colors.background-selection}";
           cursor = "#${colors.foreground}";
         };
         normal = {
-          black   = "#${colors.black}";
-          white   = "#${colors.white}";
-          red     = "#${colors.red}";
-          yellow  = "#${colors.yellow}";
-          green   = "#${colors.green}";
-          cyan    = "#${colors.cyan}";
-          blue    = "#${colors.blue}";
+          black = "#${colors.black}";
+          white = "#${colors.white}";
+          red = "#${colors.red}";
+          yellow = "#${colors.yellow}";
+          green = "#${colors.green}";
+          cyan = "#${colors.cyan}";
+          blue = "#${colors.blue}";
           magenta = "#${colors.purple}";
         };
         bright = {
-          black   = "#${colors.black-bright}";
-          white   = "#${colors.white-bright}";
-          red     = "#${colors.red-bright}";
-          yellow  = "#${colors.yellow-bright}";
-          green   = "#${colors.green-bright}";
-          cyan    = "#${colors.cyan-bright}";
-          blue    = "#${colors.blue-bright}";
+          black = "#${colors.black-bright}";
+          white = "#${colors.white-bright}";
+          red = "#${colors.red-bright}";
+          yellow = "#${colors.yellow-bright}";
+          green = "#${colors.green-bright}";
+          cyan = "#${colors.cyan-bright}";
+          blue = "#${colors.blue-bright}";
           magenta = "#${colors.purple-bright}";
         };
       };

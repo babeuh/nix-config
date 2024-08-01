@@ -1,4 +1,4 @@
-{ pkgs, config, ... }: 
+{ pkgs, config, ... }:
 let
   songinfo = pkgs.writeShellScriptBin "songinfo" ''
     music_dir="$HOME/Music"
@@ -10,10 +10,9 @@ let
 
     ${pkgs.libnotify}/bin/notify-send -r 27072 "Now Playing" "$(${pkgs.mpc-cli}/bin/mpc --format '%title% \n%artist% - %album%' current)" -i "$previewname"
   '';
-in {
-  home.packages = with pkgs; [
-    mpc-cli
-  ];
+in
+{
+  home.packages = with pkgs; [ mpc-cli ];
   services.mpd = {
     enable = true;
     musicDirectory = "${config.home.homeDirectory}/Music";

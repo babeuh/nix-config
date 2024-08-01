@@ -11,7 +11,8 @@ let
     ${pkgs.libnotify}/bin/notify-send "OCR" "Copied Text: $(wl-paste -n)"
     rm -f /tmp/ocr-output.txt /tmp/ocr.png
   '';
-in {
+in
+{
   home.packages = with pkgs; [ libnotify ];
 
   wayland.windowManager.hyprland = {
@@ -92,18 +93,22 @@ in {
 
       # workspaces
       # binds mod + [shift +] {1..10} to [move to] ws {1..10}
-      ${builtins.concatStringsSep "\n" (builtins.genList (
-        x: let
-          ws = let
-            c = (x + 1) / 10;
+      ${builtins.concatStringsSep "\n" (
+        builtins.genList (
+          x:
+          let
+            ws =
+              let
+                c = (x + 1) / 10;
+              in
+              builtins.toString (x + 1 - (c * 10));
           in
-            builtins.toString (x + 1 - (c * 10));
-        in ''
-          bind = SUPER, ${ws}, workspace, ${toString (x + 1)}
-          bind = SUPER_SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
-        ''
-      )
-      10)}
+          ''
+            bind = SUPER, ${ws}, workspace, ${toString (x + 1)}
+            bind = SUPER_SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
+          ''
+        ) 10
+      )}
       bind=SUPER, bracketleft, workspace, m-1
       bind=SUPER, bracketright, workspace, m+1
 

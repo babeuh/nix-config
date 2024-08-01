@@ -1,20 +1,39 @@
-{ inputs, outputs, ... }: {
+{ inputs, outputs, ... }:
+{
   # Helper function for generating systems
-  mkSystem = { hostname, username, platform, stateVersion, desktop ? null }:
+  mkSystem =
+    {
+      hostname,
+      username,
+      platform,
+      stateVersion,
+      desktop ? null,
+    }:
     let
-      systemFunction = if platform == "aarch64-darwin" then
-        inputs.nix-darwin.lib.darwinSystem
-      else
-        inputs.nixpkgs.lib.nixosSystem;
+      systemFunction =
+        if platform == "aarch64-darwin" then
+          inputs.nix-darwin.lib.darwinSystem
+        else
+          inputs.nixpkgs.lib.nixosSystem;
 
-      homeManagerModule = if platform == "aarch64-darwin" then
-        inputs.home-manager.darwinModules.home-manager
-      else
-        inputs.home-manager.nixosModules.home-manager;
-    in systemFunction {
+      homeManagerModule =
+        if platform == "aarch64-darwin" then
+          inputs.home-manager.darwinModules.home-manager
+        else
+          inputs.home-manager.nixosModules.home-manager;
+    in
+    systemFunction {
       pkgs = inputs.nixpkgs.legacyPackages.${platform};
       specialArgs = {
-        inherit inputs outputs hostname username platform stateVersion desktop;
+        inherit
+          inputs
+          outputs
+          hostname
+          username
+          platform
+          stateVersion
+          desktop
+          ;
       };
 
       modules = [
@@ -27,7 +46,15 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = {
-            inherit inputs outputs hostname username platform stateVersion desktop;
+            inherit
+              inputs
+              outputs
+              hostname
+              username
+              platform
+              stateVersion
+              desktop
+              ;
           };
 
           home-manager.users.${username} = import ../home/${username};

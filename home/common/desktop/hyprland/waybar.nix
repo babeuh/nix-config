@@ -1,4 +1,9 @@
-{ pkgs, outputs, config, ... }:
+{
+  pkgs,
+  outputs,
+  config,
+  ...
+}:
 let
   colors = config.colors;
   waybar-mullvad = pkgs.writeShellScriptBin "waybar-mullvad" ''
@@ -188,9 +193,28 @@ in
 
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ "hyprland/window" ];
-        modules-right = [ "hyprland/submap" "custom/yubikey#icon" "custom/yubikey#data" "custom/mullvad#icon" "custom/mullvad#data" ] ++
-                        (if config.variables.isLaptop then [ "battery" ] else []) ++
-                        [ "disk#icon" "disk#data" "memory#icon" "memory#data" "cpu#icon" "cpu#data" "mpd#icon" "mpd#data" "clock#icon" "clock#data" "tray" ];
+        modules-right =
+          [
+            "hyprland/submap"
+            "custom/yubikey#icon"
+            "custom/yubikey#data"
+            "custom/mullvad#icon"
+            "custom/mullvad#data"
+          ]
+          ++ (if config.variables.isLaptop then [ "battery" ] else [ ])
+          ++ [
+            "disk#icon"
+            "disk#data"
+            "memory#icon"
+            "memory#data"
+            "cpu#icon"
+            "cpu#data"
+            "mpd#icon"
+            "mpd#data"
+            "clock#icon"
+            "clock#data"
+            "tray"
+          ];
 
         "hyprland/workspaces" = {
           sort-by = "number";

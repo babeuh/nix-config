@@ -1,4 +1,5 @@
-{ inputs, stateVersion, ...}: {
+{ inputs, stateVersion, ... }:
+{
   imports = [
     inputs.lanzaboote.nixosModules.lanzaboote
     inputs.impermanence.nixosModules.impermanence

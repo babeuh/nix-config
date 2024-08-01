@@ -1,4 +1,5 @@
-{ lib, ...}: {
+{ lib, ... }:
+{
   wallpaper = lib.mkDefault ../../backgrounds/gruvbox_yf23.png;
 
   colorScheme = {

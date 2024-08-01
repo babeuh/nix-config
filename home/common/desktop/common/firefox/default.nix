@@ -1,29 +1,54 @@
-args@{ pkgs, lib, config, ... }:
+args@{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   inherit (builtins) foldl';
   inherit (lib) mapAttrsToList nameValuePair;
-  foldOverAttrs = init: op: attrs:
-    (foldl' (acc: attr:
-      let nattr = op acc.acc attr.name attr.value;
-      in {
-        acc = nattr.acc;
-        value = acc.value // { "${attr.name}" = nattr.value; };
-      }) {
+  foldOverAttrs =
+    init: op: attrs:
+    (foldl'
+      (
+        acc: attr:
+        let
+          nattr = op acc.acc attr.name attr.value;
+        in
+        {
+          acc = nattr.acc;
+          value = acc.value // {
+            "${attr.name}" = nattr.value;
+          };
+        }
+      )
+      {
         acc = init;
         value = { };
-      } (mapAttrsToList nameValuePair attrs)).value;
+      }
+      (mapAttrsToList nameValuePair attrs)
+    ).value;
 
-  blackMagic = func: attrs:
-    (foldl' (acc: orig:
-      let result = func acc.acc orig.name orig.value;
-      in {
-        acc = result.acc;
-        value = acc.value // result.value;
-      }) {
+  blackMagic =
+    func: attrs:
+    (foldl'
+      (
+        acc: orig:
+        let
+          result = func acc.acc orig.name orig.value;
+        in
+        {
+          acc = result.acc;
+          value = acc.value // result.value;
+        }
+      )
+      {
         acc = 0;
         value = { };
-      } (mapAttrsToList nameValuePair attrs)).value;
+      }
+      (mapAttrsToList nameValuePair attrs)
+    ).value;
 
   addons = config.nur.repos.rycee.firefox-addons;
   arkenfoxConfig = import ./arkenfox.nix { inherit lib; };
@@ -38,18 +63,23 @@ let
       };
       arkenfox = [ arkenfoxConfig.main ];
       theme = true;
-      extensions = with addons; [ ublock-origin darkreader multi-account-containers ];
+      extensions = with addons; [
+        ublock-origin
+        darkreader
+        multi-account-containers
+      ];
     };
     "Insecure" = { };
   };
 
   buildTheme = id: name: profile: {
     acc = id + 1;
-    value = {} // (if profile ? theme then import ./theme.nix ( args // { profile = name; } ) else {});
+    value = { } // (if profile ? theme then import ./theme.nix (args // { profile = name; }) else { });
   };
   buildStartpage = id: name: profile: {
     acc = id + 1;
-    value = {} // (if profile ? startpage then import ./startpage ( args // { profile = name; } ) else {});
+    value =
+      { } // (if profile ? startpage then import ./startpage (args // { profile = name; }) else { });
   };
 
   buildProfile = id: name: profile: {
@@ -57,7 +87,13 @@ let
     value = {
       inherit name id;
       settings = {
-        "browser.startup.homepage" = if profile ? startpage then "${config.home.homeDirectory}/.mozilla/firefox/Secure/chrome/startpage/index.html" else if profile ? homepage then profile.homepage else "about:blank";
+        "browser.startup.homepage" =
+          if profile ? startpage then
+            "${config.home.homeDirectory}/.mozilla/firefox/Secure/chrome/startpage/index.html"
+          else if profile ? homepage then
+            profile.homepage
+          else
+            "about:blank";
         "browser.rememberSignons" = false; # Disable password manager
         "ui.systemUsesDarkTheme" = true;
         "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
@@ -68,11 +104,14 @@ let
       } // (if profile ? settings then profile.settings else { });
       isDefault = if profile ? default then profile.default else false;
       search = if profile ? search then profile.search else { };
-      arkenfox = lib.mkMerge ([{ enable = true; }] ++ (if profile ? arkenfox then profile.arkenfox else [ ]));
-      extensions = if profile ? extensions then profile.extensions else [];
+      arkenfox = lib.mkMerge (
+        [ { enable = true; } ] ++ (if profile ? arkenfox then profile.arkenfox else [ ])
+      );
+      extensions = if profile ? extensions then profile.extensions else [ ];
     };
   };
-in {
+in
+{
   programs.firefox = {
     enable = true;
     package = pkgs.firefox.override {
@@ -84,7 +123,9 @@ in {
           Pocket = false;
           Snippets = false;
         };
-        SearchEngines = { Default = "DuckDuckGo"; };
+        SearchEngines = {
+          Default = "DuckDuckGo";
+        };
         Preferences = {
           "toolkit.legacyUserProfileCustomizations.stylesheets" = {
             Value = true;

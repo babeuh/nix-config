@@ -1,7 +1,8 @@
-{ config, ... }: 
+{ config, ... }:
 let
   colors = config.colors;
-in {
+in
+{
   services.dunst = {
     enable = true;
     settings = {
@@ -14,9 +15,9 @@ in {
         fullscreen = "pushback";
         transparency = 0;
 
-        background      = "#${colors.background}";
-        foreground      = "#${colors.foreground}";
-        frame_color     = "#${colors.foreground-most}";
+        background = "#${colors.background}";
+        foreground = "#${colors.foreground}";
+        frame_color = "#${colors.foreground-most}";
         separator_color = "#${colors.background-least}";
       };
 

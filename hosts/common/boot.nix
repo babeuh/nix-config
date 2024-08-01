@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   boot = {
     loader.efi.canTouchEfiVariables = true;
     supportedFilesystems = [ "btrfs" ];
@@ -41,7 +47,7 @@
       pkiBundle = "/etc/secureboot";
     };
   };
-  
+
   # TODO: Also use FIDO2 as 2fa
   # related: https://github.com/systemd/systemd/issues/21427
 
@@ -49,8 +55,14 @@
   #
   # TPM kernel module must be enabled for initrd. Device driver is viewable via the command:
   # sudo systemd-cryptenroll --tpm2-device=list
-  boot.initrd.availableKernelModules = [ "tpm_tis" "tpm_crb" ];
-  boot.initrd.luks.devices.root.crypttabExtraOpts = [ "tpm2-device=auto" "tpm2-with-pin=yes" ];
+  boot.initrd.availableKernelModules = [
+    "tpm_tis"
+    "tpm_crb"
+  ];
+  boot.initrd.luks.devices.root.crypttabExtraOpts = [
+    "tpm2-device=auto"
+    "tpm2-with-pin=yes"
+  ];
   security.tpm2.enable = true;
   security.tpm2.tctiEnvironment.enable = true;
 }

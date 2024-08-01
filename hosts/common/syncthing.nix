@@ -1,4 +1,5 @@
-{ config, username, ... }: {
+{ config, username, ... }:
+{
   services = {
     syncthing = {
       dataDir = "${config.variables.user.home}/Documents";

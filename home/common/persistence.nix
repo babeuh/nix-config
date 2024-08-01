@@ -4,7 +4,8 @@ let
   configHome = lib.strings.removePrefix "${config.home.homeDirectory}/" config.xdg.configHome; # Default: .config
   dataHome = lib.strings.removePrefix "${config.home.homeDirectory}/" config.xdg.dataHome; # Default: .local/share
   stateHome = lib.strings.removePrefix "${config.home.homeDirectory}/" config.xdg.stateHome; # Default: .local/state
-in {
+in
+{
   home.persistence."/persist/${config.home.homeDirectory}" = {
     removePrefixDirectory = true;
     allowOther = true;
@@ -41,8 +42,6 @@ in {
       "Zotero/.zotero"
       "Zotero/Zotero"
     ];
-    files = [
-      "Bash/.bash_history"
-    ];
+    files = [ "Bash/.bash_history" ];
   };
 }

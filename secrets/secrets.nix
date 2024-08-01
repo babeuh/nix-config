@@ -5,5 +5,8 @@ let
   };
 in
 {
-  "babeuh-password.age".publicKeys = [ keys.main keys.backup ];
+  "babeuh-password.age".publicKeys = [
+    keys.main
+    keys.backup
+  ];
 }

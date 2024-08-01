@@ -16,7 +16,8 @@ let
     };
   };
   cfg = config.fontProfiles; # User sets this in his home-manager config
-in {
+in
+{
   options.fontProfiles = {
     enable = lib.mkEnableOption "Whether to enable font profiles";
     monospace = mkFontOption "monospace";
@@ -25,6 +26,9 @@ in {
 
   config = lib.mkIf cfg.enable {
     fonts.fontconfig.enable = true;
-    home.packages = [ cfg.monospace.package cfg.regular.package ];
+    home.packages = [
+      cfg.monospace.package
+      cfg.regular.package
+    ];
   };
 }

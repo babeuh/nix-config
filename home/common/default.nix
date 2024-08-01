@@ -1,4 +1,12 @@
-{ outputs, inputs, lib, config, pkgs, ... }: {
+{
+  outputs,
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   imports = [
     ./cli
     ./desktop/common

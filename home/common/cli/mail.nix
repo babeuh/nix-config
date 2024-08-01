@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   colors = config.colors;
 in
@@ -12,7 +17,7 @@ in
   accounts.email = {
     # Global Settings
     maildirBasePath = "Mail";
-    
+
     # Accounts
     accounts = {
       main = {
@@ -20,9 +25,7 @@ in
         realName = "Raphael Le Goaller";
         address = "me@rlglr.fr";
         userName = "me@rlglr.fr";
-        aliases = [
-          "babeuh@rlglr.fr"
-        ];
+        aliases = [ "babeuh@rlglr.fr" ];
 
         passwordCommand = "${pkgs.libsecret}/bin/secret-tool lookup email me@rlglr.fr";
         imap = {
@@ -32,7 +35,7 @@ in
             useStartTls = true;
             certificatesFile = "${config.xdg.configHome}/protonmail/bridge-v3/cert.pem";
           };
-        };#
+        };
         smtp = {
           host = "127.0.0.1";
           port = 1025;
@@ -53,9 +56,7 @@ in
             protonmail = {
               channels = {
                 inbox = {
-                  patterns = [
-                    "INBOX"
-                  ];
+                  patterns = [ "INBOX" ];
                 };
                 sent = {
                   farPattern = "Sent";

@@ -1,15 +1,20 @@
-{ pkgs, username, hostname, ... }:
+{
+  pkgs,
+  username,
+  hostname,
+  ...
+}:
 let
   post-install-setup = pkgs.writeShellScriptBin "post-install-setup" ''
     set -euo pipefail
-    
+
     # Change permissions of stuff in /persist
     ${pkgs.sudo}/bin/sudo chown -R ${username} /persist/nix-config
     ${pkgs.sudo}/bin/sudo chown -R ${username} /persist/home/${username}
     ${pkgs.sudo}/bin/sudo chmod 750 /persist/home
     chmod -R 755 /persist/home/${username}
     chmod 750 /persist/home/${username}
-    
+
     ${secure-boot-setup}/bin/secure-boot-setup
   '';
 
@@ -60,7 +65,8 @@ let
     echo "Done! Reboot the system once you are ready to continue..."
     echo "Once you have rebooted, follow step 6 of the Secure Boot instructions in the README"
   '';
-in {
+in
+{
   environment.systemPackages = [
     post-install-setup
     secure-boot-setup

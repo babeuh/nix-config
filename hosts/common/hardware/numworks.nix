@@ -1,5 +1,4 @@
-{ pkgs, ... }: {
-  services.udev.packages = with pkgs; [
-    numworks-udev-rules
-  ];
+{ pkgs, ... }:
+{
+  services.udev.packages = with pkgs; [ numworks-udev-rules ];
 }

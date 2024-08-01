@@ -1,4 +1,13 @@
-{ outputs, inputs, lib, config, ... }: {
+{
+  outputs,
+  inputs,
+  lib,
+  config,
+  pkgs,
+  username,
+  ...
+}:
+{
   nixpkgs = {
     overlays = [
       outputs.overlays.modifications
@@ -35,4 +44,8 @@
       keep-derivations = true
     '';
   };
+
+  # Shells
+  programs.fish.enable = true;
+  environment.shells = [ pkgs.fish ];
 }

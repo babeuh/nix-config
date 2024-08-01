@@ -1,7 +1,8 @@
-{ config, pkgs, ... }: 
+{ config, pkgs, ... }:
 let
   colors = config.colors;
-in {
+in
+{
   programs.rofi = {
     enable = true;
     package = pkgs.rofi-wayland;
@@ -11,7 +12,8 @@ in {
     theme = "base16-theme";
   };
 
-  xdg.configFile."rofi/base16-theme.rasi".text = ''
+  xdg.configFile."rofi/base16-theme.rasi".text =
+    ''
       * {
         /* Theme colors */
         theme-foreground:              #${colors.foreground};
@@ -25,5 +27,6 @@ in {
         theme-background-act-sel:      #${colors.white};
         theme-border:                  #${colors.accent};
       }
-    '' + builtins.readFile ./theme.rasi;
+    ''
+    + builtins.readFile ./theme.rasi;
 }

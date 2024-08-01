@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   home.packages = [ pkgs.playerctl ];
   systemd.user.services.playerctld = {
     Unit = {

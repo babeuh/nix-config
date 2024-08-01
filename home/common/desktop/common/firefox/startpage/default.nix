@@ -1,4 +1,4 @@
-{ profile, config, ... }: 
+{ profile, config, ... }:
 let
   colors = config.colors;
   # Config
@@ -21,6 +21,7 @@ let
       <script>${builtins.readFile ./main.js}</script>
     </head>
   '';
-in {
+in
+{
   "${startpagePath}/index.html".text = startpage-imports + builtins.readFile ./index.html;
 }

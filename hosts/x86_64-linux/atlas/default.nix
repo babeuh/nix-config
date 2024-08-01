@@ -1,4 +1,10 @@
-{ config, username, pkgs, ... }: {
+{
+  config,
+  username,
+  pkgs,
+  ...
+}:
+{
   imports = [
     ../../common/gaming
     ../../common/virtualisation
@@ -17,7 +23,7 @@
   # Syncthing
   services.syncthing.enable = true;
   services.syncthing.settings.devices = {
-    "phone".id   = "C2BBNTV-4Q4XUXE-M2RMD3N-PFIVCCB-MMFINAX-UP4S5MZ-BRODLAL-BVES5AG";
+    "phone".id = "C2BBNTV-4Q4XUXE-M2RMD3N-PFIVCCB-MMFINAX-UP4S5MZ-BRODLAL-BVES5AG";
     "macbook".id = "KEHRQGU-Z4ZYUOD-QPMDWCA-U7SYMSX-KY5SKIB-PEZCY6C-ZOQ5AGR-XKINZQK";
   };
   services.syncthing.settings.folders = {
@@ -25,13 +31,19 @@
       id = "4wmxy-pdg0y";
       label = "KeePassXC";
       path = "${config.variables.user.home}/KeePassXC";
-      devices = [ "macbook" "phone" ];
+      devices = [
+        "macbook"
+        "phone"
+      ];
     };
     "Obsidian Vault" = {
       id = "wlwgj-bhqfx";
       label = "Obsidian Vault";
       path = "${config.variables.user.home}/Obsidian Vault";
-      devices = [ "macbook" "phone" ];
+      devices = [
+        "macbook"
+        "phone"
+      ];
     };
   };
 
@@ -39,8 +51,15 @@
   variables.sound = {
     quantum = 256;
     rate = 92000;
-    allowed-rates = [ 44100 48000 88200 96000 ];
-    wireplumberExtraConfig = pkgs.writeTextDir "wireplumber/main.lua.d/51-host-config.lua" (builtins.readFile ./51-host-config.lua);
+    allowed-rates = [
+      44100
+      48000
+      88200
+      96000
+    ];
+    wireplumberExtraConfig = pkgs.writeTextDir "wireplumber/main.lua.d/51-host-config.lua" (
+      builtins.readFile ./51-host-config.lua
+    );
   };
 
   services.tailscale = {

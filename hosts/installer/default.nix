@@ -1,11 +1,17 @@
-{  config, inputs, lib, pkgs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 let
   disko = inputs.disko.packages.x86_64-linux.default;
   disko-config = ./disko.nix;
 
   setup-system = pkgs.writeShellScriptBin "setup-system" ''
     set -euo pipefail
-    
+
     # Utility functions
     function askYesNo {
       local default
@@ -68,7 +74,7 @@ let
       systemctl start wpa_supplicant
       wpa_cli
     }
-    
+
     # LUKS Password
     passwordRequest "LUKS" > /tmp/secret.key
 
@@ -114,7 +120,7 @@ let
     age_token_new_user=true
     age_token_names=()
     token_backup_rec=" (a backup is recommended)"
-    
+
     askYesNo "Have you already setup your token(s) for age encryption of any secrets on THIS config/repo" false || {
       rm -r secrets
       mkdir secrets
@@ -125,7 +131,7 @@ let
         age_token_new_user=false
       }
     }
-    
+
     if $age_token_new_user; then
       rm -f hosts/common/users/$username.nix
       ${pkgs.coreutils}/bin/printf "{\n  age.yubikey.identities = [\n" > hosts/common/users/$username.nix
@@ -139,7 +145,7 @@ let
       echo "2. Make sure only ONE is plugged in"
       echo "3. Make sure no smart card reader or similar is plugged in"
       waitForUser "Press enter to continue"
-    
+
       echo "Setting up SSH"
       askYesNo "Have you already setup SSH on this token with \"yubikey-agent\"" false || ssh_token_setup=true
       if $ssh_token_setup; then ${pkgs.yubikey-agent}/bin/yubikey-agent -setup; fi
@@ -186,7 +192,7 @@ let
     if $age_token_new_user; then
       ${pkgs.coreutils}/bin/printf "  ];\n}" > hosts/common/users/$username.nix
     fi
-    
+
 
     # Password Stuff
     echo "Setting up password"
@@ -197,7 +203,7 @@ let
     ${inputs.agenix.packages.x86_64-linux.default}/bin/agenix -e $username-password.age -i /tmp/age_token_id
     rm /tmp/age_token_id
 
-    
+
     # Host Config
     askYesNo "Have you already configured your host" false && {
       host=$(askUser "What is your hostname:")
@@ -231,7 +237,8 @@ let
     echo "While rebooting enable Secure Boot and put it in Setup Mode inside your BIOS"
     exit 0
   '';
-in {
+in
+{
   # Remove documentation
   documentation = {
     enable = false;
@@ -242,8 +249,8 @@ in {
   # Enable flakes
   nix.settings = {
     # Add Hyprland Cachix
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
 
     experimental-features = "nix-command flakes";
   };

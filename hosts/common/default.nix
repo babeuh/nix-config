@@ -1,4 +1,10 @@
-{ lib, pkgs, hostname, ... }: {
+{
+  lib,
+  pkgs,
+  hostname,
+  ...
+}:
+{
 
   imports = [
     # Security
@@ -46,9 +52,7 @@
   ];
 
   # Remove unused packages
-  services.xserver.excludePackages = with pkgs; [
-    xterm
-  ];
+  services.xserver.excludePackages = with pkgs; [ xterm ];
 
   services.gnome.gnome-keyring.enable = true;
 }

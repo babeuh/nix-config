@@ -1,5 +1,4 @@
-{ pkgs, ... }: {
-  programs.fish.enable = true;
+{ pkgs, ... }:
+{
   users.defaultUserShell = pkgs.fish;
-  environment.shells = with pkgs; [ fish ];
 }
