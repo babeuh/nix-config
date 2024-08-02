@@ -29,6 +29,10 @@
       foldlevelstart = 99;
       foldenable = true;
     };
+    extraPlugins = [ pkgs.vimPlugins.limelight-vim ];
+    extraConfigLuaPre = ''
+      vim.g.coq_settings = { clients = { buffers = { enabled = false, }, } }
+    '';
     extraFiles = {
       "plugin/nvim-ufo.lua".text = ''
         local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -99,6 +103,12 @@
         key = "<leader>t";
         options.silent = true;
         action = ":ToggleTerm direction=float<CR>";
+      }
+      {
+        mode = "n";
+        key = "<leader><leader>g";
+        options.silent = true;
+        action = ":Goyo<CR>:Limelight!!<CR>:set noshowmode!<CR>:set noshowcmd!<CR>:set linebreak!<CR>";
       }
       {
         mode = "t";
@@ -276,6 +286,7 @@
       };
       toggleterm.enable = true;
       nvim-ufo.enable = true;
+      goyo.enable = true;
 
       # Autocomplete
       coq-nvim = {
