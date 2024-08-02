@@ -57,36 +57,6 @@
         action = ":Neotree toggle<CR>";
       }
       {
-        mode = [
-          "n"
-          "x"
-          "o"
-        ];
-        key = "ms";
-        options.silent = true;
-        action.__raw = "require('flash').jump";
-      }
-      {
-        mode = [
-          "n"
-          "x"
-          "o"
-        ];
-        key = "mr";
-        options.silent = true;
-        action.__raw = "require('flash').remote";
-      }
-      {
-        mode = [
-          "n"
-          "x"
-          "o"
-        ];
-        key = "mt";
-        options.silent = true;
-        action.__raw = "require('flash').treesitter";
-      }
-      {
         mode = "n";
         key = "zR";
         options.silent = true;
@@ -258,7 +228,6 @@
         };
       };
       surround.enable = true;
-      flash.enable = true;
 
       # UI
       gitsigns = {
