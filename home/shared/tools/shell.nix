@@ -17,7 +17,7 @@
     nixfmt-rfc-style # Nix formatter
 
     yubikey-manager # Yubikey
-    texlive.combined.scheme-medium
+    texliveFull
   ];
 
   programs.direnv.enable = true;
