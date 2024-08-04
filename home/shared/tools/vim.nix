@@ -206,6 +206,102 @@
       };
 
       # Utility
+      treesitter-textobjects = {
+        enable = true;
+        select = {
+          enable = true;
+          lookahead = true;
+          keymaps = {
+            # Parameters
+            "aa" = {
+              query = "@parameter.outer";
+              desc = "Select outer part of a parameter region";
+            };
+            "ia" = {
+              query = "@parameter.inner";
+              desc = "Select inner part of a parameter region";
+            };
+            # Functions
+            "af" = {
+              query = "@function.outer";
+              desc = "Select outer part of a function region";
+            };
+            "if" = {
+              query = "@function.inner";
+              desc = "Select inner part of a function region";
+            };
+            # Classees
+            "ac" = {
+              query = "@class.inner";
+              desc = "Select outer part of a class region";
+            };
+            "ic" = {
+              query = "@class.inner";
+              desc = "Select inner part of a class region";
+            };
+            # Conditionals
+            "ai" = {
+              query = "@conditional.outer";
+              desc = "Select outer part of a conditional region";
+            };
+            "ii" = {
+              query = "@conditional.inner";
+              desc = "Select inner part of a conditional region";
+            };
+            # Loops
+            "al" = {
+              query = "@loop.outer";
+              desc = "Select outer part of a loop region";
+            };
+            "il" = {
+              query = "@loop.inner";
+              desc = "Select inner part of a loop region";
+            };
+            # Comments
+            "it" = {
+              query = "@comment.outer";
+              desc = "Select outer part of a comment region";
+            };
+            # Assignments
+            "ak" = {
+              query = "@assignment.outer";
+              desc = "Select key of a assignment region";
+            };
+            "ik" = {
+              query = "@assignment.inner";
+              desc = "Select value of a assignment region";
+            };
+          };
+        };
+        move = {
+          enable = true;
+          gotoNextStart = {
+            "]m" = "@function.outer";
+            "]]" = "@class.outer";
+          };
+          gotoNextEnd = {
+            "]M" = "@function.outer";
+            "][" = "@class.outer";
+          };
+          gotoPreviousStart = {
+            "[m" = "@function.outer";
+            "[]" = "@class.outer";
+          };
+          gotoPreviousEnd = {
+            "[M" = "@function.outer";
+            "[[" = "@class.outer";
+          };
+        };
+        swap = {
+          enable = true;
+          swapNext = {
+            "<leader>a" = "@parameters.inner";
+          };
+          swapPrevious = {
+            "<leader>A" = "@parameter.outer";
+          };
+        };
+      };
       nvim-autopairs = {
         enable = true;
         settings.check_ts = true;
