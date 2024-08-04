@@ -54,4 +54,7 @@
     finder.ShowPathbar = true;
   };
   system.startup.chime = false;
+
+  # Touch ID for sudo.
+  security.pam.enableSudoTouchIdAuth = true;
 }
