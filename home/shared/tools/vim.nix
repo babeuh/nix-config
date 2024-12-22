@@ -264,11 +264,11 @@
             };
             # Assignments
             "ak" = {
-              query = "@assignment.outer";
+              query = "@assignment.lhs";
               desc = "Select key of a assignment region";
             };
             "ik" = {
-              query = "@assignment.inner";
+              query = "@assignment.rhs";
               desc = "Select value of a assignment region";
             };
           };
